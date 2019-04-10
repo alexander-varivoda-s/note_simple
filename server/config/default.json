@@ -2,5 +2,10 @@
   "server": {
     "host": "localhost",
     "port": 4000
+  },
+  "database": {
+    "name": "notesimple",
+    "host": "localhost",
+    "port": 27017
   }
 }
