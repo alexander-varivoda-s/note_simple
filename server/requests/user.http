@@ -1,0 +1,38 @@
+@host = localhost:4000
+@accessToken = Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2I2MDgxOTA5N2EyYzFmZWMwZDE0MzciLCJpYXQiOjE1NTU2NTY5MDEsImV4cCI6MTU1NTc0MzMwMX0.TelfjDp-QXBmcFVIAoyfuhVi-pytyY2sJ8PK5N9jbDy56xR7ZfoANnTAdC6snDgyH4M6pA7bWnTChmSYryYnPg
+@refreshToken = eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2I2MDgxOTA5N2EyYzFmZWMwZDE0MzciLCJpYXQiOjE1NTU2NTY5MDEsImV4cCI6MTU1NTc0MzMwMX0.TelfjDp-QXBmcFVIAoyfuhVi-pytyY2sJ8PK5N9jbDy56xR7ZfoANnTAdC6snDgyH4M6pA7bWnTChmSYryYnPg
+
+POST http://{{host}}/users
+Content-Type: application/x-www-form-urlencoded
+
+email=alexander.varivoda.s@gmail.com&displayName=idvar&password=114afb2
+
+###
+POST http://{{host}}/register/b5d55396-e205-4f98-aff8-65b4643d8977
+
+###
+GET http://{{host}}/users
+Accept: application/json
+Authorization: {{accessToken}}
+
+###
+PATCH http://{{host}}/users
+Accept: application/json
+Authorization: {{accessToken}}
+Content-Type: application/x-www-form-urlencoded
+
+email=alexander.varivoda.s@gmail.com
+
+###
+POST http://{{host}}/users/login
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+
+email=alexander.varivoda.s@gmail.com&password=114afb2
+
+###
+POST http://{{host}}/refresh-token
+Accept: application/json
+Content-Type: application/json
+
+{"refreshToken": "{{refreshToken}}"}

@@ -5,6 +5,9 @@ const bodyParser = require('koa-bodyparser');
 
 const errorsMiddleware = require('./middleware/errors');
 const mongooseMiddleware = require('./middleware/mongoose');
+const passportMiddleware = require('./middleware/passport');
+
+const router = require('./routes');
 
 const app = new Koa();
 
@@ -34,5 +37,7 @@ app.use(
   }),
 );
 app.use(bodyParser());
+app.use(passportMiddleware.initialize());
+app.use(router.routes());
 
 module.exports = app;

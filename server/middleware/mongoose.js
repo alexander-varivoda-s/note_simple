@@ -12,7 +12,7 @@ module.exports = function middleware({
 } = {}) {
   if ((!host || !port || !name) && !uri) {
     const err = new Error('Missing required options.');
-    e.status = 400;
+    err.status = 400;
     throw err;
   }
 
