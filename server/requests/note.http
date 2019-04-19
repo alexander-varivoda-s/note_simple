@@ -1,0 +1,33 @@
+@host = localhost:4000
+@accessToken = Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2I2MDgxOTA5N2EyYzFmZWMwZDE0MzciLCJpYXQiOjE1NTU2OTE0OTQsImV4cCI6MTU1NTY5NTA5NH0.PbqojW3CKJsstTZTJdYLGc0a0fj4_vpszjyIARyNpTQYXnjO8w17xv8IQDpTgDkOoK1JnHtXs6fPvEaww1yEYA
+
+###
+GET http://{{host}}/notes
+Accept: application/json
+Authorization: {{accessToken}}
+
+###
+POST http://{{host}}/notes
+Accept: application/json
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+{
+  "author": "5cb60819097a2c1fec0d1437",
+  "text": "Lorem Ipsum 1"
+}
+
+###
+PATCH http://{{host}}/notes/5cb9fb922c06e21228712e0f
+Accept: application/json
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+{
+  "text": "Lorem Ipsum 2"
+}
+
+###
+DELETE http://{{host}}/notes
+Accept: application/json
+Authorization: {{accessToken}}
