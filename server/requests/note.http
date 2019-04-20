@@ -1,5 +1,5 @@
 @host = localhost:4000
-@accessToken = Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2I2MDgxOTA5N2EyYzFmZWMwZDE0MzciLCJpYXQiOjE1NTU2OTE0OTQsImV4cCI6MTU1NTY5NTA5NH0.PbqojW3CKJsstTZTJdYLGc0a0fj4_vpszjyIARyNpTQYXnjO8w17xv8IQDpTgDkOoK1JnHtXs6fPvEaww1yEYA
+@accessToken = Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2JhZTgyYzcwZDg2ZDEwNGNiNjA1ZGYiLCJpYXQiOjE1NTU3NTQ3MjYsImV4cCI6MTU1NTc1ODMyNn0.9Uc4ym3MkxmWUrRycyl6xU3J-zy1wbzUbWdfYiOE9d6zB877owfIhZW8TpdPbwV7URvccivgmdHbm0OzwPDfNg
 
 ###
 GET http://{{host}}/notes
@@ -13,21 +13,30 @@ Content-Type: application/json
 Authorization: {{accessToken}}
 
 {
-  "author": "5cb60819097a2c1fec0d1437",
-  "text": "Lorem Ipsum 1"
+  "text": "Lorem Ipsum"
 }
 
 ###
-PATCH http://{{host}}/notes/5cb9fb922c06e21228712e0f
+PATCH http://{{host}}/notes/5cbae8e170d86d104cb605e2
 Accept: application/json
 Content-Type: application/json
 Authorization: {{accessToken}}
 
 {
-  "text": "Lorem Ipsum 2"
+  "text": "Lorem Ipsum"
 }
 
 ###
 DELETE http://{{host}}/notes
+Accept: application/json
+Authorization: {{accessToken}}
+
+###
+PATCH  http://{{host}}/notes/5cbae8e170d86d104cb605e2/tag/5cbae8a070d86d104cb605e1
+Accept: application/json
+Authorization: {{accessToken}}
+
+###
+PATCH  http://{{host}}/notes/5cbae8e170d86d104cb605e2/untag/5cbae8a070d86d104cb605e1
 Accept: application/json
 Authorization: {{accessToken}}

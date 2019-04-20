@@ -3,6 +3,10 @@ const crypto = require('crypto');
 const config = require('config');
 const mongooseBeautifulUniqueValidation = require('mongoose-beautiful-unique-validation');
 
+const Note = require('./note');
+const RefreshToken = require('./refresh-token');
+const Tag = require('./tag');
+
 const { Schema } = mongoose;
 const { passwordLength, saltLength, iterations, keylen, digest } = config.get(
   'crypto',
@@ -15,12 +19,12 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
-    maxlength: [256, 'Email length exceeds 256 characters.'],
+    maxlength: [128, 'Email length exceeds 126 characters.'],
     validate: {
       validator: v => /^\S+@\S+\.\S+$/.test(v),
       message: 'Invalid email',
     },
-    unique: 'Email already exists.',
+    unique: 'Email already exist.',
     required: [true, 'Email is required.'],
   },
   salt: {
@@ -85,11 +89,10 @@ userSchema.methods.validatePassword = function(password = '') {
   return this.password_hash === passwordToCheck;
 };
 
-/**
- * TODO:
- *  - Add queries that delete all related to user entities.
- */
 userSchema.pre('remove', async function(next) {
+  await RefreshToken.deleteMany({ user: this.id }).exec();
+  await Note.deleteMany({ author: this.id }).exec();
+  await Tag.deleteMany({ author: this.id }).exec();
   await next();
 });
 

@@ -12,7 +12,14 @@ module.exports = {
 
   createNote() {
     return async ctx => {
-      const note = new Note(ctx.request.body);
+      const { user } = ctx.state;
+      const { text = '' } = ctx.request.body;
+
+      const note = new Note({
+        text,
+        author: user.id,
+      });
+
       await note.save();
 
       ctx.body = {
@@ -74,6 +81,49 @@ module.exports = {
 
       ctx.body = {
         deleted: notes.map(note => note._id),
+      };
+    };
+  },
+
+  tagNote() {
+    return async ctx => {
+      const { note, tag } = ctx.state;
+      const tagIds = note.tags.map(oid => oid.toString());
+
+      if (tagIds.indexOf(tag.id) === -1) {
+        note.tags.push(tag.id);
+        await note.save();
+      } else {
+        ctx.throw(
+          400,
+          `Note "${note.id}" already tagged with tag "${tag.id}".`,
+        );
+      }
+
+      ctx.body = {
+        note,
+      };
+    };
+  },
+
+  untagNote() {
+    return async ctx => {
+      const { note, tag } = ctx.state;
+      const oldLength = note.tags.length;
+
+      note.tags = note.tags.filter(oid => oid.toString() !== tag.id);
+
+      if (note.tags.length === oldLength) {
+        ctx.throw(
+          400,
+          `Note "${note.id}" does not tagged with tag "${tag.id}"`,
+        );
+      }
+
+      await note.save();
+
+      ctx.body = {
+        note,
       };
     };
   },

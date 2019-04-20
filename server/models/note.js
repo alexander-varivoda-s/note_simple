@@ -27,6 +27,7 @@ const noteSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
 });
 
 noteSchema.pre('remove', async function(next) {

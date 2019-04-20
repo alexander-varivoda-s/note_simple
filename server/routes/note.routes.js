@@ -3,6 +3,7 @@ const passport = require('koa-passport');
 
 const NotesController = require('../controllers/note.controller');
 const Note = require('../models/note');
+const Tag = require('../models/tag');
 
 const router = new Router();
 
@@ -29,12 +30,17 @@ router.use('/', async (ctx, next) => {
 });
 
 const loadParam = (model, name) => async (id, ctx, next) => {
-  ctx.state[name] = await model.findById(id).exec();
+  ctx.state[name] = await model
+    .findOne({
+      _id: id,
+      author: ctx.state.user.id,
+    })
+    .exec();
 
   if (!ctx.state[name]) {
     ctx.status = 404;
     ctx.body = {
-      message: `${name} with id "${id}" does not exist.`,
+      message: `${name} does not exists or not owned by current user.`,
     };
   } else {
     await next();
@@ -42,10 +48,13 @@ const loadParam = (model, name) => async (id, ctx, next) => {
 };
 
 router.param('note', loadParam(Note, 'note'));
+router.param('tag', loadParam(Tag, 'tag'));
 
 router.get('/', NotesController.getNotes());
 router.post('/', NotesController.createNote());
 router.patch('/:note', NotesController.updateNote());
 router.delete('/', NotesController.clearAll());
+router.patch('/:note/tag/:tag', NotesController.tagNote());
+router.patch('/:note/untag/:tag', NotesController.untagNote());
 
 module.exports = router.routes();

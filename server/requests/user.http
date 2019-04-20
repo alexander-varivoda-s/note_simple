@@ -1,14 +1,14 @@
 @host = localhost:4000
-@accessToken = Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2I2MDgxOTA5N2EyYzFmZWMwZDE0MzciLCJpYXQiOjE1NTU2OTE0MTIsImV4cCI6MTU1NTc3NzgxMn0.NST-7BzsVNrH2kKl4WWWN8kGt7QM3mbl85qbKbkcSLLvM7Xim1oFPdlclVwj-cJNrMaRUAY0OWbcttCCy8eJfw
-@refreshToken = eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2I2MDgxOTA5N2EyYzFmZWMwZDE0MzciLCJpYXQiOjE1NTU2OTE0MTIsImV4cCI6MTU1NTY5NTAxMn0.30s1vGsEkWdjdV6czeEVpgSWt1OkC_U_MC5TY-H6UZqyO6tOBXj1-hnH95kvB0mWZpMjnkGCjWsA0A97Arlfbg
+@accessToken = Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2JhZTk0YjcwZDg2ZDEwNGNiNjA1ZTQiLCJpYXQiOjE1NTU3NTMzMjIsImV4cCI6MTU1NTc1NjkyMn0.NVPqKrCKzq_WUI3L11Boy61MxHOrpUjdUgfHPhGpMAzfMsuNxhoeTzaiCWgVs6-iX3_5KYSkRbz0Pllv8Hy-rA
+@refreshToken = eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2JhZTk0YjcwZDg2ZDEwNGNiNjA1ZTQiLCJpYXQiOjE1NTU3NTMzMjIsImV4cCI6MTU1NTgzOTcyMn0.q2epM-LbN8B0kv369xficlcTzh6JV_MVsxY2rVG5aYXGxTgZOxvnal5DcnfhH9fZ5YPs0jK85JPKL3mahn39mQ
 
 POST http://{{host}}/users
 Content-Type: application/x-www-form-urlencoded
 
-email=alexander.varivoda.s@gmail.com&displayName=idvar&password=114afb2
+email=cukaduvon@max-mail.info&displayName=test&password=114afb2
 
 ###
-POST http://{{host}}/register/b5d55396-e205-4f98-aff8-65b4643d8977
+POST http://{{host}}/register/c8ce3f6a-f483-482a-b375-2a1c0ee72562
 
 ###
 GET http://{{host}}/users
@@ -28,7 +28,7 @@ POST http://{{host}}/users/login
 Accept: application/json
 Content-Type: application/x-www-form-urlencoded
 
-email=alexander.varivoda.s@gmail.com&password=114afb2
+email=fetudevux@smartbusiness.me&password=114afb2
 
 ###
 POST http://{{host}}/refresh-token
@@ -36,3 +36,8 @@ Accept: application/json
 Content-Type: application/json
 
 {"refreshToken": "{{refreshToken}}"}
+
+###
+DELETE http://{{host}}/users
+Accept: application/json
+Authorization: {{accessToken}}

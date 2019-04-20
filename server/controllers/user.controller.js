@@ -60,7 +60,7 @@ module.exports = {
     return async ctx => {
       const { user } = ctx.state;
       await user.remove();
-      ctx.body = { deleteUser: user.id };
+      ctx.body = { deleted: user.id };
     };
   },
 
