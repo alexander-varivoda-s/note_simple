@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 
-module.exports = function middleware({
+module.exports = mongoose;
+
+module.exports.middleware = function({
   host,
   port,
   name,
@@ -21,6 +23,7 @@ module.exports = function middleware({
     `mongodb://${
       user && pass ? `${user}:${pass}@` : ''
     }${host}:${port}/${name}`;
+
   mongoose.Promise = Promise;
 
   Object.keys(events).forEach(event => {

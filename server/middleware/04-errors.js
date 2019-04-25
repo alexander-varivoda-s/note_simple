@@ -1,8 +1,5 @@
-/**
- * Errors handing middleware
- */
-module.exports = function middleware() {
-  return async (ctx, next) => {
+module.exports = app =>
+  app.use(async (ctx, next) => {
     try {
       await next();
     } catch (e) {
@@ -28,5 +25,4 @@ module.exports = function middleware() {
       ctx.body = errors;
       ctx.app.emit('error', e, ctx);
     }
-  };
-};
+  });

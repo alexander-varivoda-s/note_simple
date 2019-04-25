@@ -4,7 +4,6 @@ const config = require('config');
 const mongooseBeautifulUniqueValidation = require('mongoose-beautiful-unique-validation');
 
 const Note = require('./note');
-const RefreshToken = require('./refresh-token');
 const Tag = require('./tag');
 
 const { Schema } = mongoose;
@@ -43,11 +42,11 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  confirmed: {
+  emailVerified: {
     type: Boolean,
     default: false,
   },
-  token: {
+  verifyEmailToken: {
     type: String,
     index: true,
   },
@@ -90,7 +89,6 @@ userSchema.methods.validatePassword = function(password = '') {
 };
 
 userSchema.pre('remove', async function(next) {
-  await RefreshToken.deleteMany({ user: this.id }).exec();
   await Note.deleteMany({ author: this.id }).exec();
   await Tag.deleteMany({ author: this.id }).exec();
   await next();

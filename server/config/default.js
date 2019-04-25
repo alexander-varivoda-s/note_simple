@@ -15,19 +15,12 @@ module.exports = {
     keylen: 512,
     digest: 'sha512',
   },
-  accessToken: {
-    secret: 'CzNHWtZkIDGqwI+38PQmGI8GupKY6Mmw',
-    lifespan: 3600,
-    algorithm: 'HS512',
-  },
-  refreshToken: {
-    secret: 'Hi1UsFiqxwZMYfsSQazG9AEF9IB02XaI',
-    lifespan: 3600 * 24,
-    limit: 10,
-    algorithm: 'HS512',
+  session: {
+    key: 'secret key',
   },
   mailer: {
     transport: 'gmail',
+    secret: 'Hi1UsFiqxwZMYfsSQazG9AEF9IB02XaI',
     gmail: {
       user: 'alexander.varivoda.s@gmail.com',
       pass: '',

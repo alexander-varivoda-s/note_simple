@@ -2,53 +2,28 @@ const passport = require('koa-passport');
 const Router = require('koa-router');
 const UsersController = require('../controllers/user.controller');
 
-const customAuthHandler = (
-  strategy = 'jwt',
-  errCode = 401,
-  message = 'Unauthorized.',
-) => async (ctx, next) => {
-  try {
-    await passport.authenticate(
-      strategy,
-      { session: false },
-      async (err, user, info) => {
-        if (err) {
-          ctx.throw(err);
-        } else if (user === false) {
-          console.error(info);
-          ctx.throw(errCode, message);
-        }
-
-        ctx.state.user = user;
-        await next();
-      },
-    )(ctx, next);
-  } catch (err) {
-    ctx.throw(err);
-  }
-};
-
 const router = new Router();
 router.prefix('/users');
 
-router.get('/', customAuthHandler(), UsersController.getCurrentUser());
+router.get('/', isAuthenticated, UsersController.getCurrentUser());
+router.get('/verify/:token', UsersController.verifyEmail());
+router.get('/logout', isAuthenticated, UsersController.logout());
 router.post('/', UsersController.createUser());
-router.post(
-  '/login',
-  customAuthHandler('local', 400, 'Incorrect password or email entered.'),
-  UsersController.login(),
-);
-router.patch('/', customAuthHandler(), UsersController.updateUser());
-router.delete('/', customAuthHandler(), UsersController.deleteUser());
-router.patch(
-  '/update-email',
-  customAuthHandler(),
-  UsersController.updateEmail(),
-);
+router.post('/login', passport.authenticate('local'), UsersController.login());
+router.delete('/', isAuthenticated, UsersController.deleteUser());
+router.patch('/update-email', isAuthenticated, UsersController.updateEmail());
 router.patch(
   '/update-password',
-  customAuthHandler(),
+  isAuthenticated,
   UsersController.updatePassword(),
 );
+
+async function isAuthenticated(ctx, next) {
+  if (ctx.isAuthenticated()) {
+    await next();
+  } else {
+    ctx.throw(401);
+  }
+}
 
 module.exports = router.routes();
