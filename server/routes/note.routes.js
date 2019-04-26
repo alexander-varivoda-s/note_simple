@@ -1,5 +1,4 @@
 const Router = require('koa-router');
-const passport = require('koa-passport');
 
 const NotesController = require('../controllers/note.controller');
 const Note = require('../models/note');
@@ -9,27 +8,14 @@ const router = new Router();
 
 router.prefix('/notes');
 router.use('/', async (ctx, next) => {
-  try {
-    await passport.authenticate(
-      'jwt',
-      { session: false },
-      async (err, user, info) => {
-        if (err) {
-          ctx.throw(err);
-        } else if (user === false) {
-          ctx.throw(401, 'Unauthorized.');
-        }
-
-        ctx.state.user = user;
-        await next();
-      },
-    )(ctx, next);
-  } catch (err) {
-    ctx.throw(err);
+  if (!ctx.isAuthenticated()) {
+    ctx.throw(401);
   }
+
+  await next();
 });
 
-const loadParam = (model, name) => async (id, ctx, next) => {
+const load = (model, name) => async (id, ctx, next) => {
   ctx.state[name] = await model
     .findOne({
       _id: id,
@@ -47,8 +33,8 @@ const loadParam = (model, name) => async (id, ctx, next) => {
   }
 };
 
-router.param('note', loadParam(Note, 'note'));
-router.param('tag', loadParam(Tag, 'tag'));
+router.param('note', load(Note, 'note'));
+router.param('tag', load(Tag, 'tag'));
 
 router.get('/', NotesController.getNotes());
 router.post('/', NotesController.createNote());

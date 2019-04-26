@@ -5,6 +5,7 @@ const UserModel = require('../models/user');
 const sendEmail = require('../libs/email');
 
 const jwtSecret = config.get('mailer.secret');
+const omit = 'emailVerified salt password_hash verifyEmailToken __v';
 
 module.exports = {
   getCurrentUser() {
@@ -53,6 +54,8 @@ module.exports = {
   deleteUser() {
     return async ctx => {
       const { user } = ctx.state;
+      ctx.logout();
+
       await user.remove();
       ctx.body = { deleted: user.id };
     };
@@ -63,7 +66,7 @@ module.exports = {
       const { user } = ctx.state;
 
       ctx.body = {
-        user,
+        user: user.toObject({ omit }),
       };
     };
   },

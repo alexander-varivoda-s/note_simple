@@ -6,7 +6,12 @@ const UserModel = require('../models/user');
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser(async function getUser(id, done) {
   try {
-    const user = await UserModel.findById(id).exec();
+    const user = await UserModel.findById(id, {
+      displayName: 1,
+      email: 1,
+      created: 1,
+      updated: 1,
+    }).exec();
     done(null, user);
   } catch (err) {
     done(err);

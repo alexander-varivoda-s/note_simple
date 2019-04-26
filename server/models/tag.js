@@ -24,6 +24,17 @@ const tagSchema = new Schema({
   },
 });
 
+if (!tagSchema.options.toObject) {
+  tagSchema.options.toObject = {};
+}
+
+tagSchema.options.toObject.transform = (doc, ret, options) => {
+  if (options.omit) {
+    options.omit.split(' ').forEach(prop => delete ret[prop]);
+  }
+  return ret;
+};
+
 tagSchema.pre('remove', async function(next) {
   const notes = await Note.find({ tags: this.id }).exec();
 

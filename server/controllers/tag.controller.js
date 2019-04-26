@@ -1,10 +1,11 @@
 const Tag = require('../models/tag');
+const omit = '__v';
 
 module.exports = {
   getTags() {
     return async ctx => {
       ctx.body = {
-        tags: await Tag.find({ author: ctx.state.user.id }).exec(),
+        tags: await Tag.find({ author: ctx.state.user.id }, { __v: 0 }).exec(),
       };
     };
   },
@@ -34,7 +35,7 @@ module.exports = {
         await newTag.save();
 
         ctx.body = {
-          tag: newTag,
+          tag: newTag.toObject({ omit }),
         };
       } else {
         ctx.throw(409, `Tag "${name}" already exists.`, { tag });

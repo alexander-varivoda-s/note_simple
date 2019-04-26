@@ -30,6 +30,17 @@ const noteSchema = new Schema({
   tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
 });
 
+if (!noteSchema.options.toObject) {
+  noteSchema.options.toObject = {};
+}
+
+noteSchema.options.toObject.transform = (doc, ret, options) => {
+  if (options.omit) {
+    options.omit.split(' ').forEach(prop => delete ret[prop]);
+  }
+  return ret;
+};
+
 noteSchema.pre('remove', async function(next) {
   await Revision.deleteMany({ note: this.id }).exec();
   await next();

@@ -23,7 +23,7 @@ module.exports = {
     secret: 'Hi1UsFiqxwZMYfsSQazG9AEF9IB02XaI',
     gmail: {
       user: 'alexander.varivoda.s@gmail.com',
-      pass: '',
+      pass: 'gqtgwywpgcioycwn',
     },
     senders: {
       default: {

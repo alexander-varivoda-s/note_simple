@@ -52,6 +52,17 @@ const userSchema = new Schema({
   },
 });
 
+if (!userSchema.options.toObject) {
+  userSchema.options.toObject = {};
+}
+
+userSchema.options.toObject.transform = (doc, ret, options) => {
+  if (options.omit) {
+    options.omit.split(' ').forEach(prop => delete ret[prop]);
+  }
+  return ret;
+};
+
 userSchema
   .virtual('password')
   .set(function(password = '') {
@@ -89,7 +100,8 @@ userSchema.methods.validatePassword = function(password = '') {
 };
 
 userSchema.pre('remove', async function(next) {
-  await Note.deleteMany({ author: this.id }).exec();
+  const notes = await Note.find({ author: this.id }).exec();
+  await Promise.all(notes.map(note => note.remove()));
   await Tag.deleteMany({ author: this.id }).exec();
   await next();
 });

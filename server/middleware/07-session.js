@@ -2,9 +2,7 @@ const session = require('koa-session');
 const MongooseStore = require('koa-session-mongoose');
 const config = require('config');
 
-const { key, maxAge } = config.get('session');
-
-console.log(maxAge);
+const { key } = config.get('session');
 
 module.exports = app => {
   app.keys = [key];
@@ -14,7 +12,6 @@ module.exports = app => {
         store: new MongooseStore({
           connection: require('../libs/mongoose'),
         }),
-        maxAge,
         rolling: true,
       },
       app,

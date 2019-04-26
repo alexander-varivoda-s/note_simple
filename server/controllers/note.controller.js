@@ -1,11 +1,14 @@
 const Note = require('../models/note');
 const Revision = require('../models/note-revision');
 
+const omit = '__v';
+
 module.exports = {
   getNotes() {
     return async ctx => {
+      const { user } = ctx.state;
       ctx.body = {
-        notes: await Note.find({ author: ctx.state.user.id }).exec(),
+        notes: await Note.find({ author: user.id }, { __v: 0 }).exec(),
       };
     };
   },
@@ -23,7 +26,7 @@ module.exports = {
       await note.save();
 
       ctx.body = {
-        note,
+        note: note.toObject({ omit }),
       };
     };
   },
@@ -42,7 +45,7 @@ module.exports = {
         ctx.throw(400, 'Note is already up to date.');
       }
 
-      if (typeof text !== 'undefined') {
+      if (typeof text !== 'undefined' && typeof is_deleted === 'undefined') {
         revision = new Revision({
           note: note.id,
           text: note.text,
@@ -61,7 +64,7 @@ module.exports = {
       }
 
       ctx.body = {
-        note,
+        note: note.toObject({ omit }),
       };
     };
   },
@@ -101,7 +104,7 @@ module.exports = {
       }
 
       ctx.body = {
-        note,
+        note: note.toObject({ omit }),
       };
     };
   },
@@ -123,7 +126,7 @@ module.exports = {
       await note.save();
 
       ctx.body = {
-        note,
+        note: note.toObject({ omit }),
       };
     };
   },
