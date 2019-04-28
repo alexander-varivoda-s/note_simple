@@ -1,26 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import App from './App';
+import { ThemeProvider } from 'styled-components';
+import App from './containers/App/App';
 import * as serviceWorker from './serviceWorker';
 import configureStore from './store';
+import defaultTheme from './theme/default';
 
 const store = configureStore();
 
 // eslint-disable-next-line react/no-render-return-value
 const render = Component => ReactDOM.render(
-  <Provider store={store}>
-    <Component />
-  </Provider>,
+  <ThemeProvider theme={defaultTheme}>
+    <Provider store={store}>
+      <Component />
+    </Provider>
+  </ThemeProvider>,
   document.getElementById('root'),
 );
 
 render(App);
 
 if (module.hot) {
-  module.hot.accept('./App', () => {
+  module.hot.accept('./containers/App/App', () => {
     // eslint-disable-next-line global-require
-    const NextApp = require('./App').default;
+    const NextApp = require('./containers/App/App').default;
     render(NextApp);
   });
 }
