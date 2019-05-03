@@ -1,5 +1,7 @@
-// import { combineReducers } from 'redux';
+import { combineReducers } from 'redux';
 
-export default function (state, action) {
-  return state;
-}
+import userReducer from './containers/User/reducers/user';
+
+export default combineReducers({
+  user: userReducer,
+});

@@ -5,7 +5,8 @@
   },
   "rules": {
     "no-console": "off",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "jsx-quotes": ["error", "prefer-single"]
   },
   "parser": "babel-eslint"
 }

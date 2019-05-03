@@ -1,10 +1,14 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import reducer from './rootReducer';
+import createSagaMiddleware from 'redux-saga';
 
+import reducer from './rootReducer';
+import saga from './rootSaga';
+
+const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const configureStore = () => {
-  const store = createStore(reducer, composeEnhancers(applyMiddleware()));
+  const store = createStore(reducer, composeEnhancers(applyMiddleware(sagaMiddleware)));
   if (process.env.NODE_ENV !== 'production') {
     if (module.hot) {
       module.hot.accept('./rootReducer', () => {
@@ -12,6 +16,8 @@ const configureStore = () => {
       });
     }
   }
+
+  sagaMiddleware.run(saga);
 
   return store;
 };

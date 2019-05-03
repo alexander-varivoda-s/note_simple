@@ -4,7 +4,22 @@ const UsersController = require('../controllers/user.controller');
 
 const router = new Router();
 router.prefix('/users');
-router.post('/login', passport.authenticate('local'), UsersController.login());
+router.post(
+  '/login',
+  async (ctx, next) => {
+    await passport.authenticate('local', {}, async (err, user, info) => {
+      if (err) {
+        ctx.throw(err);
+      } else if (user === false) {
+        ctx.throw(400, 'Invalid email or password entered.');
+      }
+
+      ctx.state.user = user;
+      await next();
+    })(ctx, next);
+  },
+  UsersController.login(),
+);
 router.post('/', UsersController.createUser());
 router.get('/verify/:token', UsersController.verifyEmail());
 

@@ -2,10 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
-import App from './containers/App/App';
+import { Router } from 'react-router-dom';
+import App from './containers/App';
 import * as serviceWorker from './serviceWorker';
 import configureStore from './store';
 import defaultTheme from './theme/default';
+import history from './history';
 
 const store = configureStore();
 
@@ -13,7 +15,9 @@ const store = configureStore();
 const render = Component => ReactDOM.render(
   <ThemeProvider theme={defaultTheme}>
     <Provider store={store}>
-      <Component />
+      <Router history={history}>
+        <Component />
+      </Router>
     </Provider>
   </ThemeProvider>,
   document.getElementById('root'),
@@ -22,9 +26,9 @@ const render = Component => ReactDOM.render(
 render(App);
 
 if (module.hot) {
-  module.hot.accept('./containers/App/App', () => {
+  module.hot.accept('./containers/App', () => {
     // eslint-disable-next-line global-require
-    const NextApp = require('./containers/App/App').default;
+    const NextApp = require('./containers/App').default;
     render(NextApp);
   });
 }

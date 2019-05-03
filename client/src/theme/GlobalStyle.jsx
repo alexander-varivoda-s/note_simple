@@ -17,4 +17,13 @@ export default createGlobalStyle`
     overflow: hidden;
     padding: 0;
   }
+
+  #root {
+    height: 100vh;
+  }
+
+  a {
+    color: ${({ theme }) => theme.palette.main};
+    text-decoration: none;
+  }
 `;
