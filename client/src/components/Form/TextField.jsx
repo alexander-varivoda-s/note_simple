@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import ErrorMessage from './ErrorMessage';
 
 const StyledTextField = styled.div`
+  font-family: ${({ theme }) => theme.font};
   margin-bottom: 1.5rem;
   position: relative;
   width: 100%;
@@ -28,6 +29,7 @@ const StyledTextField = styled.div`
 
   input {
     border: none;
+    font-family: inherit;
     height: 2em;
     font-size: 143%;
     font-weight: 300;

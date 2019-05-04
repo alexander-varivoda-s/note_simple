@@ -29,9 +29,7 @@ passport.use(
         const user = await UserModel.findOne({ email }).exec();
 
         if (!user || !user.validatePassword(password) || !user.emailVerified) {
-          return done(null, false, {
-            message: 'Incorrect email or password entered.',
-          });
+          return done(null, false);
         }
 
         return done(null, user);
