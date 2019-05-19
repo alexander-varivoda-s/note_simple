@@ -50,6 +50,11 @@ const userSchema = new Schema({
     type: String,
     index: true,
   },
+  resetPasswordToken: {
+    type: String,
+    index: true,
+    default: '',
+  },
 });
 
 if (!userSchema.options.toObject) {

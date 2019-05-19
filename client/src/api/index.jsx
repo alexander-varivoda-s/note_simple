@@ -6,8 +6,6 @@ const { REACT_APP_HOST, REACT_APP_PORT } = process.env;
 
 const API_BASE_URL = `http://${REACT_APP_HOST}:${REACT_APP_PORT}`;
 
-console.log(API_BASE_URL);
-
 const instance = axios.create({
   baseURL: API_BASE_URL,
   headers: {

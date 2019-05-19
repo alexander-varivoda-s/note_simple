@@ -5,7 +5,8 @@ const UserModel = require('../models/user');
 const sendEmail = require('../libs/email');
 
 const jwtSecret = config.get('mailer.secret');
-const omit = 'emailVerified salt password_hash verifyEmailToken __v';
+const omit =
+  'emailVerified salt password_hash verifyEmailToken resetPasswordToken __v';
 
 module.exports = {
   getCurrentUser() {
@@ -28,7 +29,7 @@ module.exports = {
 
       const jwtToken = await jwt.signToken(payload, jwtSecret, options);
 
-      await UserModel.create({
+      const user = await UserModel.create({
         displayName,
         email,
         password,
@@ -43,10 +44,7 @@ module.exports = {
       });
 
       ctx.body = {
-        flash: {
-          type: 'status',
-          message: 'Please check you email inbox to complete registration.',
-        },
+        user: user.toObject({ omit }),
       };
     };
   },
@@ -61,21 +59,12 @@ module.exports = {
     };
   },
 
-  login() {
-    return async ctx => {
-      const { user } = ctx.state;
-
-      ctx.body = {
-        user: user.toObject({ omit }),
-      };
-    };
-  },
-
   logout() {
     return async ctx => {
       ctx.logout();
 
       ctx.body = {
+        type: 'status',
         message: 'Log out succeeded.',
       };
     };
@@ -96,10 +85,8 @@ module.exports = {
         await user.save();
 
         ctx.body = {
-          flash: {
-            type: 'status',
-            message: 'Email successfully updated.',
-          },
+          type: 'status',
+          message: 'Email successfully updated.',
         };
       }
     };
@@ -120,10 +107,8 @@ module.exports = {
       await user.save();
 
       ctx.body = {
-        flash: {
-          type: 'status',
-          message: 'Password successfully updated.',
-        },
+        type: 'status',
+        message: 'Password successfully updated.',
       };
     };
   },
@@ -152,17 +137,74 @@ module.exports = {
       }
 
       if (user.emailVerified) {
-        ctx.throw(400, 'Email already confirmed.');
+        ctx.throw(400, 'Account already verified.');
       }
 
       user.emailVerified = true;
       await user.save();
 
       ctx.body = {
-        flash: {
-          message:
-            'Email successfully confirmed, please use your email and password to login',
-        },
+        type: 'status',
+        message: 'Account successfully verified',
+      };
+    };
+  },
+
+  forgotPassword() {
+    return async ctx => {
+      const { email } = ctx.request.body;
+
+      const user = await UserModel.findOne({ email }).exec();
+
+      if (!user) {
+        ctx.throw(400, 'Account does not exist.');
+      }
+
+      const secret = user.password_hash + user.created;
+      const token = await jwt.signToken({ sub: email }, secret, {
+        expiresIn: '30m',
+      });
+
+      user.resetPasswordToken = token;
+      await user.save();
+
+      await sendEmail({
+        to: email,
+        subject: 'Simplenote Password Reset',
+        template: 'reset.email',
+        link: `http://${config.get(
+          'server.host',
+        )}:3000/password/${token}/reset`,
+      });
+
+      ctx.body = {
+        type: 'status',
+        message: 'Email with instructions has been sent.',
+      };
+    };
+  },
+
+  resetPassword() {
+    return async ctx => {
+      const { token, password } = ctx.request.body;
+      const user = await UserModel.findOne({
+        resetPasswordToken: token,
+      }).exec();
+
+      if (!user) {
+        ctx.throw(400, 'Invalid reset password token specified.');
+      }
+
+      const secret = user.password_hash + user.created;
+      await jwt.verifyToken(token, secret);
+
+      user.password = password;
+      user.resetPasswordToken = '';
+      await user.save();
+
+      ctx.body = {
+        type: 'status',
+        messages: 'Password successfully reset.',
       };
     };
   },

@@ -6,5 +6,5 @@ export default styled.div`
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 20em;
+  width: ${props => (props.width ? props.width : '20em')};
 `;

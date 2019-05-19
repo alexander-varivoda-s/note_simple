@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import Nav from './Nav';
 import Ul from './Ul';
@@ -13,7 +14,7 @@ export default function NavBar(props) {
       <Ul>
         {links.map(link => (
           <Li key={link.id}>
-            <a href={link.to}>{link.text}</a>
+            <Link to={link.to}>{link.text}</Link>
           </Li>
         ))}
       </Ul>

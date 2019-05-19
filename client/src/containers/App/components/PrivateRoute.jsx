@@ -14,15 +14,19 @@ function PrivateRoute({ component: Component, user, ...rest }) {
   );
 }
 
+PrivateRoute.defaultProps = {
+  user: null,
+};
+
 PrivateRoute.propTypes = {
-  component: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
+  component: PropTypes.oneOfType([PropTypes.element, PropTypes.object]).isRequired,
   user: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
     created: PropTypes.string.isRequired,
     updated: PropTypes.string.isRequired,
-  }).isRequired,
+  }),
 };
 
 export default connect(state => ({ user: getUser(state) }))(PrivateRoute);

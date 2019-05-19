@@ -9,6 +9,7 @@ module.exports = app =>
           errors.push({
             type: 'error',
             message: e.errors[fieldName].message,
+            statusCode: 400,
             field: fieldName,
           });
         });
@@ -18,7 +19,8 @@ module.exports = app =>
         ctx.status = e.status || 500;
         errors.push({
           type: 'error',
-          message: e.status === 500 ? 'Internal server error' : e.message,
+          statusCode: ctx.status,
+          message: ctx.status === 500 ? 'Internal server error' : e.message,
         });
       }
 

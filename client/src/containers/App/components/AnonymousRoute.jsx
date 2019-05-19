@@ -16,7 +16,7 @@ AnonymousRoute.defaultProps = {
 };
 
 AnonymousRoute.propTypes = {
-  component: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
+  component: PropTypes.oneOfType([PropTypes.element, PropTypes.object]).isRequired,
   user: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
