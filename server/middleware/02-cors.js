@@ -5,7 +5,7 @@ module.exports = app =>
     cors({
       origin: 'http://localhost:3000',
       allowMethods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-      allowHeader: ['Origin', 'X-Request-With', 'Content-Type', 'Accept'],
+      allowHeaders: ['Origin', 'X-Requested-By', 'Content-Type', 'Accept'],
       credentials: true,
     }),
   );

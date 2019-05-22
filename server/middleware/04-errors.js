@@ -5,16 +5,16 @@ module.exports = app =>
     } catch (e) {
       const errors = [];
       if (e.name === 'ValidationError') {
+        ctx.status = 400;
+
         Object.keys(e.errors).forEach(fieldName => {
           errors.push({
             type: 'error',
             message: e.errors[fieldName].message,
-            statusCode: 400,
+            statusCode: ctx.status,
             field: fieldName,
           });
         });
-
-        ctx.status = 400;
       } else {
         ctx.status = e.status || 500;
         errors.push({

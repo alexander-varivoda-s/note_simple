@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import SVG from '../SVG';
 
-const StyledLogo = styled.div`
+const StyledLogo = styled(Link)`
   a {
     align-items: center;
     display: flex;
@@ -16,12 +16,10 @@ const StyledLogo = styled.div`
 `;
 
 const SiteLogo = () => (
-  <StyledLogo>
-    <Link to='/'>
-      <SVG name='logo' />
-      {' '}
-Simplenote
-    </Link>
+  <StyledLogo to='/'>
+    <SVG name='logo' />
+    {' '}
+    Simplenote
   </StyledLogo>
 );
 
