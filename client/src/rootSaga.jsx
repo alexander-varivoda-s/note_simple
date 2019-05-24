@@ -7,6 +7,7 @@ import getUser from './containers/App/sagas';
 import forgotPassword from './containers/ForgotPage/sagas';
 import resetPassword from './containers/ResetPasswordPage/sagas';
 import logoutSaga from './containers/LogoutPage/sagas';
+import fetchDataSaga from './containers/FrontPage/sagas';
 
 export default function* rootSaga() {
   yield all([
@@ -17,5 +18,6 @@ export default function* rootSaga() {
     forgotPassword(),
     resetPassword(),
     logoutSaga(),
+    fetchDataSaga(),
   ]);
 }

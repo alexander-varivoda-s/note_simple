@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 import initAuthAPI from './auth';
+import initNotesAPI from './notes';
+import initTagsAPI from './tags';
 
 const { REACT_APP_HOST, REACT_APP_PORT } = process.env;
 
@@ -17,3 +19,5 @@ const instance = axios.create({
 
 export default instance;
 export const authAPI = initAuthAPI(instance);
+export const notesAPI = initNotesAPI(instance);
+export const tagsAPI = initTagsAPI(instance);
