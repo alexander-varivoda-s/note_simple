@@ -6,4 +6,8 @@ export default {
     main: '#448ac9',
     active: '#297cc5',
   },
+  searchBar: {
+    borderColor: 'gray',
+    clearBtnColor: 'gray',
+  },
 };

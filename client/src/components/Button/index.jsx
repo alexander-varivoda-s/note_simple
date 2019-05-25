@@ -11,9 +11,14 @@ export default styled.button`
   border: none;
   font-size: 1rem;
   outline: none;
+  padding: 0;
 
   &:not(:disabled) {
     cursor: pointer;
+  }
+  
+  svg {
+    vertical-align: middle;
   }
 
   /* Submit button */
@@ -38,7 +43,6 @@ export default styled.button`
 
       svg {
         animation: ${spin} 2s linear infinite;
-        vertical-align: middle;
       }
     `}
 `;

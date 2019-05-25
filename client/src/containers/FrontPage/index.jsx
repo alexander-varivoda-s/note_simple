@@ -2,13 +2,16 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
+
 import Container from '../../components/Container';
 import { dataFetchStatus } from './selectors';
-import fetchDataAction from './actions';
+import { fetchDataAction, addNoteAction } from './actions';
+import SearchBar from './containers/SearchBar';
 
 class FrontPage extends PureComponent {
   static propTypes = {
     fetchData: PropTypes.func.isRequired,
+    addNote: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -17,12 +20,14 @@ class FrontPage extends PureComponent {
   }
 
   render() {
+    const { addNote } = this.props;
     return (
       <Container>
         <Helmet>
           <title>Simplenote</title>
         </Helmet>
         <div>Front Page</div>
+        <SearchBar addNote={addNote} />
       </Container>
     );
   }
@@ -34,6 +39,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchData: () => dispatch(fetchDataAction()),
+  addNote: text => () => dispatch(addNoteAction(text)),
 });
 
 export default connect(
