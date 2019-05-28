@@ -1,4 +1,4 @@
-import { SEARCH } from '../constants';
+import { SEARCH } from '../containers/SearchBar/constants';
 
 export default function search(state = '', action) {
   switch (action.type) {

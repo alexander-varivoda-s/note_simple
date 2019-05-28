@@ -7,6 +7,7 @@ import Container from '../../components/Container';
 import { dataFetchStatus } from './selectors';
 import { fetchDataAction, addNoteAction } from './actions';
 import SearchBar from './containers/SearchBar';
+import NotesList from './containers/NotesList'
 
 class FrontPage extends PureComponent {
   static propTypes = {
@@ -28,6 +29,7 @@ class FrontPage extends PureComponent {
         </Helmet>
         <div>Front Page</div>
         <SearchBar addNote={addNote} />
+        <NotesList />
       </Container>
     );
   }

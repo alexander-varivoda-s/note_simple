@@ -1,13 +1,17 @@
 import { combineReducers } from 'redux';
 
-import notesReducer from './notes';
-import tagsReducer from './tags';
-import dataIsFetchedReducer from './dataIsFetched';
-import searchPhraseReducer from '../containers/SearchBar/reducers/searchPhrase';
+import notes from './notes';
+import tags from './tags';
+import dataIsFetched from './dataIsFetched';
+import searchPhrase from './searchPhrase';
+import filter from './filter';
+import selectedNote from './selectedNote';
 
 export default combineReducers({
-  tags: tagsReducer,
-  notes: notesReducer,
-  dataIsFetched: dataIsFetchedReducer,
-  searchPhrase: searchPhraseReducer,
+  tags,
+  notes,
+  dataIsFetched,
+  searchPhrase,
+  filter,
+  selectedNote,
 });

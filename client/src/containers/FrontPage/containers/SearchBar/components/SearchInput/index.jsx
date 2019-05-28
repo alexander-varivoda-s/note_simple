@@ -31,15 +31,26 @@ const StyledSearchInput = styled.div`
   }
 `;
 
+const placeholderByFilter = (filter) => {
+  const found = filter.match(/tag:(\S+)/);
+
+  if (found) {
+    return found[1];
+  } if (filter === 'trash') {
+    return 'Trash';
+  }
+
+  return 'All Notes';
+};
+
 export default function SearchInput(props) {
   const {
-    mode, searchPhrase, handleSearch, handleClear,
+    filter, searchPhrase, handleSearch, handleClear,
   } = props;
-  const placeholder = mode === 'notes' ? 'All Notes' : 'Trash';
 
   return (
     <StyledSearchInput>
-      <input type='text' placeholder={placeholder} onChange={handleSearch} value={searchPhrase} />
+      <input type='text' placeholder={placeholderByFilter(filter)} onChange={handleSearch} value={searchPhrase} />
       {searchPhrase.length > 0 && (
         <Button type='button' title='Clear' onClick={handleClear}>
           <SVG name='cross' size='22' />
@@ -50,7 +61,7 @@ export default function SearchInput(props) {
 }
 
 SearchInput.propTypes = {
-  mode: PropTypes.string.isRequired,
+  filter: PropTypes.string.isRequired,
   searchPhrase: PropTypes.string.isRequired,
   handleSearch: PropTypes.func.isRequired,
   handleClear: PropTypes.func.isRequired,

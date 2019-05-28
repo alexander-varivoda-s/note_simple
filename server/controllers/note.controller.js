@@ -130,4 +130,28 @@ module.exports = {
       };
     };
   },
+  pinNote() {
+    return async ctx => {
+      const { note } = ctx.state;
+      note.pinned = Date.now();
+
+      await note.save();
+
+      ctx.body = {
+        note: note.toObject({ omit }),
+      };
+    };
+  },
+  unpinNote() {
+    return async ctx => {
+      const { note } = ctx.state;
+      note.pinned = undefined;
+
+      await note.save();
+
+      ctx.body = {
+        note: note.toObject({ omit }),
+      };
+    };
+  },
 };

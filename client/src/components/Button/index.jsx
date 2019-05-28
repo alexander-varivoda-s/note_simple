@@ -9,8 +9,7 @@ const spin = keyframes`
 export default styled.button`
   background: none;
   border: none;
-  font-size: 1rem;
-  outline: none;
+  font-size: 1rem;  
   padding: 0;
 
   &:not(:disabled) {

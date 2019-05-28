@@ -26,4 +26,9 @@ export default createGlobalStyle`
     color: ${({ theme }) => theme.palette.main};
     text-decoration: none;
   }
+  
+  ul {
+    margin: 0;
+    padding: 0;
+  }
 `;

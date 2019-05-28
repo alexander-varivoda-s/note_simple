@@ -8,6 +8,7 @@ const router = new Router();
 
 router.prefix('/notes');
 router.use('/', async (ctx, next) => {
+  console.log(ctx.request.headers);
   if (!ctx.isAuthenticated()) {
     ctx.throw(401);
   }
@@ -42,5 +43,7 @@ router.patch('/:note', NotesController.updateNote());
 router.delete('/', NotesController.clearAll());
 router.patch('/:note/tag/:tag', NotesController.tagNote());
 router.patch('/:note/untag/:tag', NotesController.untagNote());
+router.patch('/:note/pin', NotesController.pinNote());
+router.patch('/:note/unpin', NotesController.unpinNote());
 
 module.exports = router.routes();

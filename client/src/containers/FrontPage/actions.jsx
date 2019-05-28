@@ -7,6 +7,6 @@ export const fetchDataAction = () => ({
 export const addNoteAction = text => ({
   type: ADD_NOTE_REQUEST,
   payload: {
-    text: text || 'New note...',
+    text,
   },
 });

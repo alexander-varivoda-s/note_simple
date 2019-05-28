@@ -21,16 +21,16 @@ const StyledSearchBar = styled.div`
 `;
 
 function SearchBar(props) {
-  const { searchPhrase, search, addNote } = props;
-  const handleSearch = e => search(e.target.value);
-  const handleClear = () => search('');
+  const {
+    searchPhrase, handleSearch, handleClear, addNote,
+  } = props;
 
   return (
     <StyledSearchBar>
       <Button type='button' title='Menu'>
         <SVG name='menu' size='24' />
       </Button>
-      <SearchInput searchPhrase={searchPhrase} handleSearch={handleSearch} handleClear={handleClear} mode='notes' />
+      <SearchInput searchPhrase={searchPhrase} handleSearch={handleSearch} handleClear={handleClear} filter='notes' />
       <Button type='button' title='Add Note' onClick={addNote(searchPhrase)}>
         <SVG name='add-note' size='22' />
       </Button>
@@ -39,7 +39,8 @@ function SearchBar(props) {
 }
 
 SearchBar.propTypes = {
-  search: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
+  handleClear: PropTypes.func.isRequired,
   searchPhrase: PropTypes.string.isRequired,
   addNote: PropTypes.func.isRequired,
 };
@@ -49,7 +50,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  search: phrase => dispatch(searchAction(phrase)),
+  handleSearch: e => dispatch(searchAction(e.target.value)),
+  handleClear: () => dispatch(searchAction('')),
 });
 
 export default connect(

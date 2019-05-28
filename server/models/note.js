@@ -28,6 +28,9 @@ const noteSchema = new Schema({
     default: false,
   },
   tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
+  pinned: {
+    type: Date,
+  },
 });
 
 if (!noteSchema.options.toObject) {

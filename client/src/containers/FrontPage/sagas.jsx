@@ -9,6 +9,12 @@ import {
   ADD_NOTE_REQUEST, ADD_NOTE_SUCCEEDED, ADD_NOTE_FAILURE,
 } from './constants';
 import { notesAPI, tagsAPI } from '../../api';
+import {
+  PIN_REQUEST,
+  UNPIN_REQUEST,
+} from './containers/NotesList/constants';
+
+import { pinNote, unpinNote } from './containers/NotesList/sagas';
 
 export function* fetchData() {
   try {
@@ -43,4 +49,6 @@ export function* addNote(action) {
 export default function* fetchDataWatcher() {
   yield takeLatest(FETCH_DATA_REQUEST, fetchData);
   yield takeEvery(ADD_NOTE_REQUEST, addNote);
+  yield takeEvery(PIN_REQUEST, pinNote);
+  yield takeEvery(UNPIN_REQUEST, unpinNote);
 }
