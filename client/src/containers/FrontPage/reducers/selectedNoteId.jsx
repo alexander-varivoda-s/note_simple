@@ -5,8 +5,7 @@ import {
 export default function notesReducer(state = null, action) {
   switch (action.type) {
     case NOTE_SELECTED: {
-      const { note } = action.payload;
-      return { ...note };
+      return action.payload.noteId;
     }
 
     case NOTE_UNSELECTED: {

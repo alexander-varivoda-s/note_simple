@@ -12,16 +12,13 @@ export const pinAction = (isPinned, id) => ({
   },
 });
 
-export const selectNoteAction = note => ({
+export const selectNoteAction = noteId => ({
   type: NOTE_SELECTED,
   payload: {
-    note,
+    noteId,
   },
 });
 
-export const unselectNoteAction = note => ({
+export const unselectNoteAction = () => ({
   type: NOTE_UNSELECTED,
-  payload: {
-    note,
-  },
 });

@@ -3,6 +3,7 @@ import {
   PIN_SUCCEEDED,
   UNPIN_SUCCEEDED,
 } from '../containers/NotesList/constants';
+import { NOTE_SAVE_SUCCEEDED } from '../containers/NoteEditor/constants'
 
 export default function notesReducer(state = [], action) {
   switch (action.type) {
@@ -16,7 +17,8 @@ export default function notesReducer(state = [], action) {
     }
 
     case PIN_SUCCEEDED:
-    case UNPIN_SUCCEEDED: {
+    case UNPIN_SUCCEEDED:
+    case NOTE_SAVE_SUCCEEDED: {
       const { note } = action.payload;
       const newNotes = [...state];
       const index = newNotes.findIndex(n => n._id === note._id);

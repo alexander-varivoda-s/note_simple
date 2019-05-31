@@ -42,7 +42,7 @@ export default function NotePreview(props) {
   } = props;
 
   function performNoteSelect() {
-    selectNote(note);
+    selectNote(note._id);
   }
 
   const nbsp = '\u00A0';

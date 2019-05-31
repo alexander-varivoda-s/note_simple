@@ -15,6 +15,10 @@ import {
 } from './containers/NotesList/constants';
 
 import { pinNote, unpinNote } from './containers/NotesList/sagas';
+import {
+  NOTE_SAVE_FAILURE, NOTE_SAVE_REQUEST,
+  NOTE_SAVE_SUCCEEDED,
+} from './containers/NoteEditor/constants'
 
 export function* fetchData() {
   try {
@@ -46,9 +50,21 @@ export function* addNote(action) {
   }
 }
 
+export function* saveNote(action) {
+  const { text, noteId } = action.payload;
+
+  try {
+    const { data: { note } } = yield call(notesAPI.updateNote, noteId, { text }, { withCredentials: true });
+    yield put({ type: NOTE_SAVE_SUCCEEDED, payload: { note } });
+  } catch (e) {
+    yield put({ type: NOTE_SAVE_FAILURE, error: e });
+  }
+}
+
 export default function* fetchDataWatcher() {
   yield takeLatest(FETCH_DATA_REQUEST, fetchData);
   yield takeEvery(ADD_NOTE_REQUEST, addNote);
   yield takeEvery(PIN_REQUEST, pinNote);
   yield takeEvery(UNPIN_REQUEST, unpinNote);
+  yield takeEvery(NOTE_SAVE_REQUEST, saveNote);
 }

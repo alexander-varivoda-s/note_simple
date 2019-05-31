@@ -5,7 +5,7 @@ import tags from './tags';
 import dataIsFetched from './dataIsFetched';
 import searchPhrase from './searchPhrase';
 import filter from './filter';
-import selectedNote from './selectedNote';
+import selectedNoteId from './selectedNoteId';
 
 export default combineReducers({
   tags,
@@ -13,5 +13,5 @@ export default combineReducers({
   dataIsFetched,
   searchPhrase,
   filter,
-  selectedNote,
+  selectedNoteId,
 });

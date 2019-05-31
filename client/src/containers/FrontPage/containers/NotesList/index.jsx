@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { getNotes } from '../../selectors';
+import { getNotes, getSelectedNote } from '../../selectors';
 import NotesListItem from './components/NotesListItem';
 import NotePreview from './components/NotePreview';
 import Pinner from './components/Pinner';
@@ -48,11 +48,21 @@ NotesList.propTypes = {
 
 const mapStateToProps = state => ({
   notes: getNotes(state),
+  note: getSelectedNote(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-  togglePin: (isPinned = false, id) => dispatch(pinAction(isPinned, id)),
-  handleSelect: note => dispatch(selectNoteAction(note)),
+  dispatch,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(NotesList);
+const mergeProps = ({ note: currentSelectedNote, notes }, { dispatch }) => ({
+  notes,
+  togglePin: (isPinned = false, id) => dispatch(pinAction(isPinned, id)),
+  handleSelect: (noteId) => {
+    if (!currentSelectedNote || noteId !== currentSelectedNote._id) {
+      dispatch(selectNoteAction(noteId));
+    }
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(NotesList);
