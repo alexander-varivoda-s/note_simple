@@ -4,10 +4,13 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 
 import Container from '../../components/Container';
+import ContentContainer from './components/ContentContainer';
+import RightColumn from './components/RightColumn';
+import LeftColumn from './components/LeftColumn';
 import { dataFetchStatus } from './selectors';
 import { fetchDataAction, addNoteAction } from './actions';
 import SearchBar from './containers/SearchBar';
-import NotesList from './containers/NotesList'
+import NotesList from './containers/NotesList';
 
 class FrontPage extends PureComponent {
   static propTypes = {
@@ -27,9 +30,14 @@ class FrontPage extends PureComponent {
         <Helmet>
           <title>Simplenote</title>
         </Helmet>
-        <div>Front Page</div>
-        <SearchBar addNote={addNote} />
-        <NotesList />
+        <ContentContainer>
+          <LeftColumn>
+            <SearchBar addNote={addNote} />
+            <NotesList />
+          </LeftColumn>
+          <RightColumn></RightColumn>
+        </ContentContainer>
+
       </Container>
     );
   }

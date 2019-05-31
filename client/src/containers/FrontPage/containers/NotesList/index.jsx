@@ -10,10 +10,6 @@ import { pinAction, selectNoteAction } from './actions';
 
 const StyledNotesList = styled.div`
   width: 100%;
-
-  @media(min-width: 46.875em) {
-    max-width: 18.750em;
-  }
 `;
 
 function NotesList(props) {

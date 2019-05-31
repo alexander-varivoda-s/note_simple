@@ -15,8 +15,7 @@ const StyledSearchBar = styled.div`
   display: flex;
   justify-content: space-between;
   height: 3.5em;
-  max-width: 20.5em;
-  padding: 0 1.25em;
+  padding: 0 1em;
   width: 100%;
 `;
 
