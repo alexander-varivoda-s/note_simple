@@ -7,14 +7,12 @@ import Container from '../../components/Container';
 import ContentContainer from './components/ContentContainer';
 import RightColumn from './components/RightColumn';
 import LeftColumn from './components/LeftColumn';
-import {
-  dataFetchStatus,
-  getSelectedNoteId,
-} from './selectors';
+import { dataFetchStatus, getSelectedNoteId } from './selectors';
 import { fetchDataAction, addNoteAction } from './actions';
 import SearchBar from './containers/SearchBar';
 import NotesList from './containers/NotesList';
 import NoteEditor from './containers/NoteEditor';
+import Toolbar from './containers/Toolbar';
 
 class FrontPage extends PureComponent {
   static defaultProps = {
@@ -45,10 +43,10 @@ class FrontPage extends PureComponent {
             <NotesList />
           </LeftColumn>
           <RightColumn>
-            { !!noteSelected && <NoteEditor /> }
+            <Toolbar />
+            {!!noteSelected && <NoteEditor />}
           </RightColumn>
         </ContentContainer>
-
       </Container>
     );
   }

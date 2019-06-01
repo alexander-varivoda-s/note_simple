@@ -7,6 +7,8 @@ import { noteSaveAction } from './actions';
 
 export const StyledNoteEditor = styled.div`
   height: 100%;
+  margin: 0 auto;
+  max-width: 48.75em;
 
   textarea {
     background-color: transparent;
@@ -15,7 +17,6 @@ export const StyledNoteEditor = styled.div`
     font-family: ${props => props.theme.font};
     font-size: 1rem;
     line-height: 1.5;
-    max-width: 48.750em;
     outline: none;
     padding: 1.5em;
     resize: none;
@@ -36,7 +37,7 @@ class NoteEditor extends PureComponent {
       tags: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
     handleSave: PropTypes.func.isRequired,
-  }
+  };
 
   static getDerivedStateFromProps(props, state) {
     const { note } = props;
@@ -76,10 +77,13 @@ class NoteEditor extends PureComponent {
     this.setState({
       text: value,
     });
-  }
+  };
 
   handleKeyUp = () => {
-    const { note: { _id }, handleSave } = this.props;
+    const {
+      note: { _id },
+      handleSave,
+    } = this.props;
     const { text } = this.state;
 
     if (this._timeout[_id]) {
@@ -90,7 +94,7 @@ class NoteEditor extends PureComponent {
     if (!this._timeout[_id]) {
       this._timeout[_id] = setTimeout(() => handleSave(text), 750);
     }
-  }
+  };
 
   render() {
     const { text } = this.state;
@@ -122,4 +126,8 @@ const mergeProps = ({ note }, { dispatch }) => ({
   handleSave: text => dispatch(noteSaveAction(text, note._id)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(NoteEditor);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps,
+)(NoteEditor);

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
 export default styled.div`
-  flex: 0 0 100%;
+  flex: auto;
+  flex-direction: column;
 `;

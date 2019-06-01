@@ -9,6 +9,8 @@ import Pinner from './components/Pinner';
 import { pinAction, selectNoteAction } from './actions';
 
 const StyledNotesList = styled.div`
+  border-right: 1px solid ${props => props.theme.palette.borderColor};
+  height: 100%;
   width: 100%;
 `;
 
@@ -18,30 +20,30 @@ function NotesList(props) {
   return (
     <StyledNotesList>
       <ul>
-        {
-        notes.map(note => (
+        {notes.map(note => (
           <NotesListItem key={note._id} pinned={!!note.pinned}>
             <Pinner noteId={note._id} handleChange={togglePin} isPinned={!!note.pinned} />
             <NotePreview selectNote={handleSelect} note={note} />
           </NotesListItem>
-        ))
-      }
+        ))}
       </ul>
     </StyledNotesList>
   );
 }
 
 NotesList.propTypes = {
-  notes: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    created: PropTypes.string.isRequired,
-    updated: PropTypes.string.isRequired,
-    pinned: PropTypes.string,
-    author: PropTypes.string.isRequired,
-    is_deleted: PropTypes.bool.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  })).isRequired,
+  notes: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired,
+      created: PropTypes.string.isRequired,
+      updated: PropTypes.string.isRequired,
+      pinned: PropTypes.string,
+      author: PropTypes.string.isRequired,
+      is_deleted: PropTypes.bool.isRequired,
+      tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }),
+  ).isRequired,
   togglePin: PropTypes.func.isRequired,
   handleSelect: PropTypes.func.isRequired,
 };
@@ -65,4 +67,8 @@ const mergeProps = ({ note: currentSelectedNote, notes }, { dispatch }) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(NotesList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps,
+)(NotesList);

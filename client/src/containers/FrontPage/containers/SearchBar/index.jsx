@@ -12,6 +12,8 @@ import SearchInput from './components/SearchInput';
 
 const StyledSearchBar = styled.div`
   align-items: center;
+  border-bottom: 1px solid ${props => props.theme.palette.borderColor};
+  border-right: 1px solid ${props => props.theme.palette.borderColor};
   display: flex;
   justify-content: space-between;
   height: 3.5em;
@@ -29,7 +31,12 @@ function SearchBar(props) {
       <Button type='button' title='Menu'>
         <SVG name='menu' size='24' />
       </Button>
-      <SearchInput searchPhrase={searchPhrase} handleSearch={handleSearch} handleClear={handleClear} filter='notes' />
+      <SearchInput
+        searchPhrase={searchPhrase}
+        handleSearch={handleSearch}
+        handleClear={handleClear}
+        filter='notes'
+      />
       <Button type='button' title='Add Note' onClick={addNote(searchPhrase)}>
         <SVG name='add-note' size='22' />
       </Button>

@@ -1,8 +1,5 @@
 import {
-  NOTE_SELECTED,
-  NOTE_UNSELECTED,
-  PIN_REQUEST,
-  UNPIN_REQUEST,
+  NOTE_SELECTED, NOTE_UNSELECTED, PIN_REQUEST, UNPIN_REQUEST,
 } from './constants';
 
 export const pinAction = (isPinned, id) => ({

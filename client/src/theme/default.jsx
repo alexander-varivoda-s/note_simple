@@ -5,6 +5,7 @@ export default {
   palette: {
     main: '#448ac9',
     active: '#297cc5',
+    borderColor: '#cdcdcd',
   },
   searchBar: {
     borderColor: 'gray',

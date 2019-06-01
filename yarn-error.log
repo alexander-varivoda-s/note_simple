@@ -1,30 +1,30 @@
 Arguments: 
-  /usr/bin/node /usr/share/yarn/bin/yarn.js add esling-plugin-prettier --dev
+  /usr/bin/node /usr/share/yarn/bin/yarn.js add esling-plugin-prettier -D
 
 PATH: 
   /home/var/.npm-packages/bin:/home/var/Projects/React/note_simple/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 
 Yarn version: 
-  1.15.2
+  1.16.0
 
 Node version: 
-  12.1.0
+  12.3.1
 
 Platform: 
   linux x64
 
 Trace: 
   Error: https://registry.yarnpkg.com/esling-plugin-prettier: Not found
-      at Request.params.callback [as _callback] (/usr/share/yarn/lib/cli.js:66058:18)
-      at Request.self.callback (/usr/share/yarn/lib/cli.js:129541:22)
-      at Request.emit (events.js:196:13)
-      at Request.<anonymous> (/usr/share/yarn/lib/cli.js:130513:10)
-      at Request.emit (events.js:196:13)
-      at IncomingMessage.<anonymous> (/usr/share/yarn/lib/cli.js:130435:12)
-      at Object.onceWrapper (events.js:284:20)
-      at IncomingMessage.emit (events.js:201:15)
-      at endReadableNT (_stream_readable.js:1130:12)
-      at processTicksAndRejections (internal/process/task_queues.js:84:17)
+      at Request.params.callback [as _callback] (/usr/share/yarn/lib/cli.js:66091:18)
+      at Request.self.callback (/usr/share/yarn/lib/cli.js:129590:22)
+      at Request.emit (events.js:200:13)
+      at Request.<anonymous> (/usr/share/yarn/lib/cli.js:130562:10)
+      at Request.emit (events.js:200:13)
+      at IncomingMessage.<anonymous> (/usr/share/yarn/lib/cli.js:130484:12)
+      at Object.onceWrapper (events.js:288:20)
+      at IncomingMessage.emit (events.js:205:15)
+      at endReadableNT (_stream_readable.js:1137:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:9)
 
 npm manifest: 
   {
@@ -51,12 +51,15 @@ npm manifest:
       "pug": "^2.0.3"
     },
     "devDependencies": {
-      "concurrently": "^4.1.0"
+      "concurrently": "^4.1.0",
+      "eslint-config-prettier": "^4.3.0",
+      "prettier": "^1.17.1"
     },
     "scripts": {
       "server": "cd server && nodemon index.js",
       "client": "cd client && yarn start",
-      "start": "concurrently -- kill-others \"yarn server\" \"yarn client\""
+      "start": "concurrently -- kill-others \"yarn server\" \"yarn client\"",
+      "debug": "cd server && nodemon --inspect index.js"
     }
   }
 
@@ -545,6 +548,13 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
     integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
   
+  eslint-config-prettier@^4.3.0:
+    version "4.3.0"
+    resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-4.3.0.tgz#c55c1fcac8ce4518aeb77906984e134d9eb5a4f0"
+    integrity sha512-sZwhSTHVVz78+kYD3t5pCWSYEdVSBR0PXnwjDRsUs8ytIrK8PLXw+6FKp8r3Z7rx4ZszdetWlXYKOHoUrrwPlA==
+    dependencies:
+      get-stdin "^6.0.0"
+  
   esutils@^2.0.2:
     version "2.0.2"
     resolved "https://registry.yarnpkg.com/esutils/-/esutils-2.0.2.tgz#0abf4f1caa5bcb1f7a9d8acc6dea4faaa04bac9b"
@@ -584,6 +594,11 @@ Lockfile:
     version "1.0.3"
     resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.3.tgz#f978fa4c90d1dfe7ff2d6beda2a515e713bdcf4a"
     integrity sha512-3t6rVToeoZfYSGd8YoLFR2DJkiQrIiUrGcjvFX2mDw3bn6k2OtwHN0TNCLbBO+w8qTvimhDkv+LSscbJY1vE6w==
+  
+  get-stdin@^6.0.0:
+    version "6.0.0"
+    resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-6.0.0.tgz#9e09bf712b360ab9225e812048f71fde9c89657b"
+    integrity sha512-jp4tHawyV7+fkkSKyvjuLZswblUtz+SQKzSWnBbii16BuZksJlU1wuBYXY75r+duh/llF1ur6oNwi+2ZzjKZ7g==
   
   get-stream@^4.0.0:
     version "4.1.0"
@@ -1463,6 +1478,11 @@ Lockfile:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/pify/-/pify-3.0.0.tgz#e5a4acd2c101fdf3d9a4d07f0dbc4db49dd28176"
     integrity sha1-5aSs0sEB/fPZpNB/DbxNtJ3SgXY=
+  
+  prettier@^1.17.1:
+    version "1.17.1"
+    resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.17.1.tgz#ed64b4e93e370cb8a25b9ef7fef3e4fd1c0995db"
+    integrity sha512-TzGRNvuUSmPgwivDqkZ9tM/qTGW9hqDKWOE9YHiyQdixlKbv7kvEqsmDPrcHJTKwthU774TQwZXVtaQ/mMsvjg==
   
   process-nextick-args@~1.0.6:
     version "1.0.7"
