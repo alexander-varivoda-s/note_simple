@@ -22,7 +22,10 @@
     "pug": "^2.0.3"
   },
   "devDependencies": {
-    "concurrently": "^4.1.0"
+    "concurrently": "^4.1.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "prettier": "^1.17.1"
   },
   "scripts": {
     "server": "cd server && nodemon index.js",

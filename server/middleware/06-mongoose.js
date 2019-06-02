@@ -13,5 +13,5 @@ module.exports = app =>
         useCreateIndex: true,
         useNewUrlParser: true,
       },
-    }),
+    })
   );

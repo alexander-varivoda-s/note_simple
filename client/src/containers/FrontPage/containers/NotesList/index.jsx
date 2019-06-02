@@ -22,7 +22,11 @@ function NotesList(props) {
       <ul>
         {notes.map(note => (
           <NotesListItem key={note._id} pinned={!!note.pinned}>
-            <Pinner noteId={note._id} handleChange={togglePin} isPinned={!!note.pinned} />
+            <Pinner
+              noteId={note._id}
+              handleChange={togglePin}
+              isPinned={!!note.pinned}
+            />
             <NotePreview selectNote={handleSelect} note={note} />
           </NotesListItem>
         ))}
@@ -42,7 +46,7 @@ NotesList.propTypes = {
       author: PropTypes.string.isRequired,
       is_deleted: PropTypes.bool.isRequired,
       tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-    }),
+    })
   ).isRequired,
   togglePin: PropTypes.func.isRequired,
   handleSelect: PropTypes.func.isRequired,
@@ -60,7 +64,7 @@ const mapDispatchToProps = dispatch => ({
 const mergeProps = ({ note: currentSelectedNote, notes }, { dispatch }) => ({
   notes,
   togglePin: (isPinned = false, id) => dispatch(pinAction(isPinned, id)),
-  handleSelect: (noteId) => {
+  handleSelect: noteId => {
     if (!currentSelectedNote || noteId !== currentSelectedNote._id) {
       dispatch(selectNoteAction(noteId));
     }
@@ -70,5 +74,5 @@ const mergeProps = ({ note: currentSelectedNote, notes }, { dispatch }) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-  mergeProps,
+  mergeProps
 )(NotesList);

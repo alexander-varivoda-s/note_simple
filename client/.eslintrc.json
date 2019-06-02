@@ -1,12 +1,14 @@
 {
-  "extends": "airbnb",
+  "extends": ["airbnb", "plugin:prettier/recommended"],
   "env": {
     "browser": true
   },
   "rules": {
     "no-console": "off",
     "no-underscore-dangle": "off",
-    "jsx-quotes": ["error", "prefer-single"]
+    "jsx-quotes": ["error", "prefer-single"],
+    "prettier/prettier": "error"
   },
-  "parser": "babel-eslint"
+  "parser": "babel-eslint",
+  "plugins": ["prettier"]
 }
