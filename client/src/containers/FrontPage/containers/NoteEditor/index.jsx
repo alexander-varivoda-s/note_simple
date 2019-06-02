@@ -2,11 +2,11 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { getSelectedNote } from '../../selectors';
 import { noteSaveAction } from './actions';
 
 export const StyledNoteEditor = styled.div`
   height: 100%;
+  flex: 1 0 auto;
   margin: 0 auto;
   max-width: 48.75em;
 
@@ -71,7 +71,7 @@ class NoteEditor extends PureComponent {
     }
   }
 
-  handleNoteEdit = (e) => {
+  handleNoteEdit = e => {
     const { value } = e.target;
 
     this.setState({
@@ -113,21 +113,17 @@ class NoteEditor extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  note: getSelectedNote(state),
-});
-
 const mapDispatchToProps = dispatch => ({
   dispatch,
 });
 
-const mergeProps = ({ note }, { dispatch }) => ({
+const mergeProps = (stateProps, { dispatch }, { note }) => ({
   note,
   handleSave: text => dispatch(noteSaveAction(text, note._id)),
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
-  mergeProps,
+  mergeProps
 )(NoteEditor);

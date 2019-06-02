@@ -11,17 +11,18 @@ import history from './history';
 
 const store = configureStore();
 
-// eslint-disable-next-line react/no-render-return-value
-const render = Component => ReactDOM.render(
-  <ThemeProvider theme={defaultTheme}>
-    <Provider store={store}>
-      <Router history={history}>
-        <Component />
-      </Router>
-    </Provider>
-  </ThemeProvider>,
-  document.getElementById('root'),
-);
+const render = Component =>
+  // eslint-disable-next-line react/no-render-return-value
+  ReactDOM.render(
+    <ThemeProvider theme={defaultTheme}>
+      <Provider store={store}>
+        <Router history={history}>
+          <Component />
+        </Router>
+      </Provider>
+    </ThemeProvider>,
+    document.getElementById('root')
+  );
 
 render(App);
 

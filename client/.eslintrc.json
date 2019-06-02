@@ -7,7 +7,9 @@
     "no-console": "off",
     "no-underscore-dangle": "off",
     "jsx-quotes": ["error", "prefer-single"],
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "jsx-a11y/label-has-associated-control": "off",
+    "jsx-a11y/label-has-for": "off"
   },
   "parser": "babel-eslint",
   "plugins": ["prettier"]
