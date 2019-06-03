@@ -1,10 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
 import Modified from '../Modified';
 import Button from '../../../../../../components/Button';
 import SVG from '../../../../../../components/SVG';
+import { toogleNoteVisiblityAction } from '../../../Toolbar/actions';
 
 export const StyledHeader = styled.div`
   header {
@@ -24,14 +26,14 @@ export const StyledHeader = styled.div`
   }
 `;
 
-export default function Header(props) {
-  const { date } = props;
+function Header(props) {
+  const { date, closeNoteInfo } = props;
 
   return (
     <StyledHeader>
       <header>
         <h2>Info</h2>
-        <Button>
+        <Button onClick={closeNoteInfo}>
           <SVG name='cross' size='32' />
         </Button>
       </header>
@@ -42,4 +44,14 @@ export default function Header(props) {
 
 Header.propTypes = {
   date: PropTypes.string.isRequired,
+  closeNoteInfo: PropTypes.func.isRequired,
 };
+
+const mapDispatchToProps = dispatch => ({
+  closeNoteInfo: () => dispatch(toogleNoteVisiblityAction(false)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Header);

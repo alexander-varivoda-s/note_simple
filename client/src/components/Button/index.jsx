@@ -9,20 +9,21 @@ const spin = keyframes`
 export default styled.button`
   background: none;
   border: none;
-  font-size: 1rem;  
+  font-size: 1rem;
   padding: 0;
 
   &:not(:disabled) {
     cursor: pointer;
   }
-  
+
   svg {
     vertical-align: middle;
   }
 
   /* Submit button */
-  ${props => props.submit
-    && css`
+  ${props =>
+    props.submit &&
+    css`
       background-color: ${({ theme }) => theme.palette.main};
       border: none;
       border-radius: 3px;

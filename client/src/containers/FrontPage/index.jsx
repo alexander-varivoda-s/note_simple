@@ -9,6 +9,7 @@ import RightColumn from './components/RightColumn';
 import LeftColumn from './components/LeftColumn';
 import {
   dataFetchStatus,
+  getNoteInfoVisibilityStatus,
   getSelectedNote,
   getSelectedNoteId,
 } from './selectors';
@@ -39,6 +40,7 @@ class FrontPage extends PureComponent {
       is_deleted: PropTypes.bool.isRequired,
       tags: PropTypes.arrayOf(PropTypes.string).isRequired,
     }),
+    isNoteInfoVisible: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -47,10 +49,15 @@ class FrontPage extends PureComponent {
   }
 
   render() {
-    const { addNote, isNoteSelected, selectedNote } = this.props;
-    console.log(selectedNote, isNoteSelected);
+    const {
+      addNote,
+      isNoteSelected,
+      selectedNote,
+      isNoteInfoVisible,
+    } = this.props;
+
     return (
-      <FrontPageContainer>
+      <FrontPageContainer isNoteInfoVisible={isNoteInfoVisible}>
         <Helmet>
           <title>Simplenote</title>
         </Helmet>
@@ -64,7 +71,7 @@ class FrontPage extends PureComponent {
             {isNoteSelected && <NoteEditor note={selectedNote} />}
           </RightColumn>
         </ContentContainer>
-        {isNoteSelected && <NoteInfo note={selectedNote} />}
+        {isNoteInfoVisible && <NoteInfo note={selectedNote} />}
       </FrontPageContainer>
     );
   }
@@ -74,6 +81,7 @@ const mapStateToProps = state => ({
   dataIsFetched: dataFetchStatus(state),
   isNoteSelected: !!getSelectedNoteId(state),
   selectedNote: getSelectedNote(state),
+  isNoteInfoVisible: getNoteInfoVisibilityStatus(state),
 });
 
 const mapDispatchToProps = dispatch => ({

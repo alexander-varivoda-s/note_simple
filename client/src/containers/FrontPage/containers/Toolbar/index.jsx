@@ -2,10 +2,14 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { getSelectedNoteId } from '../../selectors';
+import {
+  getNoteInfoVisibilityStatus,
+  getSelectedNoteId,
+} from '../../selectors';
 
 import SVG from '../../../../components/SVG';
 import Button from '../../../../components/Button';
+import { toogleNoteVisiblityAction } from './actions';
 
 export const StyledToolbar = styled.div`
   align-items: center;
@@ -31,7 +35,7 @@ export const StyledToolbar = styled.div`
 `;
 
 function Toolbar(props) {
-  const { isNoteSelected } = props;
+  const { isNoteSelected, toggleNoteInfoVisibility } = props;
 
   return (
     <StyledToolbar>
@@ -61,7 +65,7 @@ function Toolbar(props) {
               </Button>
             </li>
             <li>
-              <Button>
+              <Button onClick={toggleNoteInfoVisibility}>
                 <SVG name='info' size='22' />
               </Button>
             </li>
@@ -74,10 +78,24 @@ function Toolbar(props) {
 
 Toolbar.propTypes = {
   isNoteSelected: PropTypes.bool.isRequired,
+  toggleNoteInfoVisibility: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   isNoteSelected: !!getSelectedNoteId(state),
+  isNoteInfoVisible: getNoteInfoVisibilityStatus(state),
 });
 
-export default connect(mapStateToProps)(Toolbar);
+const mapDispatchToProps = dispatch => ({ dispatch });
+
+const mergeProps = ({ isNoteSelected, isNoteInfoVisible }, { dispatch }) => ({
+  isNoteSelected,
+  toggleNoteInfoVisibility: () =>
+    dispatch(toogleNoteVisiblityAction(!isNoteInfoVisible)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(Toolbar);
