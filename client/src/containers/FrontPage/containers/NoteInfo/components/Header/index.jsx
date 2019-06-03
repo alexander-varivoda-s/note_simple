@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import Modified from '../Modified';
 import Button from '../../../../../../components/Button';
 import SVG from '../../../../../../components/SVG';
-import { toogleNoteVisiblityAction } from '../../../Toolbar/actions';
+import { toggleNoteVisibilityAction } from '../../../Toolbar/actions';
 
 export const StyledHeader = styled.div`
   header {
@@ -48,7 +48,7 @@ Header.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  closeNoteInfo: () => dispatch(toogleNoteVisiblityAction(false)),
+  closeNoteInfo: () => dispatch(toggleNoteVisibilityAction(false)),
 });
 
 export default connect(

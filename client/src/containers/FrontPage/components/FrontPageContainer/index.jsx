@@ -12,4 +12,5 @@ export default styled(Container)`
     css`
       transform: translateX(-16.75em);
     `}
+}
 `;

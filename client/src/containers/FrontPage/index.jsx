@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -19,6 +20,15 @@ import NotesList from './containers/NotesList';
 import NoteEditor from './containers/NoteEditor';
 import Toolbar from './containers/Toolbar';
 import NoteInfo from './containers/NoteInfo';
+import { toggleNoteVisibilityAction } from './containers/Toolbar/actions';
+
+const Overlay = styled.div`
+  background-color: #fff;
+  opacity: 0.75;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+`;
 
 class FrontPage extends PureComponent {
   static defaultProps = {
@@ -41,12 +51,18 @@ class FrontPage extends PureComponent {
       tags: PropTypes.arrayOf(PropTypes.string).isRequired,
     }),
     isNoteInfoVisible: PropTypes.bool.isRequired,
+    dispatch: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
     const { fetchData } = this.props;
     fetchData();
   }
+
+  handleSidebarClose = () => {
+    const { dispatch } = this.props;
+    dispatch(toggleNoteVisibilityAction(false));
+  };
 
   render() {
     const {
@@ -62,6 +78,7 @@ class FrontPage extends PureComponent {
           <title>Simplenote</title>
         </Helmet>
         <ContentContainer>
+          {isNoteInfoVisible && <Overlay onClick={this.handleSidebarClose} />}
           <LeftColumn>
             <SearchBar addNote={addNote} />
             <NotesList />
@@ -85,6 +102,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  dispatch,
   fetchData: () => dispatch(fetchDataAction()),
   addNote: text => () => dispatch(addNoteAction(text)),
 });

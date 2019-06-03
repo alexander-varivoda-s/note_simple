@@ -9,7 +9,7 @@ import {
 
 import SVG from '../../../../components/SVG';
 import Button from '../../../../components/Button';
-import { toogleNoteVisiblityAction } from './actions';
+import { toggleNoteVisibilityAction } from './actions';
 
 export const StyledToolbar = styled.div`
   align-items: center;
@@ -91,7 +91,7 @@ const mapDispatchToProps = dispatch => ({ dispatch });
 const mergeProps = ({ isNoteSelected, isNoteInfoVisible }, { dispatch }) => ({
   isNoteSelected,
   toggleNoteInfoVisibility: () =>
-    dispatch(toogleNoteVisiblityAction(!isNoteInfoVisible)),
+    dispatch(toggleNoteVisibilityAction(!isNoteInfoVisible)),
 });
 
 export default connect(

@@ -1,6 +1,6 @@
 import { TOGGLE_NOTE_INFO } from './constants';
 
-export const toogleNoteVisiblityAction = isVisible => ({
+export const toggleNoteVisibilityAction = isVisible => ({
   type: TOGGLE_NOTE_INFO,
   payload: {
     isVisible,
