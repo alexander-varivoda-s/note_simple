@@ -10,7 +10,7 @@ import { pinAction, selectNoteAction } from './actions';
 
 const StyledNotesList = styled.div`
   border-right: 1px solid ${props => props.theme.palette.borderColor};
-  height: 100%;
+  flex: 1 1 auto;
   width: 100%;
 `;
 

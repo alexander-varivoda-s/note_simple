@@ -3,17 +3,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { noteSaveAction } from './actions';
+import TagsEditor from '../TagsEditor';
 
 export const StyledNoteEditor = styled.div`
-  height: 100%;
+  display: flex;
   flex: 1 0 auto;
-  margin: 0 auto;
+  flex-direction: column;
   max-width: 48.75em;
 
   textarea {
     background-color: transparent;
     border: none;
-    height: 100%;
+    flex: 1 1 auto;
     font-family: ${props => props.theme.font};
     font-size: 1rem;
     line-height: 1.5;
@@ -108,6 +109,7 @@ class NoteEditor extends PureComponent {
           onKeyUp={this.handleKeyUp}
           ref={this._textarea}
         />
+        <TagsEditor />
       </StyledNoteEditor>
     );
   }
