@@ -7,22 +7,27 @@ import TagsEditor from '../TagsEditor';
 
 export const StyledNoteEditor = styled.div`
   display: flex;
-  flex: 1 0 auto;
+  flex: 1 1 auto;
   flex-direction: column;
-  max-width: 48.75em;
 
   textarea {
     background-color: transparent;
     border: none;
-    flex: 1 1 auto;
+    height: 100%;
     font-family: ${props => props.theme.font};
     font-size: 1rem;
     line-height: 1.5;
     outline: none;
     padding: 1.5em;
     resize: none;
-    width: 100%;
   }
+`;
+
+export const TextareaWrapper = styled.div`
+  flex: 1 1 auto;
+  margin: 0 auto;
+  max-width: 48.75em;
+  width: 100%;
 `;
 
 class NoteEditor extends PureComponent {
@@ -102,13 +107,15 @@ class NoteEditor extends PureComponent {
 
     return (
       <StyledNoteEditor>
-        <textarea
-          autoFocus
-          value={text}
-          onChange={this.handleNoteEdit}
-          onKeyUp={this.handleKeyUp}
-          ref={this._textarea}
-        />
+        <TextareaWrapper>
+          <textarea
+            autoFocus
+            value={text}
+            onChange={this.handleNoteEdit}
+            onKeyUp={this.handleKeyUp}
+            ref={this._textarea}
+          />
+        </TextareaWrapper>
         <TagsEditor />
       </StyledNoteEditor>
     );

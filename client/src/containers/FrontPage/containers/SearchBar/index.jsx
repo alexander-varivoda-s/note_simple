@@ -15,16 +15,14 @@ const StyledSearchBar = styled.div`
   border-bottom: 1px solid ${props => props.theme.palette.borderColor};
   border-right: 1px solid ${props => props.theme.palette.borderColor};
   display: flex;
+  flex: 0 0 3.5em;
   justify-content: space-between;
-  height: 3.5em;
   padding: 0 1em;
   width: 100%;
 `;
 
 function SearchBar(props) {
-  const {
-    searchPhrase, handleSearch, handleClear, addNote,
-  } = props;
+  const { searchPhrase, handleSearch, handleClear, addNote } = props;
 
   return (
     <StyledSearchBar>
@@ -62,5 +60,5 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(SearchBar);
