@@ -5,5 +5,5 @@ export default client => ({
   tagNote: (tagId, noteId, config = {}) =>
     client.patch(`/notes/${noteId}/tag/${tagId}`, {}, config),
   untagNote: (tagId, noteId, config = {}) =>
-    client.patch(`/notes/${noteId}/untag/${tagId}`, config),
+    client.patch(`/notes/${noteId}/untag/${tagId}`, {}, config),
 });

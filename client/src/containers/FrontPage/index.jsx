@@ -74,9 +74,7 @@ class FrontPage extends PureComponent {
 
     return (
       <FrontPageContainer isNoteInfoVisible={isNoteInfoVisible}>
-        <Helmet>
-          <title>Simplenote</title>
-        </Helmet>
+        <Helmet title='Simplenote' />
         <ContentContainer>
           {isNoteInfoVisible && <Overlay onClick={this.handleSidebarClose} />}
           <LeftColumn>

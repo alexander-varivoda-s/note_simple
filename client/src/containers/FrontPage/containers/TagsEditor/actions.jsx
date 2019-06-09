@@ -20,10 +20,9 @@ export const tagNoteAction = ({ tagId = null, name = '' }) => ({
   },
 });
 
-export const untagNoteAction = (noteId, tagId) => ({
+export const untagNoteAction = tagId => ({
   type: UNTAG_REQUEST,
   payload: {
-    noteId,
     tagId,
   },
 });
