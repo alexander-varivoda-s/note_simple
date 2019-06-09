@@ -39,6 +39,11 @@ import {
   UNTAG_REQUEST_SUCCEEDED,
 } from './containers/TagsEditor/constants';
 import { getSelectedNoteId } from './selectors';
+import {
+  MOVE_TO_TRASH_FAILURE,
+  MOVE_TO_TRASH_REQUEST,
+  MOVE_TO_TRASH_SUCCEEDED,
+} from './containers/Toolbar/constants';
 
 export function* fetchData() {
   try {
@@ -152,6 +157,24 @@ export function* deleteTag(action) {
   }
 }
 
+export function* moveToTrash(action) {
+  const { noteId } = action.payload;
+
+  try {
+    const {
+      data: { note },
+    } = yield call(
+      notesAPI.updateNote,
+      noteId,
+      { is_deleted: true },
+      { withCredentials: true }
+    );
+    yield put({ type: MOVE_TO_TRASH_SUCCEEDED, payload: { note } });
+  } catch (e) {
+    yield { type: MOVE_TO_TRASH_FAILURE, error: e };
+  }
+}
+
 export default function* fetchDataWatcher() {
   yield takeLatest(FETCH_DATA_REQUEST, fetchData);
   yield takeEvery(ADD_NOTE_REQUEST, addNote);
@@ -161,4 +184,5 @@ export default function* fetchDataWatcher() {
   yield takeEvery(TAG_REQUEST, tagNote);
   yield takeEvery(UNTAG_REQUEST, untagNote);
   yield takeEvery(TAG_DELETE_REQUEST, deleteTag);
+  yield takeEvery(MOVE_TO_TRASH_REQUEST, moveToTrash);
 }

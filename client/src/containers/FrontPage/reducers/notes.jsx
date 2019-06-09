@@ -9,6 +9,7 @@ import {
   TAG_REQUEST_SUCCEEDED,
   UNTAG_REQUEST_SUCCEEDED,
 } from '../containers/TagsEditor/constants';
+import { MOVE_TO_TRASH_SUCCEEDED } from '../containers/Toolbar/constants';
 
 function tagsReducer(tags = [], tagId) {
   return tags.filter(tag => tag !== tagId);
@@ -29,7 +30,8 @@ export default function notesReducer(state = [], action) {
     case UNPIN_SUCCEEDED:
     case NOTE_SAVE_SUCCEEDED:
     case TAG_REQUEST_SUCCEEDED:
-    case UNTAG_REQUEST_SUCCEEDED: {
+    case UNTAG_REQUEST_SUCCEEDED:
+    case MOVE_TO_TRASH_SUCCEEDED: {
       const { note } = action.payload;
       const newNotes = [...state];
       const index = newNotes.findIndex(n => n._id === note._id);

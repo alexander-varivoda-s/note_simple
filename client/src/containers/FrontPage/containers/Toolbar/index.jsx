@@ -9,7 +9,7 @@ import {
 
 import SVG from '../../../../components/SVG';
 import Button from '../../../../components/Button';
-import { toggleNoteVisibilityAction } from './actions';
+import { moveToTrashAction, toggleNoteVisibilityAction } from './actions';
 
 export const StyledToolbar = styled.div`
   align-items: center;
@@ -35,7 +35,7 @@ export const StyledToolbar = styled.div`
 `;
 
 function Toolbar(props) {
-  const { isNoteSelected, toggleNoteInfoVisibility } = props;
+  const { isNoteSelected, toggleNoteInfoVisibility, moveToTrash } = props;
 
   return (
     <StyledToolbar>
@@ -60,7 +60,7 @@ function Toolbar(props) {
               </Button>
             </li>
             <li>
-              <Button>
+              <Button onClick={moveToTrash}>
                 <SVG name='trash' size='22' />
               </Button>
             </li>
@@ -79,19 +79,21 @@ function Toolbar(props) {
 Toolbar.propTypes = {
   isNoteSelected: PropTypes.bool.isRequired,
   toggleNoteInfoVisibility: PropTypes.func.isRequired,
+  moveToTrash: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isNoteSelected: !!getSelectedNoteId(state),
+  selectedNoteId: getSelectedNoteId(state),
   isNoteInfoVisible: getNoteInfoVisibilityStatus(state),
 });
 
 const mapDispatchToProps = dispatch => ({ dispatch });
 
-const mergeProps = ({ isNoteSelected, isNoteInfoVisible }, { dispatch }) => ({
-  isNoteSelected,
+const mergeProps = ({ selectedNoteId, isNoteInfoVisible }, { dispatch }) => ({
+  isNoteSelected: !!selectedNoteId,
   toggleNoteInfoVisibility: () =>
     dispatch(toggleNoteVisibilityAction(!isNoteInfoVisible)),
+  moveToTrash: () => dispatch(moveToTrashAction(selectedNoteId)),
 });
 
 export default connect(

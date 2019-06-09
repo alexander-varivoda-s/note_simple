@@ -10,8 +10,19 @@ export const getFilter = state => state.appData.filter;
 
 export const getSelectedNoteId = state => state.appData.selectedNoteId;
 
+export const getNotesByMainFilter = createSelector(
+  [getNotes, getFilter],
+  (notes, filter) => {
+    if (filter === 'trash') {
+      return notes.filter(note => note.is_deleted);
+    }
+
+    return notes.filter(note => !note.is_deleted);
+  }
+);
+
 export const getSelectedNote = createSelector(
-  [getSelectedNoteId, getNotes],
+  [getSelectedNoteId, getNotesByMainFilter],
   (id, notes) => notes.find(note => note._id === id)
 );
 

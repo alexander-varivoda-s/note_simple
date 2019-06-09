@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { getNotes, getSelectedNoteId } from '../../selectors';
+import { getNotesByMainFilter, getSelectedNoteId } from '../../selectors';
 import NotesListItem from './components/NotesListItem';
 import NotePreview from './components/NotePreview';
 import Pinner from './components/Pinner';
@@ -63,7 +63,7 @@ NotesList.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  notes: getNotes(state),
+  notes: getNotesByMainFilter(state),
   selectedNoteId: getSelectedNoteId(state),
 });
 

@@ -114,6 +114,7 @@ class NoteEditor extends PureComponent {
             onChange={this.handleNoteEdit}
             onKeyUp={this.handleKeyUp}
             ref={this._textarea}
+            spellCheck={false}
           />
         </TextareaWrapper>
         <TagsEditor />
