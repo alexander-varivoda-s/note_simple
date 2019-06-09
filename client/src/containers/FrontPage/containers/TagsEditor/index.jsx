@@ -183,8 +183,6 @@ function TagsEditor(props) {
     _input.current.style.width = `${Math.ceil(width)}px`;
   }, [tagName]);
 
-  console.log('render');
-
   return (
     <StyledTagsEditor
       ref={_editor}

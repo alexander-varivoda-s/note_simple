@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { getNotes, getSelectedNote } from '../../selectors';
+import { getNotes, getSelectedNoteId } from '../../selectors';
 import NotesListItem from './components/NotesListItem';
 import NotePreview from './components/NotePreview';
 import Pinner from './components/Pinner';
@@ -16,13 +16,17 @@ const StyledNotesList = styled.div`
 `;
 
 function NotesList(props) {
-  const { notes, togglePin, handleSelect } = props;
+  const { selectedNoteId, notes, togglePin, handleSelect } = props;
 
   return (
     <StyledNotesList>
       <ul>
         {notes.map(note => (
-          <NotesListItem key={note._id} pinned={!!note.pinned}>
+          <NotesListItem
+            key={note._id}
+            pinned={!!note.pinned}
+            selected={note._id === selectedNoteId}
+          >
             <Pinner
               noteId={note._id}
               handleChange={togglePin}
@@ -35,6 +39,10 @@ function NotesList(props) {
     </StyledNotesList>
   );
 }
+
+NotesList.defaultProps = {
+  selectedNoteId: null,
+};
 
 NotesList.propTypes = {
   notes: PropTypes.arrayOf(
@@ -51,22 +59,23 @@ NotesList.propTypes = {
   ).isRequired,
   togglePin: PropTypes.func.isRequired,
   handleSelect: PropTypes.func.isRequired,
+  selectedNoteId: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
   notes: getNotes(state),
-  note: getSelectedNote(state),
+  selectedNoteId: getSelectedNoteId(state),
 });
 
 const mapDispatchToProps = dispatch => ({
   dispatch,
 });
 
-const mergeProps = ({ note: currentSelectedNote, notes }, { dispatch }) => ({
-  notes,
+const mergeProps = (stateProps, { dispatch }) => ({
+  ...stateProps,
   togglePin: (isPinned = false, id) => dispatch(pinAction(isPinned, id)),
   handleSelect: noteId => {
-    if (!currentSelectedNote || noteId !== currentSelectedNote._id) {
+    if (!stateProps.selectedNoteId || noteId !== stateProps.selectedNoteId) {
       dispatch(selectNoteAction(noteId));
     }
   },
