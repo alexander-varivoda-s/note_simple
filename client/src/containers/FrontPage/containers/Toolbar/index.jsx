@@ -5,11 +5,16 @@ import { connect } from 'react-redux';
 import {
   getNoteInfoVisibilityStatus,
   getSelectedNoteId,
+  getSidebarVisibilityStatus,
 } from '../../selectors';
 
 import SVG from '../../../../components/SVG';
 import Button from '../../../../components/Button';
-import { moveToTrashAction, toggleNoteVisibilityAction } from './actions';
+import {
+  moveToTrashAction,
+  toggleNoteVisibilityAction,
+  toggleSidebarVisibilityAction,
+} from './actions';
 
 export const StyledToolbar = styled.div`
   align-items: center;
@@ -35,7 +40,12 @@ export const StyledToolbar = styled.div`
 `;
 
 function Toolbar(props) {
-  const { isNoteSelected, toggleNoteInfoVisibility, moveToTrash } = props;
+  const {
+    isNoteSelected,
+    toggleNoteInfoVisibility,
+    moveToTrash,
+    toggleSidebarVisibility,
+  } = props;
 
   return (
     <StyledToolbar>
@@ -43,7 +53,7 @@ function Toolbar(props) {
         <Fragment>
           <ul>
             <li>
-              <Button>
+              <Button onClick={toggleSidebarVisibility}>
                 <SVG name='sidebar' size='22' />
               </Button>
             </li>
@@ -80,20 +90,24 @@ Toolbar.propTypes = {
   isNoteSelected: PropTypes.bool.isRequired,
   toggleNoteInfoVisibility: PropTypes.func.isRequired,
   moveToTrash: PropTypes.func.isRequired,
+  toggleSidebarVisibility: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
   selectedNoteId: getSelectedNoteId(state),
   isNoteInfoVisible: getNoteInfoVisibilityStatus(state),
+  isSidebarVisible: getSidebarVisibilityStatus(state),
 });
 
 const mapDispatchToProps = dispatch => ({ dispatch });
 
-const mergeProps = ({ selectedNoteId, isNoteInfoVisible }, { dispatch }) => ({
-  isNoteSelected: !!selectedNoteId,
+const mergeProps = (stateProps, { dispatch }) => ({
+  isNoteSelected: !!stateProps.selectedNoteId,
   toggleNoteInfoVisibility: () =>
-    dispatch(toggleNoteVisibilityAction(!isNoteInfoVisible)),
-  moveToTrash: () => dispatch(moveToTrashAction(selectedNoteId)),
+    dispatch(toggleNoteVisibilityAction(!stateProps.isNoteInfoVisible)),
+  moveToTrash: () => dispatch(moveToTrashAction(stateProps.selectedNoteId)),
+  toggleSidebarVisibility: () =>
+    dispatch(toggleSidebarVisibilityAction(!stateProps.isSidebarVisible)),
 });
 
 export default connect(

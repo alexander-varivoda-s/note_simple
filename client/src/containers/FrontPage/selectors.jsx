@@ -41,3 +41,6 @@ export const getTagsDiff = createSelector(
       .filter(tag => !noteTags.includes(tag))
       .sort((a, b) => b.name.length - a.name.length)
 );
+
+export const getSidebarVisibilityStatus = state =>
+  state.appData.isSidebarVisible;

@@ -7,6 +7,7 @@ import searchPhrase from './searchPhrase';
 import filter from './filter';
 import selectedNoteId from './selectedNoteId';
 import isNoteInfoVisible from './isNoteInfoVisible';
+import isSidebarVisible from './isSidebarVisible';
 
 export default combineReducers({
   tags,
@@ -16,4 +17,5 @@ export default combineReducers({
   filter,
   selectedNoteId,
   isNoteInfoVisible,
+  isSidebarVisible,
 });

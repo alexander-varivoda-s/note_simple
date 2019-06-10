@@ -13,6 +13,7 @@ import {
   getNoteInfoVisibilityStatus,
   getSelectedNote,
   getSelectedNoteId,
+  getSidebarVisibilityStatus,
 } from './selectors';
 import { fetchDataAction, addNoteAction } from './actions';
 import SearchBar from './containers/SearchBar';
@@ -51,6 +52,7 @@ class FrontPage extends PureComponent {
       tags: PropTypes.arrayOf(PropTypes.string).isRequired,
     }),
     isNoteInfoVisible: PropTypes.bool.isRequired,
+    isSidebarVisible: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
   };
 
@@ -70,6 +72,7 @@ class FrontPage extends PureComponent {
       isNoteSelected,
       selectedNote,
       isNoteInfoVisible,
+      isSidebarVisible,
     } = this.props;
 
     return (
@@ -77,7 +80,7 @@ class FrontPage extends PureComponent {
         <Helmet title='Simplenote' />
         <ContentContainer>
           {isNoteInfoVisible && <Overlay onClick={this.handleSidebarClose} />}
-          <LeftColumn>
+          <LeftColumn visible={isSidebarVisible}>
             <SearchBar addNote={addNote} />
             <NotesList />
           </LeftColumn>
@@ -97,6 +100,7 @@ const mapStateToProps = state => ({
   isNoteSelected: !!getSelectedNoteId(state),
   selectedNote: getSelectedNote(state),
   isNoteInfoVisible: getNoteInfoVisibilityStatus(state),
+  isSidebarVisible: getSidebarVisibilityStatus(state),
 });
 
 const mapDispatchToProps = dispatch => ({
