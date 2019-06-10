@@ -8,6 +8,7 @@ import filter from './filter';
 import selectedNoteId from './selectedNoteId';
 import isNoteInfoVisible from './isNoteInfoVisible';
 import isSidebarVisible from './isSidebarVisible';
+import isMenuVisible from './isMenuVisible';
 
 export default combineReducers({
   tags,
@@ -18,4 +19,5 @@ export default combineReducers({
   selectedNoteId,
   isNoteInfoVisible,
   isSidebarVisible,
+  isMenuVisible,
 });

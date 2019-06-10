@@ -44,3 +44,5 @@ export const getTagsDiff = createSelector(
 
 export const getSidebarVisibilityStatus = state =>
   state.appData.isSidebarVisible;
+
+export const getMenuVisibilityStatus = state => state.appData.isMenuVisible;

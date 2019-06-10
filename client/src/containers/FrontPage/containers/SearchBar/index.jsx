@@ -9,6 +9,8 @@ import searchAction from './actions';
 import Button from '../../../../components/Button';
 import SVG from '../../../../components/SVG';
 import SearchInput from './components/SearchInput';
+import { toggleMenuVisibilityAction } from '../Menu/actions';
+import { getMenuVisibilityStatus } from '../../selectors';
 
 const StyledSearchBar = styled.div`
   align-items: center;
@@ -22,11 +24,17 @@ const StyledSearchBar = styled.div`
 `;
 
 function SearchBar(props) {
-  const { searchPhrase, handleSearch, handleClear, addNote } = props;
+  const {
+    searchPhrase,
+    handleSearch,
+    handleClear,
+    addNote,
+    menuToggle,
+  } = props;
 
   return (
     <StyledSearchBar>
-      <Button type='button' title='Menu'>
+      <Button type='button' title='Menu' onClick={menuToggle}>
         <SVG name='menu' size='24' />
       </Button>
       <SearchInput
@@ -47,18 +55,32 @@ SearchBar.propTypes = {
   handleClear: PropTypes.func.isRequired,
   searchPhrase: PropTypes.string.isRequired,
   addNote: PropTypes.func.isRequired,
+  menuToggle: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
+  isMenuVisible: getMenuVisibilityStatus(state),
   searchPhrase: getSearchPhrase(state),
 });
 
 const mapDispatchToProps = dispatch => ({
+  dispatch,
   handleSearch: e => dispatch(searchAction(e.target.value)),
   handleClear: () => dispatch(searchAction('')),
 });
 
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...ownProps,
+  ...stateProps,
+  ...dispatchProps,
+  menuToggle: () =>
+    dispatchProps.dispatch(
+      toggleMenuVisibilityAction(!stateProps.isMenuVisible)
+    ),
+});
+
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
+  mergeProps
 )(SearchBar);

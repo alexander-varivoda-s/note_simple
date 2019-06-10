@@ -10,6 +10,7 @@ import RightColumn from './components/RightColumn';
 import LeftColumn from './components/LeftColumn';
 import {
   dataFetchStatus,
+  getMenuVisibilityStatus,
   getNoteInfoVisibilityStatus,
   getSelectedNote,
   getSelectedNoteId,
@@ -21,15 +22,8 @@ import NotesList from './containers/NotesList';
 import NoteEditor from './containers/NoteEditor';
 import Toolbar from './containers/Toolbar';
 import NoteInfo from './containers/NoteInfo';
-import { toggleNoteVisibilityAction } from './containers/Toolbar/actions';
-
-const Overlay = styled.div`
-  background-color: #fff;
-  opacity: 0.75;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-`;
+import Menu from './containers/Menu';
+import Overlay from './components/Overlay';
 
 class FrontPage extends PureComponent {
   static defaultProps = {
@@ -53,18 +47,13 @@ class FrontPage extends PureComponent {
     }),
     isNoteInfoVisible: PropTypes.bool.isRequired,
     isSidebarVisible: PropTypes.bool.isRequired,
-    dispatch: PropTypes.func.isRequired,
+    isMenuVisible: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
     const { fetchData } = this.props;
     fetchData();
   }
-
-  handleSidebarClose = () => {
-    const { dispatch } = this.props;
-    dispatch(toggleNoteVisibilityAction(false));
-  };
 
   render() {
     const {
@@ -73,13 +62,18 @@ class FrontPage extends PureComponent {
       selectedNote,
       isNoteInfoVisible,
       isSidebarVisible,
+      isMenuVisible,
     } = this.props;
 
     return (
-      <FrontPageContainer isNoteInfoVisible={isNoteInfoVisible}>
+      <FrontPageContainer
+        isNoteInfoVisible={isNoteInfoVisible}
+        isMenuVisible={isMenuVisible}
+      >
         <Helmet title='Simplenote' />
+        <Menu />
         <ContentContainer>
-          {isNoteInfoVisible && <Overlay onClick={this.handleSidebarClose} />}
+          <Overlay />
           <LeftColumn visible={isSidebarVisible}>
             <SearchBar addNote={addNote} />
             <NotesList />
@@ -101,10 +95,10 @@ const mapStateToProps = state => ({
   selectedNote: getSelectedNote(state),
   isNoteInfoVisible: getNoteInfoVisibilityStatus(state),
   isSidebarVisible: getSidebarVisibilityStatus(state),
+  isMenuVisible: getMenuVisibilityStatus(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-  dispatch,
   fetchData: () => dispatch(fetchDataAction()),
   addNote: text => () => dispatch(addNoteAction(text)),
 });
