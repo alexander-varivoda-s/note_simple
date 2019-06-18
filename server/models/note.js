@@ -49,11 +49,6 @@ noteSchema.pre('remove', async function(next) {
   await next();
 });
 
-noteSchema.pre('save', async function(next) {
-  this.updated = Date.now();
-  await next();
-});
-
 mongoose.plugin(mongooseBeautifulUniqueValidation);
 
 module.exports = mongoose.model('Note', noteSchema, 'notes');

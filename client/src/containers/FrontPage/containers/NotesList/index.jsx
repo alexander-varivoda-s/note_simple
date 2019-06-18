@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { getNotesByMainFilter, getSelectedNoteId } from '../../selectors';
+import { getSelectedNoteId, getSortedNotes } from '../../selectors';
 import NotesListItem from './components/NotesListItem';
 import NotePreview from './components/NotePreview';
 import Pinner from './components/Pinner';
@@ -79,7 +79,7 @@ NotesList.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  notes: getNotesByMainFilter(state),
+  notes: getSortedNotes(state),
   selectedNoteId: getSelectedNoteId(state),
 });
 

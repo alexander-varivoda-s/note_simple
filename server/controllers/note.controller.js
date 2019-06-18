@@ -51,6 +51,7 @@ module.exports = {
           text: note.text,
         });
         note.text = text;
+        note.updated = Date.now();
       }
 
       if (typeof is_deleted !== 'undefined') {
@@ -77,7 +78,7 @@ module.exports = {
           is_deleted: true,
           author: user.id,
         },
-        { _id: 1 },
+        { _id: 1 }
       ).exec();
 
       await Promise.all(notes.map(note => note.remove()));
@@ -95,11 +96,12 @@ module.exports = {
 
       if (tagIds.indexOf(tag.id) === -1) {
         note.tags.push(tag.id);
+        note.updated = Date.now();
         await note.save();
       } else {
         ctx.throw(
           400,
-          `Note "${note.id}" already tagged with tag "${tag.id}".`,
+          `Note "${note.id}" already tagged with tag "${tag.id}".`
         );
       }
 
@@ -119,10 +121,11 @@ module.exports = {
       if (note.tags.length === oldLength) {
         ctx.throw(
           400,
-          `Note "${note.id}" does not tagged with tag "${tag.id}"`,
+          `Note "${note.id}" does not tagged with tag "${tag.id}"`
         );
       }
 
+      note.updated = Date.now();
       await note.save();
 
       ctx.body = {

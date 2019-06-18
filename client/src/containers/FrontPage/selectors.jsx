@@ -13,21 +13,24 @@ export const getSelectedNoteId = state => state.appData.selectedNoteId;
 export const getNotesByMainFilter = createSelector(
   [getNotes, getTags, getFilter],
   (notes, tags, filter) => {
-    if (filter === 'all') {
-      return notes.filter(note => !note.is_deleted);
+    switch (filter) {
+      case 'all': {
+        return notes.filter(note => !note.is_deleted);
+      }
+
+      case 'trash': {
+        return notes.filter(note => note.is_deleted);
+      }
+
+      default: {
+        const tag = tags.find(t => t.name === filter);
+        return tag
+          ? notes.filter(
+              note => !note.is_deleted && note.tags.indexOf(tag._id) >= 0
+            )
+          : [];
+      }
     }
-
-    if (filter === 'trash') {
-      return notes.filter(note => note.is_deleted);
-    }
-
-    const tag = tags.find(t => t.name === filter);
-
-    return tag
-      ? notes.filter(
-          note => !note.is_deleted && note.tags.indexOf(tag._id) >= 0
-        )
-      : [];
   }
 );
 
@@ -56,3 +59,21 @@ export const getSidebarVisibilityStatus = state =>
   state.appData.isSidebarVisible;
 
 export const getMenuVisibilityStatus = state => state.appData.isMenuVisible;
+
+export const getSortedNotes = createSelector(
+  [getNotesByMainFilter],
+  notes =>
+    notes
+      .sort((a, b) => {
+        const aDate = new Date(a.updated);
+        const bDate = new Date(b.updated);
+
+        return bDate.getTime() - aDate.getTime();
+      })
+      .sort((a, b) => {
+        const aDate = new Date(a.pinned || 0);
+        const bDate = new Date(b.pinned || 0);
+
+        return bDate.getTime() - aDate.getTime();
+      })
+);
