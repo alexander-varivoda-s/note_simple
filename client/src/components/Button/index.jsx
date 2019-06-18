@@ -45,4 +45,13 @@ export default styled.button`
         animation: ${spin} 2s linear infinite;
       }
     `}
+
+  ${props =>
+    props.active &&
+    css`
+      color: ${props.theme.palette.main};
+      svg {
+        fill: ${props.theme.palette.main};
+      }
+    `}
 `;

@@ -10,7 +10,7 @@ import Button from '../../../../components/Button';
 import SVG from '../../../../components/SVG';
 import SearchInput from './components/SearchInput';
 import { toggleMenuVisibilityAction } from '../Menu/actions';
-import { getMenuVisibilityStatus } from '../../selectors';
+import { getFilter, getMenuVisibilityStatus } from '../../selectors';
 
 const StyledSearchBar = styled.div`
   align-items: center;
@@ -23,6 +23,18 @@ const StyledSearchBar = styled.div`
   width: 100%;
 `;
 
+function mapFilterToPlaceholder(filter) {
+  if (filter === 'all') {
+    return 'All Notes';
+  }
+
+  if (filter === 'trash') {
+    return 'Trash';
+  }
+
+  return filter;
+}
+
 function SearchBar(props) {
   const {
     searchPhrase,
@@ -30,6 +42,7 @@ function SearchBar(props) {
     handleClear,
     addNote,
     menuToggle,
+    filter,
   } = props;
 
   return (
@@ -41,7 +54,7 @@ function SearchBar(props) {
         searchPhrase={searchPhrase}
         handleSearch={handleSearch}
         handleClear={handleClear}
-        filter='notes'
+        placeholder={mapFilterToPlaceholder(filter)}
       />
       <Button type='button' title='Add Note' onClick={addNote(searchPhrase)}>
         <SVG name='add-note' size='22' />
@@ -56,11 +69,13 @@ SearchBar.propTypes = {
   searchPhrase: PropTypes.string.isRequired,
   addNote: PropTypes.func.isRequired,
   menuToggle: PropTypes.func.isRequired,
+  filter: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
   isMenuVisible: getMenuVisibilityStatus(state),
   searchPhrase: getSearchPhrase(state),
+  filter: getFilter(state),
 });
 
 const mapDispatchToProps = dispatch => ({

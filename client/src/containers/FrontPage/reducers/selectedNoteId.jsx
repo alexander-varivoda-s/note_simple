@@ -2,7 +2,6 @@ import {
   NOTE_SELECTED,
   NOTE_UNSELECTED,
 } from '../containers/NotesList/constants';
-import { MOVE_TO_TRASH_SUCCEEDED } from '../containers/Toolbar/constants';
 
 export default function notesReducer(state = null, action) {
   switch (action.type) {
@@ -10,8 +9,7 @@ export default function notesReducer(state = null, action) {
       return action.payload.noteId;
     }
 
-    case NOTE_UNSELECTED:
-    case MOVE_TO_TRASH_SUCCEEDED: {
+    case NOTE_UNSELECTED: {
       return null;
     }
 

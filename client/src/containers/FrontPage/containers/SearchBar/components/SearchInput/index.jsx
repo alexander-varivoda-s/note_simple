@@ -19,38 +19,29 @@ const StyledSearchInput = styled.div`
     padding: 0 1.8em 0 1.071em;
     width: 14.286em;
   }
-  
-  ${Button}{
+
+  ${Button} {
     position: absolute;
     top: 0.071em;
     right: 0.243em;
-    
+
     svg {
       fill: ${props => props.theme.searchBar.clearBtnColor};
     }
   }
 `;
 
-const placeholderByFilter = (filter) => {
-  const found = filter.match(/tag:(\S+)/);
-
-  if (found) {
-    return found[1];
-  } if (filter === 'trash') {
-    return 'Trash';
-  }
-
-  return 'All Notes';
-};
-
 export default function SearchInput(props) {
-  const {
-    filter, searchPhrase, handleSearch, handleClear,
-  } = props;
+  const { placeholder, searchPhrase, handleSearch, handleClear } = props;
 
   return (
     <StyledSearchInput>
-      <input type='text' placeholder={placeholderByFilter(filter)} onChange={handleSearch} value={searchPhrase} />
+      <input
+        type='text'
+        placeholder={placeholder}
+        onChange={handleSearch}
+        value={searchPhrase}
+      />
       {searchPhrase.length > 0 && (
         <Button type='button' title='Clear' onClick={handleClear}>
           <SVG name='cross' size='22' />
@@ -61,7 +52,7 @@ export default function SearchInput(props) {
 }
 
 SearchInput.propTypes = {
-  filter: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
   searchPhrase: PropTypes.string.isRequired,
   handleSearch: PropTypes.func.isRequired,
   handleClear: PropTypes.func.isRequired,

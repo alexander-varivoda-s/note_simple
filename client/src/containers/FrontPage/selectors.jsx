@@ -11,13 +11,23 @@ export const getFilter = state => state.appData.filter;
 export const getSelectedNoteId = state => state.appData.selectedNoteId;
 
 export const getNotesByMainFilter = createSelector(
-  [getNotes, getFilter],
-  (notes, filter) => {
+  [getNotes, getTags, getFilter],
+  (notes, tags, filter) => {
+    if (filter === 'all') {
+      return notes.filter(note => !note.is_deleted);
+    }
+
     if (filter === 'trash') {
       return notes.filter(note => note.is_deleted);
     }
 
-    return notes.filter(note => !note.is_deleted);
+    const tag = tags.find(t => t.name === filter);
+
+    return tag
+      ? notes.filter(
+          note => !note.is_deleted && note.tags.indexOf(tag._id) >= 0
+        )
+      : [];
   }
 );
 

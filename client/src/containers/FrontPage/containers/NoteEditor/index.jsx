@@ -127,7 +127,7 @@ const mapDispatchToProps = dispatch => ({
   dispatch,
 });
 
-const mergeProps = (stateProps, { dispatch }, { note }) => ({
+const mergeProps = (_, { dispatch }, { note }) => ({
   note,
   handleSave: text => dispatch(noteSaveAction(text, note._id)),
 });

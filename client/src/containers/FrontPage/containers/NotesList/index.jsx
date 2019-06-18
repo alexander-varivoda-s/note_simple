@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -6,7 +6,7 @@ import { getNotesByMainFilter, getSelectedNoteId } from '../../selectors';
 import NotesListItem from './components/NotesListItem';
 import NotePreview from './components/NotePreview';
 import Pinner from './components/Pinner';
-import { pinAction, selectNoteAction } from './actions';
+import { pinAction, selectNoteAction, unselectNoteAction } from './actions';
 
 const StyledNotesList = styled.div`
   border-right: 1px solid ${props => props.theme.palette.borderColor};
@@ -16,7 +16,22 @@ const StyledNotesList = styled.div`
 `;
 
 function NotesList(props) {
-  const { selectedNoteId, notes, togglePin, handleSelect } = props;
+  const { selectedNoteId, notes, togglePin, selectNote, unselectNote } = props;
+
+  useEffect(
+    function selectDefaultNote() {
+      if (notes.length) {
+        const note = notes[0];
+
+        if (!selectedNoteId) {
+          selectNote(note._id);
+        }
+      } else if (selectedNoteId) {
+        unselectNote();
+      }
+    },
+    [notes, selectedNoteId, selectNote, unselectNote]
+  );
 
   return (
     <StyledNotesList>
@@ -32,7 +47,7 @@ function NotesList(props) {
               handleChange={togglePin}
               isPinned={!!note.pinned}
             />
-            <NotePreview selectNote={handleSelect} note={note} />
+            <NotePreview selectNote={selectNote} note={note} />
           </NotesListItem>
         ))}
       </ul>
@@ -58,8 +73,9 @@ NotesList.propTypes = {
     })
   ).isRequired,
   togglePin: PropTypes.func.isRequired,
-  handleSelect: PropTypes.func.isRequired,
+  selectNote: PropTypes.func.isRequired,
   selectedNoteId: PropTypes.string,
+  unselectNote: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -74,11 +90,12 @@ const mapDispatchToProps = dispatch => ({
 const mergeProps = (stateProps, { dispatch }) => ({
   ...stateProps,
   togglePin: (isPinned = false, id) => dispatch(pinAction(isPinned, id)),
-  handleSelect: noteId => {
+  selectNote: noteId => {
     if (!stateProps.selectedNoteId || noteId !== stateProps.selectedNoteId) {
       dispatch(selectNoteAction(noteId));
     }
   },
+  unselectNote: () => dispatch(unselectNoteAction()),
 });
 
 export default connect(

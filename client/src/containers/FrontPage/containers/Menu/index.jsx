@@ -1,10 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 import Button from '../../../../components/Button';
 import SVG from '../../../../components/SVG';
-import { getFilter, getTags } from '../../selectors';
+import { getFilter, getSelectedNoteId, getTags } from '../../selectors';
+import { filterNotesAction, toggleMenuVisibilityAction } from './actions';
+import { tagDeleteAction } from '../TagsEditor/actions';
+import { unselectNoteAction } from '../NotesList/actions';
 
 const StyledMenu = styled.div`
   border-right: 1px solid #e6e6e6;
@@ -82,19 +86,40 @@ const TagsListTitle = styled.h1`
 `;
 
 function Menu(props) {
-  const { filter, tags } = props;
+  const { filter, tags, filterNotes, hideMenu, handleTagDelete } = props;
+
+  function handleClick(e) {
+    const { filter: selectedFilter } = e.currentTarget.dataset;
+    filterNotes(selectedFilter);
+    hideMenu();
+  }
+
+  function performTagDelete(e) {
+    const {
+      dataset: { id },
+    } = e.currentTarget;
+    handleTagDelete(id);
+  }
 
   return (
     <StyledMenu>
       <OptionsWrapper>
         <OptionContainer>
-          <Button>
+          <Button
+            active={filter === 'all'}
+            data-filter='all'
+            onClick={handleClick}
+          >
             <SVG name='notes' size='22' color='#1e1e1e' />
             <span>All Notes</span>
           </Button>
         </OptionContainer>
         <OptionContainer>
-          <Button>
+          <Button
+            active={filter === 'trash'}
+            data-filter='trash'
+            onClick={handleClick}
+          >
             <SVG name='trash' size='22' color='#1e1e1e' />
             <span>Trash</span>
           </Button>
@@ -105,10 +130,10 @@ function Menu(props) {
         <TagsList>
           {tags.map(tag => (
             <TagsListItem key={tag._id}>
-              <Tag>
+              <Tag data-filter={tag.name} onClick={handleClick}>
                 <span>{tag.name}</span>
               </Tag>
-              <Button>
+              <Button onClick={performTagDelete} data-id={tag._id}>
                 <SVG name='cross-outline' color='#d94f4f' size='22' />
               </Button>
             </TagsListItem>
@@ -119,9 +144,52 @@ function Menu(props) {
   );
 }
 
+Menu.defaultProps = {
+  tags: [],
+};
+
+Menu.propTypes = {
+  filter: PropTypes.string.isRequired,
+  tags: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ),
+  filterNotes: PropTypes.func.isRequired,
+  hideMenu: PropTypes.func.isRequired,
+  handleTagDelete: PropTypes.func.isRequired,
+};
+
 const mapStateToProps = state => ({
   filter: getFilter(state),
   tags: getTags(state),
+  selectedNoteId: getSelectedNoteId(state),
 });
 
-export default connect(mapStateToProps)(Menu);
+const mapDispatchToProps = dispatch => ({
+  dispatch,
+});
+
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { dispatch } = dispatchProps;
+
+  return {
+    ...ownProps,
+    ...stateProps,
+    filterNotes: filter => {
+      dispatch(filterNotesAction(filter));
+      if (stateProps.selectedNoteId) {
+        dispatch(unselectNoteAction());
+      }
+    },
+    hideMenu: () => dispatch(toggleMenuVisibilityAction(false)),
+    handleTagDelete: tagId => dispatch(tagDeleteAction(tagId)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(Menu);

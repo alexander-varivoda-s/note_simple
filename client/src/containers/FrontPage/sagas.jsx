@@ -16,7 +16,11 @@ import {
   ADD_NOTE_FAILURE,
 } from './constants';
 import { notesAPI, tagsAPI } from '../../api';
-import { PIN_REQUEST, UNPIN_REQUEST } from './containers/NotesList/constants';
+import {
+  NOTE_UNSELECTED,
+  PIN_REQUEST,
+  UNPIN_REQUEST,
+} from './containers/NotesList/constants';
 
 import { pinNote, unpinNote } from './containers/NotesList/sagas';
 import {
@@ -170,6 +174,7 @@ export function* moveToTrash(action) {
       { withCredentials: true }
     );
     yield put({ type: MOVE_TO_TRASH_SUCCEEDED, payload: { note } });
+    yield put({ type: NOTE_UNSELECTED });
   } catch (e) {
     yield { type: MOVE_TO_TRASH_FAILURE, error: e };
   }

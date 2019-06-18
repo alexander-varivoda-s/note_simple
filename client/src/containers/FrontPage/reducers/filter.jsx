@@ -1,8 +1,8 @@
-import { FILTER } from '../constants';
+import { FILTER_NOTES } from '../containers/Menu/constants';
 
-export default function filterReducer(state = 'all-notes', action) {
+export default function filterReducer(state = 'all', action) {
   switch (action.type) {
-    case FILTER: {
+    case FILTER_NOTES: {
       return action.payload.filter;
     }
 
