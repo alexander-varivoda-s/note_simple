@@ -23,6 +23,12 @@ export const StyledNotePreview = styled.div`
   }
 `;
 
+export const Highlight = styled.span`
+  color: #fff;
+  background-color: ${props => props.theme.palette.main};
+  border-radius: 2px;
+`;
+
 function formatString(str, ch = '\u00A0', maxLen = 200) {
   if (!str.length) return ch;
 
@@ -31,32 +37,52 @@ function formatString(str, ch = '\u00A0', maxLen = 200) {
     .replace(/^(\s+)/, (match, whitespaces) => ch.repeat(whitespaces.length));
 }
 
-export default function NotePreview(props) {
-  const { note, previewLines, selectNote } = props;
-
-  function performNoteSelect() {
-    selectNote(note._id);
-  }
-
+function generatePreview(text, lines, textToHighlight) {
   const nbsp = '\u00A0';
   const previews = [];
-  const parts = note.text.split('\n', previewLines + 1);
+  const parts = text.split('\n', lines + 1);
+  let regex = null;
 
-  for (let i = 0; i <= previewLines; i += 1) {
-    const temp =
-      typeof parts[i] === 'undefined' ? nbsp : formatString(parts[i]);
-    previews.push(temp);
+  if (textToHighlight) {
+    regex = new RegExp(`(${textToHighlight})`);
   }
 
-  let title = previews.shift();
+  for (let i = 0; i <= lines; i += 1) {
+    let preview =
+      typeof parts[i] === 'undefined' ? nbsp : formatString(parts[i]);
+
+    if (regex && regex.test(textToHighlight)) {
+      const previewParts = preview.split(regex);
+      previewParts[previewParts.indexOf(textToHighlight)] = (
+        <Highlight>{textToHighlight}</Highlight>
+      );
+      preview = previewParts;
+    }
+    previews.push(preview);
+  }
+
+  return previews;
+}
+
+function performNoteSelect(action, id) {
+  return () => action(id);
+}
+
+export default function NotePreview(props) {
+  const { note, previewLines, selectNote, highlight } = props;
+  const nbsp = '\u00A0';
+
+  const preview = generatePreview(note.text, previewLines, highlight);
+
+  let title = preview.shift();
   if (title === nbsp) title = 'New Note...';
 
   return (
-    <StyledNotePreview onClick={performNoteSelect}>
+    <StyledNotePreview onClick={performNoteSelect(selectNote, note._id)}>
       <div>{title}</div>
-      {previews.map((preview, i) => (
+      {preview.map((part, i) => (
         // eslint-disable-next-line react/no-array-index-key
-        <p key={i}>{preview}</p>
+        <p key={i}>{part}</p>
       ))}
     </StyledNotePreview>
   );
@@ -64,6 +90,7 @@ export default function NotePreview(props) {
 
 NotePreview.defaultProps = {
   previewLines: 2,
+  highlight: '',
 };
 
 NotePreview.propTypes = {
@@ -73,4 +100,5 @@ NotePreview.propTypes = {
   }).isRequired,
   selectNote: PropTypes.func.isRequired,
   previewLines: PropTypes.oneOf([0, 1, 2, 3, 4]),
+  highlight: PropTypes.string,
 };

@@ -20,6 +20,7 @@ export const StyledNoteEditor = styled.div`
     outline: none;
     padding: 1.5em;
     resize: none;
+    width: 100%;
   }
 `;
 

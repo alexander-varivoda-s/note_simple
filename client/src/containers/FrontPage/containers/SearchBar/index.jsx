@@ -2,15 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-
-import { getSearchPhrase } from './selectors';
 import searchAction from './actions';
 
 import Button from '../../../../components/Button';
 import SVG from '../../../../components/SVG';
 import SearchInput from './components/SearchInput';
 import { toggleMenuVisibilityAction } from '../Menu/actions';
-import { getFilter, getMenuVisibilityStatus } from '../../selectors';
+import {
+  getFilter,
+  getMenuVisibilityStatus,
+  getSearchPhrase,
+} from '../../selectors';
 
 const StyledSearchBar = styled.div`
   align-items: center;

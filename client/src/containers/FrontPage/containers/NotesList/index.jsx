@@ -2,7 +2,11 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { getSelectedNoteId, getSortedNotes } from '../../selectors';
+import {
+  getSearchPhrase,
+  getSelectedNoteId,
+  getSortedNotes,
+} from '../../selectors';
 import NotesListItem from './components/NotesListItem';
 import NotePreview from './components/NotePreview';
 import Pinner from './components/Pinner';
@@ -16,7 +20,14 @@ const StyledNotesList = styled.div`
 `;
 
 function NotesList(props) {
-  const { selectedNoteId, notes, togglePin, selectNote, unselectNote } = props;
+  const {
+    selectedNoteId,
+    notes,
+    togglePin,
+    selectNote,
+    unselectNote,
+    searchPhrase,
+  } = props;
 
   useEffect(
     function selectDefaultNote() {
@@ -26,11 +37,11 @@ function NotesList(props) {
         if (!selectedNoteId) {
           selectNote(note._id);
         }
-      } else if (selectedNoteId) {
+      } else if (selectedNoteId && !searchPhrase) {
         unselectNote();
       }
     },
-    [notes, selectedNoteId, selectNote, unselectNote]
+    [notes, selectedNoteId, selectNote, unselectNote, searchPhrase]
   );
 
   return (
@@ -47,7 +58,11 @@ function NotesList(props) {
               handleChange={togglePin}
               isPinned={!!note.pinned}
             />
-            <NotePreview selectNote={selectNote} note={note} />
+            <NotePreview
+              selectNote={selectNote}
+              note={note}
+              highlight={searchPhrase}
+            />
           </NotesListItem>
         ))}
       </ul>
@@ -76,10 +91,12 @@ NotesList.propTypes = {
   selectNote: PropTypes.func.isRequired,
   selectedNoteId: PropTypes.string,
   unselectNote: PropTypes.func.isRequired,
+  searchPhrase: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
   notes: getSortedNotes(state),
+  searchPhrase: getSearchPhrase(state),
   selectedNoteId: getSelectedNoteId(state),
 });
 

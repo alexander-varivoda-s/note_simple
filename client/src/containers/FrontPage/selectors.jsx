@@ -10,6 +10,8 @@ export const getFilter = state => state.appData.filter;
 
 export const getSelectedNoteId = state => state.appData.selectedNoteId;
 
+export const getSearchPhrase = state => state.appData.searchPhrase;
+
 export const getNotesByMainFilter = createSelector(
   [getNotes, getTags, getFilter],
   (notes, tags, filter) => {
@@ -31,6 +33,17 @@ export const getNotesByMainFilter = createSelector(
           : [];
       }
     }
+  }
+);
+
+export const getSearchedNotes = createSelector(
+  [getNotesByMainFilter, getSearchPhrase],
+  (notes, phrase) => {
+    if (!phrase) {
+      return notes;
+    }
+
+    return notes.filter(note => note.text.indexOf(phrase) >= 0);
   }
 );
 
@@ -61,7 +74,7 @@ export const getSidebarVisibilityStatus = state =>
 export const getMenuVisibilityStatus = state => state.appData.isMenuVisible;
 
 export const getSortedNotes = createSelector(
-  [getNotesByMainFilter],
+  [getSearchedNotes],
   notes =>
     notes
       .sort((a, b) => {
