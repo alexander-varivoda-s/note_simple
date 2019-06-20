@@ -37,10 +37,10 @@ function formatString(str, ch = '\u00A0', maxLen = 200) {
     .replace(/^(\s+)/, (match, whitespaces) => ch.repeat(whitespaces.length));
 }
 
-function generatePreview(text, lines, textToHighlight) {
+function generatePreview(note, lines, textToHighlight) {
   const nbsp = '\u00A0';
   const previews = [];
-  const parts = text.split('\n', lines + 1);
+  const parts = note.text.split('\n', lines + 1);
   let regex = null;
 
   if (textToHighlight) {
@@ -54,7 +54,7 @@ function generatePreview(text, lines, textToHighlight) {
     if (regex && regex.test(textToHighlight)) {
       const previewParts = preview.split(regex);
       previewParts[previewParts.indexOf(textToHighlight)] = (
-        <Highlight>{textToHighlight}</Highlight>
+        <Highlight key={`${note._id}-${i}`}>{textToHighlight}</Highlight>
       );
       preview = previewParts;
     }
@@ -72,7 +72,7 @@ export default function NotePreview(props) {
   const { note, previewLines, selectNote, highlight } = props;
   const nbsp = '\u00A0';
 
-  const preview = generatePreview(note.text, previewLines, highlight);
+  const preview = generatePreview(note, previewLines, highlight);
 
   let title = preview.shift();
   if (title === nbsp) title = 'New Note...';
