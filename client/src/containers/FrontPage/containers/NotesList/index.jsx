@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import {
   getSearchPhrase,
-  getSelectedNoteId,
+  getSelectedNote,
   getSortedNotes,
 } from '../../selectors';
 import NotesListItem from './components/NotesListItem';
@@ -35,7 +35,7 @@ function NotesList(props) {
         const note = notes[0];
 
         if (!selectedNoteId) {
-          selectNote(note._id);
+          selectNote(note);
         }
       } else if (selectedNoteId && !searchPhrase) {
         unselectNote();
@@ -54,7 +54,7 @@ function NotesList(props) {
             selected={note._id === selectedNoteId}
           >
             <Pinner
-              noteId={note._id}
+              note={note}
               handleChange={togglePin}
               isPinned={!!note.pinned}
             />
@@ -97,23 +97,30 @@ NotesList.propTypes = {
 const mapStateToProps = state => ({
   notes: getSortedNotes(state),
   searchPhrase: getSearchPhrase(state),
-  selectedNoteId: getSelectedNoteId(state),
+  selectedNote: getSelectedNote(state),
 });
 
 const mapDispatchToProps = dispatch => ({
   dispatch,
 });
 
-const mergeProps = (stateProps, { dispatch }) => ({
-  ...stateProps,
-  togglePin: (isPinned = false, id) => dispatch(pinAction(isPinned, id)),
-  selectNote: noteId => {
-    if (!stateProps.selectedNoteId || noteId !== stateProps.selectedNoteId) {
-      dispatch(selectNoteAction(noteId));
-    }
-  },
-  unselectNote: () => dispatch(unselectNoteAction()),
-});
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { selectedNote } = stateProps;
+  const { dispatch } = dispatchProps;
+
+  return {
+    ...ownProps,
+    ...stateProps,
+    selectedNoteId: selectedNote && selectedNote._id,
+    togglePin: (isPinned = false, note) => dispatch(pinAction(isPinned, note)),
+    selectNote: noteToSelect => {
+      if (!selectedNote || noteToSelect._id !== selectedNote._id) {
+        dispatch(selectNoteAction(noteToSelect));
+      }
+    },
+    unselectNote: () => dispatch(unselectNoteAction()),
+  };
+};
 
 export default connect(
   mapStateToProps,

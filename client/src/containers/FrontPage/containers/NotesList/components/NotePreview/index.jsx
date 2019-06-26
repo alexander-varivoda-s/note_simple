@@ -64,8 +64,8 @@ function generatePreview(note, lines, textToHighlight) {
   return previews;
 }
 
-function performNoteSelect(action, id) {
-  return () => action(id);
+function performNoteSelect(action, noteToSelect) {
+  return () => action(noteToSelect);
 }
 
 export default function NotePreview(props) {
@@ -78,7 +78,7 @@ export default function NotePreview(props) {
   if (title === nbsp) title = 'New Note...';
 
   return (
-    <StyledNotePreview onClick={performNoteSelect(selectNote, note._id)}>
+    <StyledNotePreview onClick={performNoteSelect(selectNote, note)}>
       <div>{title}</div>
       {preview.map((part, i) => (
         // eslint-disable-next-line react/no-array-index-key

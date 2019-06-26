@@ -11,7 +11,7 @@ export const StyledPinner = styled.div`
     height: 14px;
     position: absolute;
     width: 14px;
-    
+
     & > span {
       background-color: ${props => props.theme.notesList.checkboxInner};
       border-radius: 50%;
@@ -28,7 +28,16 @@ export const StyledPinner = styled.div`
 export default class Pinner extends PureComponent {
   static propTypes = {
     handleChange: PropTypes.func.isRequired,
-    noteId: PropTypes.string.isRequired,
+    note: PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired,
+      created: PropTypes.string.isRequired,
+      updated: PropTypes.string.isRequired,
+      pinned: PropTypes.string,
+      author: PropTypes.string.isRequired,
+      is_deleted: PropTypes.bool.isRequired,
+      tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+    }).isRequired,
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -52,9 +61,10 @@ export default class Pinner extends PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     const { checked } = this.state;
+
     if (prevState.checked !== checked) {
-      const { handleChange, noteId } = this.props;
-      handleChange(checked, noteId);
+      const { handleChange, note } = this.props;
+      handleChange(checked, note);
     }
   }
 
@@ -64,7 +74,7 @@ export default class Pinner extends PureComponent {
     }));
   };
 
-  handleKeydown = (e) => {
+  handleKeydown = e => {
     if (e.keyCode === 32) {
       this.toggle(e);
     }

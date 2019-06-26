@@ -42,7 +42,7 @@ import {
   UNTAG_REQUEST_FAILURE,
   UNTAG_REQUEST_SUCCEEDED,
 } from './containers/TagsEditor/constants';
-import { getSelectedNoteId } from './selectors';
+import { getSelectedNote } from './selectors';
 import {
   MOVE_TO_TRASH_FAILURE,
   MOVE_TO_TRASH_REQUEST,
@@ -117,7 +117,7 @@ export function* createTag(name) {
 }
 
 export function* tagNote(action) {
-  const noteId = yield select(getSelectedNoteId);
+  const selectedNote = yield select(getSelectedNote);
   const { name } = action.payload;
   let { tagId } = action.payload;
 
@@ -129,7 +129,9 @@ export function* tagNote(action) {
 
     const {
       data: { note },
-    } = yield call(tagsAPI.tagNote, tagId, noteId, { withCredentials: true });
+    } = yield call(tagsAPI.tagNote, tagId, selectedNote._id, {
+      withCredentials: true,
+    });
     yield put({ type: TAG_REQUEST_SUCCEEDED, payload: { note } });
   } catch (e) {
     yield put({ type: TAG_REQUEST_FAILURE, error: e });
@@ -137,13 +139,15 @@ export function* tagNote(action) {
 }
 
 export function* untagNote(action) {
-  const noteId = yield select(getSelectedNoteId);
+  const selectedNote = yield select(getSelectedNote);
   const { tagId } = action.payload;
 
   try {
     const {
       data: { note },
-    } = yield call(tagsAPI.untagNote, tagId, noteId, { withCredentials: true });
+    } = yield call(tagsAPI.untagNote, tagId, selectedNote._id, {
+      withCredentials: true,
+    });
     yield put({ type: UNTAG_REQUEST_SUCCEEDED, payload: { note } });
   } catch (e) {
     yield put({ type: UNTAG_REQUEST_FAILURE, error: e });

@@ -12,7 +12,6 @@ import {
   getMenuVisibilityStatus,
   getNoteInfoVisibilityStatus,
   getSelectedNote,
-  getSelectedNoteId,
   getSidebarVisibilityStatus,
 } from './selectors';
 import { fetchDataAction, addNoteAction } from './actions';
@@ -23,17 +22,16 @@ import Toolbar from './containers/Toolbar';
 import NoteInfo from './containers/NoteInfo';
 import Menu from './containers/Menu';
 import Overlay from './components/Overlay';
+import Revisions from './containers/Revisions';
 
 class FrontPage extends PureComponent {
   static defaultProps = {
-    isNoteSelected: false,
     selectedNote: null,
   };
 
   static propTypes = {
     fetchData: PropTypes.func.isRequired,
     addNote: PropTypes.func.isRequired,
-    isNoteSelected: PropTypes.bool,
     selectedNote: PropTypes.shape({
       _id: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
@@ -57,7 +55,6 @@ class FrontPage extends PureComponent {
   render() {
     const {
       addNote,
-      isNoteSelected,
       selectedNote,
       isNoteInfoVisible,
       isSidebarVisible,
@@ -78,8 +75,9 @@ class FrontPage extends PureComponent {
             <NotesList />
           </LeftColumn>
           <RightColumn>
+            {selectedNote && <Revisions />}
             <Toolbar />
-            {isNoteSelected && <NoteEditor note={selectedNote} />}
+            <NoteEditor />
           </RightColumn>
         </ContentContainer>
         {isNoteInfoVisible && <NoteInfo note={selectedNote} />}
@@ -90,7 +88,6 @@ class FrontPage extends PureComponent {
 
 const mapStateToProps = state => ({
   dataIsFetched: dataFetchStatus(state),
-  isNoteSelected: !!getSelectedNoteId(state),
   selectedNote: getSelectedNote(state),
   isNoteInfoVisible: getNoteInfoVisibilityStatus(state),
   isSidebarVisible: getSidebarVisibilityStatus(state),

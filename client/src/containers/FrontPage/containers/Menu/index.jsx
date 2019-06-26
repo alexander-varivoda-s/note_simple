@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import Button from '../../../../components/Button';
 import SVG from '../../../../components/SVG';
-import { getFilter, getSelectedNoteId, getTags } from '../../selectors';
+import { getFilter, getSelectedNote, getTags } from '../../selectors';
 import { filterNotesAction, toggleMenuVisibilityAction } from './actions';
 import { tagDeleteAction } from '../TagsEditor/actions';
 import { unselectNoteAction } from '../NotesList/actions';
@@ -164,7 +164,7 @@ Menu.propTypes = {
 const mapStateToProps = state => ({
   filter: getFilter(state),
   tags: getTags(state),
-  selectedNoteId: getSelectedNoteId(state),
+  selectedNote: getSelectedNote(state),
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -172,6 +172,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { selectedNote } = stateProps;
   const { dispatch } = dispatchProps;
 
   return {
@@ -179,7 +180,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...stateProps,
     filterNotes: filter => {
       dispatch(filterNotesAction(filter));
-      if (stateProps.selectedNoteId) {
+      if (selectedNote) {
         dispatch(unselectNoteAction());
       }
     },

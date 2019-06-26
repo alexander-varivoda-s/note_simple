@@ -1,14 +1,26 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import styled from 'styled-components';
-import { noteSaveAction } from './actions';
+import styled, { css } from 'styled-components';
+import { noteEditAction, noteSaveAction } from './actions';
 import TagsEditor from '../TagsEditor';
+import { getSelectedNote } from '../../selectors';
+import { getRevisionSelectorVisibilityStatus } from '../Revisions/selectors';
 
 export const StyledNoteEditor = styled.div`
+  animation-delay: 0.3s;
+  animation-direction: normal;
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
+  padding-top: 0;
+  transition: padding-top 0.5s ease-in-out;
+
+  ${props =>
+    props.revisionSelectorVisible &&
+    css`
+      padding-top: 3.625em;
+    `}
 
   textarea {
     background-color: transparent;
@@ -32,8 +44,12 @@ export const TextareaWrapper = styled.div`
 `;
 
 class NoteEditor extends PureComponent {
+  static defaultProps = {
+    selectedNote: null,
+  };
+
   static propTypes = {
-    note: PropTypes.shape({
+    selectedNote: PropTypes.shape({
       _id: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired,
       created: PropTypes.string.isRequired,
@@ -42,27 +58,10 @@ class NoteEditor extends PureComponent {
       author: PropTypes.string.isRequired,
       is_deleted: PropTypes.bool.isRequired,
       tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-    }).isRequired,
+    }),
     handleSave: PropTypes.func.isRequired,
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    const { note } = props;
-    const { prevNoteId } = state;
-
-    if (note && note._id !== prevNoteId) {
-      return {
-        text: note.text,
-        prevNoteId: note._id,
-      };
-    }
-
-    return null;
-  }
-
-  state = {
-    text: '',
-    prevNoteId: null,
+    handleEdit: PropTypes.func.isRequired,
+    isRevisionSelectorVisible: PropTypes.bool.isRequired,
   };
 
   _textarea = React.createRef();
@@ -70,28 +69,26 @@ class NoteEditor extends PureComponent {
   _timeout = [];
 
   componentDidUpdate(prevProps) {
-    const { note: prevNote } = prevProps;
-    const { note: currentNote } = this.props;
+    const { selectedNote: prevSelectedNote } = prevProps;
+    const { selectedNote: currentSelectedNote } = this.props;
 
-    if (prevNote && currentNote._id !== prevNote._id) {
+    if (prevSelectedNote && currentSelectedNote._id !== prevSelectedNote._id) {
       this._textarea.current.focus();
     }
   }
 
   handleNoteEdit = e => {
+    const { handleEdit } = this.props;
     const { value } = e.target;
 
-    this.setState({
-      text: value,
-    });
+    handleEdit(value);
   };
 
   handleKeyUp = () => {
     const {
-      note: { _id },
+      selectedNote: { _id, text },
       handleSave,
     } = this.props;
-    const { text } = this.state;
 
     if (this._timeout[_id]) {
       clearTimeout(this._timeout[_id]);
@@ -104,14 +101,18 @@ class NoteEditor extends PureComponent {
   };
 
   render() {
-    const { text } = this.state;
+    const { selectedNote, isRevisionSelectorVisible } = this.props;
+
+    if (!selectedNote) {
+      return null;
+    }
 
     return (
-      <StyledNoteEditor>
+      <StyledNoteEditor revisionSelectorVisible={isRevisionSelectorVisible}>
         <TextareaWrapper>
           <textarea
             autoFocus
-            value={text}
+            value={selectedNote.text}
             onChange={this.handleNoteEdit}
             onKeyUp={this.handleKeyUp}
             ref={this._textarea}
@@ -124,17 +125,29 @@ class NoteEditor extends PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  selectedNote: getSelectedNote(state),
+  isRevisionSelectorVisible: getRevisionSelectorVisibilityStatus(state),
+});
+
 const mapDispatchToProps = dispatch => ({
   dispatch,
 });
 
-const mergeProps = (_, { dispatch }, { note }) => ({
-  note,
-  handleSave: text => dispatch(noteSaveAction(text, note._id)),
-});
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const { selectedNote } = stateProps;
+  const { dispatch } = dispatchProps;
+
+  return {
+    ...ownProps,
+    ...stateProps,
+    handleSave: text => dispatch(noteSaveAction(text, selectedNote._id)),
+    handleEdit: text => dispatch(noteEditAction(text, selectedNote._id)),
+  };
+};
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
   mergeProps
 )(NoteEditor);

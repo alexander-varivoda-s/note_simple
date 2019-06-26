@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import {
   getNoteInfoVisibilityStatus,
-  getSelectedNoteId,
+  getSelectedNote,
   getSidebarVisibilityStatus,
 } from '../../selectors';
 
@@ -15,6 +15,8 @@ import {
   toggleNoteVisibilityAction,
   toggleSidebarVisibilityAction,
 } from './actions';
+import { toggleRevisionSelectorVisibilityAction } from '../Revisions/actions';
+import { getRevisionSelectorVisibilityStatus } from '../Revisions/selectors';
 
 export const StyledToolbar = styled.div`
   align-items: center;
@@ -45,6 +47,7 @@ function Toolbar(props) {
     toggleNoteInfoVisibility,
     moveToTrash,
     toggleSidebarVisibility,
+    toggleRevisionSelectorVisibility,
   } = props;
 
   return (
@@ -65,7 +68,7 @@ function Toolbar(props) {
           </ul>
           <ul>
             <li>
-              <Button>
+              <Button onClick={toggleRevisionSelectorVisibility}>
                 <SVG name='revisions' size='22' />
               </Button>
             </li>
@@ -91,24 +94,41 @@ Toolbar.propTypes = {
   toggleNoteInfoVisibility: PropTypes.func.isRequired,
   moveToTrash: PropTypes.func.isRequired,
   toggleSidebarVisibility: PropTypes.func.isRequired,
+  toggleRevisionSelectorVisibility: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  selectedNoteId: getSelectedNoteId(state),
+  selectedNote: getSelectedNote(state),
   isNoteInfoVisible: getNoteInfoVisibilityStatus(state),
   isSidebarVisible: getSidebarVisibilityStatus(state),
+  isRevisionSelectorVisible: getRevisionSelectorVisibilityStatus(state),
 });
 
 const mapDispatchToProps = dispatch => ({ dispatch });
 
-const mergeProps = (stateProps, { dispatch }) => ({
-  isNoteSelected: !!stateProps.selectedNoteId,
-  toggleNoteInfoVisibility: () =>
-    dispatch(toggleNoteVisibilityAction(!stateProps.isNoteInfoVisible)),
-  moveToTrash: () => dispatch(moveToTrashAction(stateProps.selectedNoteId)),
-  toggleSidebarVisibility: () =>
-    dispatch(toggleSidebarVisibilityAction(!stateProps.isSidebarVisible)),
-});
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const {
+    selectedNote,
+    isNoteInfoVisible,
+    isSidebarVisible,
+    isRevisionSelectorVisible,
+  } = stateProps;
+  const { dispatch } = dispatchProps;
+
+  return {
+    ...ownProps,
+    isNoteSelected: !!selectedNote,
+    toggleNoteInfoVisibility: () =>
+      dispatch(toggleNoteVisibilityAction(!isNoteInfoVisible)),
+    moveToTrash: () => dispatch(moveToTrashAction(selectedNote)),
+    toggleSidebarVisibility: () =>
+      dispatch(toggleSidebarVisibilityAction(!isSidebarVisible)),
+    toggleRevisionSelectorVisibility: () =>
+      dispatch(
+        toggleRevisionSelectorVisibilityAction(!isRevisionSelectorVisible)
+      ),
+  };
+};
 
 export default connect(
   mapStateToProps,

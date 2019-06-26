@@ -8,7 +8,7 @@ export const getTags = state => state.appData.tags;
 
 export const getFilter = state => state.appData.filter;
 
-export const getSelectedNoteId = state => state.appData.selectedNoteId;
+export const getSelectedNote = state => state.appData.selectedNote;
 
 export const getSearchPhrase = state => state.appData.searchPhrase;
 
@@ -45,11 +45,6 @@ export const getSearchedNotes = createSelector(
 
     return notes.filter(note => note.text.indexOf(phrase) >= 0);
   }
-);
-
-export const getSelectedNote = createSelector(
-  [getSelectedNoteId, getNotesByMainFilter],
-  (id, notes) => notes.find(note => note._id === id)
 );
 
 export const getNoteInfoVisibilityStatus = state =>

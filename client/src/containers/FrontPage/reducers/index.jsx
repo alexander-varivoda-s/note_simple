@@ -5,10 +5,11 @@ import tags from './tags';
 import dataIsFetched from './dataIsFetched';
 import searchPhrase from './searchPhrase';
 import filter from './filter';
-import selectedNoteId from './selectedNoteId';
+import selectedNote from './selectedNote';
 import isNoteInfoVisible from './isNoteInfoVisible';
 import isSidebarVisible from './isSidebarVisible';
 import isMenuVisible from './isMenuVisible';
+import isRevisionSelectorVisible from '../containers/Revisions/reducers/isRevisionSelectorVisible';
 
 export default combineReducers({
   tags,
@@ -16,8 +17,9 @@ export default combineReducers({
   dataIsFetched,
   searchPhrase,
   filter,
-  selectedNoteId,
+  selectedNote,
   isNoteInfoVisible,
   isSidebarVisible,
   isMenuVisible,
+  isRevisionSelectorVisible,
 });

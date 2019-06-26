@@ -3,6 +3,7 @@ import axios from 'axios';
 import initAuthAPI from './auth';
 import initNotesAPI from './notes';
 import initTagsAPI from './tags';
+import initRevisionsAPI from './revisions';
 
 const { REACT_APP_HOST, REACT_APP_PORT } = process.env;
 
@@ -21,3 +22,4 @@ export default instance;
 export const authAPI = initAuthAPI(instance);
 export const notesAPI = initNotesAPI(instance);
 export const tagsAPI = initTagsAPI(instance);
+export const revisionsAPI = initRevisionsAPI(instance);
