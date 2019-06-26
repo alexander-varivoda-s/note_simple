@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   getNoteInfoVisibilityStatus,
   getSelectedNote,
@@ -17,6 +18,8 @@ import {
 } from './actions';
 import { toggleRevisionSelectorVisibilityAction } from '../Revisions/actions';
 import { getRevisionSelectorVisibilityStatus } from '../Revisions/selectors';
+import AccountDropdown from '../../../AccountDropdown';
+import { getUser } from '../../../User/selectors';
 
 export const StyledToolbar = styled.div`
   align-items: center;
@@ -30,14 +33,13 @@ export const StyledToolbar = styled.div`
     height: 2em;
     width: 2em;
   }
+`;
 
-  ul {
-    display: flex;
-    list-style: none;
+const ToolsList = styled.ul`
+  display: flex;
 
-    li {
-      margin-right: 0.875em;
-    }
+  & > li {
+    margin-right: 0.875em;
   }
 `;
 
@@ -48,13 +50,14 @@ function Toolbar(props) {
     moveToTrash,
     toggleSidebarVisibility,
     toggleRevisionSelectorVisibility,
+    user,
   } = props;
 
   return (
     <StyledToolbar>
       {isNoteSelected && (
         <Fragment>
-          <ul>
+          <ToolsList>
             <li>
               <Button onClick={toggleSidebarVisibility}>
                 <SVG name='sidebar' size='22' />
@@ -65,8 +68,8 @@ function Toolbar(props) {
                 <SVG name='back' size='22' />
               </Button>
             </li>
-          </ul>
-          <ul>
+          </ToolsList>
+          <ToolsList>
             <li>
               <Button onClick={toggleRevisionSelectorVisibility}>
                 <SVG name='revisions' size='22' />
@@ -82,7 +85,16 @@ function Toolbar(props) {
                 <SVG name='info' size='22' />
               </Button>
             </li>
-          </ul>
+            <li>
+              <AccountDropdown
+                email={user.email}
+                items={[
+                  <Link to='/account-settings'>Settings</Link>,
+                  <Link to='/sign-out'>Sign Out</Link>,
+                ]}
+              />
+            </li>
+          </ToolsList>
         </Fragment>
       )}
     </StyledToolbar>
@@ -95,6 +107,9 @@ Toolbar.propTypes = {
   moveToTrash: PropTypes.func.isRequired,
   toggleSidebarVisibility: PropTypes.func.isRequired,
   toggleRevisionSelectorVisibility: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -102,6 +117,7 @@ const mapStateToProps = state => ({
   isNoteInfoVisible: getNoteInfoVisibilityStatus(state),
   isSidebarVisible: getSidebarVisibilityStatus(state),
   isRevisionSelectorVisible: getRevisionSelectorVisibilityStatus(state),
+  user: getUser(state),
 });
 
 const mapDispatchToProps = dispatch => ({ dispatch });
@@ -117,6 +133,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
   return {
     ...ownProps,
+    user: stateProps.user,
     isNoteSelected: !!selectedNote,
     toggleNoteInfoVisibility: () =>
       dispatch(toggleNoteVisibilityAction(!isNoteInfoVisible)),
