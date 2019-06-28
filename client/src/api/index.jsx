@@ -4,6 +4,7 @@ import initAuthAPI from './auth';
 import initNotesAPI from './notes';
 import initTagsAPI from './tags';
 import initRevisionsAPI from './revisions';
+import initUserAPI from './user';
 
 const { REACT_APP_HOST, REACT_APP_PORT } = process.env;
 
@@ -23,3 +24,4 @@ export const authAPI = initAuthAPI(instance);
 export const notesAPI = initNotesAPI(instance);
 export const tagsAPI = initTagsAPI(instance);
 export const revisionsAPI = initRevisionsAPI(instance);
+export const userAPI = initUserAPI(instance);

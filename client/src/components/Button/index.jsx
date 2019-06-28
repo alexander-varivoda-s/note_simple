@@ -22,9 +22,9 @@ export default styled.button`
 
   /* Submit button */
   ${props =>
-    props.submit &&
+    props.type === 'submit' &&
     css`
-      background-color: ${({ theme }) => theme.palette.main};
+      background-color: ${({ theme, color }) => color || theme.palette.main};
       border: none;
       border-radius: 3px;
       color: #fff;

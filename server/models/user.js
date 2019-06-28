@@ -8,7 +8,7 @@ const Tag = require('./tag');
 
 const { Schema } = mongoose;
 const { passwordLength, saltLength, iterations, keylen, digest } = config.get(
-  'crypto',
+  'crypto'
 );
 
 const userSchema = new Schema({
@@ -88,7 +88,7 @@ userSchema
       if (password.length < passwordLength) {
         this.invalidate(
           'password',
-          'Password is too short. Must be at least 6 characters long.',
+          'Password is too short. Must be at least 6 characters long.'
         );
       }
     }

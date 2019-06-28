@@ -1,5 +1,9 @@
 import { takeLatest, put, call } from 'redux-saga/effects';
-import { LOGOUT_REQUESTED, LOGOUT_SUCCEEDED, LOGOUT_FAILURE } from './constants';
+import {
+  LOGOUT_REQUESTED,
+  LOGOUT_SUCCEEDED,
+  LOGOUT_FAILURE,
+} from './constants';
 
 import { authAPI } from '../../api';
 import redirect from '../shared/actions';

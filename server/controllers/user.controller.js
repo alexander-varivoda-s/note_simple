@@ -12,7 +12,7 @@ module.exports = {
   getCurrentUser() {
     return async ctx => {
       const { user } = ctx.state;
-      ctx.body = { user };
+      ctx.body = { user: user.toObject({ omit }) };
     };
   },
 
@@ -52,6 +52,11 @@ module.exports = {
   deleteUser() {
     return async ctx => {
       const { user } = ctx.state;
+      const { password } = ctx.request.body;
+
+      if (!user.validatePassword(password)) {
+        ctx.throw(400, 'Invalid password specified.');
+      }
       ctx.logout();
 
       await user.remove();
@@ -73,10 +78,7 @@ module.exports = {
   updateEmail() {
     return async ctx => {
       const { user } = ctx.state;
-
-      const {
-        data: { email, password },
-      } = ctx.request.body;
+      const { email, password } = ctx.request.body;
 
       if (!user.validatePassword(password)) {
         ctx.throw(400, 'Invalid password specified.');
@@ -87,6 +89,7 @@ module.exports = {
         ctx.body = {
           type: 'status',
           message: 'Email successfully updated.',
+          user: user.toObject(omit),
         };
       }
     };
@@ -95,9 +98,7 @@ module.exports = {
   updatePassword() {
     return async ctx => {
       const { user } = ctx.state;
-      const {
-        data: { oldPassword, newPassword },
-      } = ctx.request.body;
+      const { oldPassword, newPassword } = ctx.request.body;
 
       if (!user.validatePassword(oldPassword)) {
         ctx.throw(400, 'Invalid password specified.');
@@ -173,7 +174,7 @@ module.exports = {
         subject: 'Simplenote Password Reset',
         template: 'reset.email',
         link: `http://${config.get(
-          'server.host',
+          'server.host'
         )}:3000/password/${token}/reset`,
       });
 

@@ -7,14 +7,35 @@ import Button from '../../../components/Button';
 
 const RegisterForm = ({ isSubmitting, errors }) => (
   <Form>
-    <Field type='text' name='displayName' label='Display Name' component={TextField} />
+    <Field
+      type='text'
+      name='displayName'
+      label='Display Name'
+      component={TextField}
+    />
     <Field type='email' name='email' label='Email' component={TextField} />
-    <Field type='password' name='password' label='Password' component={TextField} />
-    <Field type='password' name='confirmPassword' label='Confirm Password' component={TextField} />
-    {errors.formSubmission && <ErrorMessage>{errors.formSubmission}</ErrorMessage>}
+    <Field
+      type='password'
+      name='password'
+      label='Password'
+      component={TextField}
+    />
+    <Field
+      type='password'
+      name='confirmPassword'
+      label='Confirm Password'
+      component={TextField}
+    />
+    {errors.formSubmission && (
+      <ErrorMessage>{errors.formSubmission}</ErrorMessage>
+    )}
     <FormActions>
-      <Button type='submit' submit disabled={isSubmitting}>
-        {isSubmitting ? <SVG name='spinner' size='25' color='#fff' /> : 'Sing up'}
+      <Button type='submit' disabled={isSubmitting}>
+        {isSubmitting ? (
+          <SVG name='spinner' size='25' color='#fff' />
+        ) : (
+          'Sing up'
+        )}
       </Button>
     </FormActions>
   </Form>

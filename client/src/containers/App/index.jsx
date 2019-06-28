@@ -20,6 +20,7 @@ const FrontPage = lazy(() => import('../FrontPage'));
 const ForgotPage = lazy(() => import('../ForgotPage'));
 const ResetPasswordPage = lazy(() => import('../ResetPasswordPage'));
 const LogoutPage = lazy(() => import('../LogoutPage'));
+const SettingsPage = lazy(() => import('../SettingsPage'));
 
 class App extends PureComponent {
   static defaultProps = {
@@ -50,11 +51,20 @@ class App extends PureComponent {
           <Switch>
             <PrivateRoute exact path='/' component={FrontPage} />
             <PrivateRoute exact path='/logout' component={LogoutPage} />
+            <PrivateRoute exact path='/settings' component={SettingsPage} />
             <AnonymousRoute exact path='/login' component={LoginPage} />
             <AnonymousRoute exact path='/register' component={RegisterPage} />
-            <AnonymousRoute exact path='/verify/:token' component={VerifyEmail} />
+            <AnonymousRoute
+              exact
+              path='/verify/:token'
+              component={VerifyEmail}
+            />
             <AnonymousRoute exact path='/forgot' component={ForgotPage} />
-            <AnonymousRoute exact path='/password/:token/reset' component={ResetPasswordPage} />
+            <AnonymousRoute
+              exact
+              path='/password/:token/reset'
+              component={ResetPasswordPage}
+            />
             <Redirect to={user ? '/' : '/login'} />
           </Switch>
         </Suspense>
@@ -73,5 +83,5 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(App);

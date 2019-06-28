@@ -89,8 +89,8 @@ function Toolbar(props) {
               <AccountDropdown
                 email={user.email}
                 items={[
-                  <Link to='/account-settings'>Settings</Link>,
-                  <Link to='/sign-out'>Sign Out</Link>,
+                  <Link to='/settings'>Settings</Link>,
+                  <Link to='/logout'>Sign Out</Link>,
                 ]}
               />
             </li>
