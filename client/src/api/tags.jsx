@@ -1,9 +1,12 @@
+const BASE_PATH = '/api/tags';
+
 export default client => ({
-  fetchTags: (config = {}) => client.get('/tags', config),
-  createTag: (name, config = {}) => client.post('/tags', { name }, config),
-  deleteTag: (tagId, config = {}) => client.delete(`/tags/${tagId}`, config),
+  fetchTags: (config = {}) => client.get(BASE_PATH, config),
+  createTag: (name, config = {}) => client.post(BASE_PATH, { name }, config),
+  deleteTag: (tagId, config = {}) =>
+    client.delete(`${BASE_PATH}/${tagId}`, config),
   tagNote: (tagId, noteId, config = {}) =>
-    client.patch(`/notes/${noteId}/tag/${tagId}`, {}, config),
+    client.patch(`${BASE_PATH}/${noteId}/tag/${tagId}`, {}, config),
   untagNote: (tagId, noteId, config = {}) =>
-    client.patch(`/notes/${noteId}/untag/${tagId}`, {}, config),
+    client.patch(`${BASE_PATH}/${noteId}/untag/${tagId}`, {}, config),
 });

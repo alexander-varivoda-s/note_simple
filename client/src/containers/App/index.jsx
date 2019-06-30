@@ -39,6 +39,7 @@ class App extends PureComponent {
 
   componentDidMount() {
     const { signIn } = this.props;
+
     signIn();
   }
 

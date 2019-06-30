@@ -26,7 +26,7 @@ class FlashMessages extends PureComponent {
       PropTypes.shape({
         type: PropTypes.string.isRequired,
         message: PropTypes.string.isRequired,
-      }),
+      })
     ),
     history: PropTypes.shape({
       listen: PropTypes.func.isRequired,
@@ -69,19 +69,17 @@ class FlashMessages extends PureComponent {
   }
 }
 
-FlashMessages.defaultProps = {
-  messages: [],
-};
-
 const mapStateToProps = state => ({
   messages: getFlashMessages(state),
 });
 
-const mapDispatchToProps = dispatch => ({ clearMessages: () => dispatch(clearFlashMessages()) });
+const mapDispatchToProps = dispatch => ({
+  clearMessages: () => dispatch(clearFlashMessages()),
+});
 
 export default withRouter(
   connect(
     mapStateToProps,
-    mapDispatchToProps,
-  )(FlashMessages),
+    mapDispatchToProps
+  )(FlashMessages)
 );

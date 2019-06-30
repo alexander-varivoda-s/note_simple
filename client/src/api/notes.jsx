@@ -1,10 +1,12 @@
+const BASE_PATH = '/api/notes';
+
 export default client => ({
-  fetchNotes: (config = {}) => client.get('/notes', config),
-  addNote: (params, config = {}) => client.post('/notes', params, config),
+  fetchNotes: (config = {}) => client.get(BASE_PATH, config),
+  addNote: (params, config = {}) => client.post(BASE_PATH, params, config),
   pinNote: (params, config = {}) =>
-    client.patch(`/notes/${params.id}/pin`, params, config),
+    client.patch(`${BASE_PATH}/${params.id}/pin`, params, config),
   unpinNote: (params, config = {}) =>
-    client.patch(`/notes/${params.id}/unpin`, params, config),
+    client.patch(`${BASE_PATH}/${params.id}/unpin`, params, config),
   updateNote: (noteId, params, config = {}) =>
-    client.patch(`/notes/${noteId}`, params, config),
+    client.patch(`${BASE_PATH}/${noteId}`, params, config),
 });
