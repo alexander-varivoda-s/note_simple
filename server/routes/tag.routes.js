@@ -4,7 +4,7 @@ const Tag = require('../models/tag');
 const TagsController = require('../controllers/tag.controller');
 
 const router = new Router();
-router.prefix('/tags');
+router.prefix('/api/tags');
 
 router.use('/', async (ctx, next) => {
   if (!ctx.isAuthenticated()) {
@@ -20,7 +20,7 @@ router.param('tag', async (id, ctx, next) => {
       _id: id,
       author: ctx.state.user.id,
     },
-    { __v: 0 },
+    { __v: 0 }
   ).exec();
 
   if (!ctx.state.tag) {

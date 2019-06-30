@@ -18,8 +18,11 @@ const smtpTransport = new SMTPTransport({
 
 const transporter = nodemailer.createTransport(smtpTransport);
 
-module.exports = async ({ headers, subject, template, link, to, from }) => {
-  const sender = config.mailer.senders[from || 'default'];
+module.exports = async options => {
+  const { headers, subject, template, link, to, from } = options;
+  const { senders } = config.get('mailer');
+  const sender = senders[from || 'default'];
+
   if (!sender) {
     throw new Error(`Unknown sender: ${from}`);
   }

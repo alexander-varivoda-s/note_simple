@@ -6,7 +6,7 @@ const omit =
   'emailVerified salt password_hash verifyEmailToken resetPasswordToken __v';
 
 const router = new Router();
-router.prefix('/users');
+router.prefix('/api/users');
 router.post('/login', async (ctx, next) => {
   await passport.authenticate('local', async (err, user, info) => {
     if (err) {

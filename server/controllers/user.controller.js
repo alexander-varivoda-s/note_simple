@@ -22,25 +22,26 @@ module.exports = {
       const payload = {
         sub: email,
       };
-      const options = {
-        algorithm: 'HS512',
-        expiresIn: '1h',
-      };
-
-      const jwtToken = await jwt.signToken(payload, jwtSecret, options);
+      const { algorithm, expiresIn } = config.get('crypto.emailToken');
+      const verifyEmailToken = await jwt.signToken(payload, jwtSecret, {
+        algorithm,
+        expiresIn,
+      });
 
       const user = await UserModel.create({
         displayName,
         email,
         password,
-        verifyEmailToken: jwtToken,
+        verifyEmailToken,
       });
 
       await sendEmail({
         to: email,
         subject: 'Registration',
         template: 'registration.email',
-        link: `http://${config.get('server.host')}:3000/verify/${jwtToken}`,
+        link: `http://${config.get(
+          'server.host'
+        )}:3000/verify/${verifyEmailToken}`,
       });
 
       ctx.body = {
@@ -117,12 +118,10 @@ module.exports = {
   verifyEmail() {
     return async ctx => {
       const { token } = ctx.params;
-      const options = {
+      const { exp, sub } = await jwt.verifyToken(token, jwtSecret, {
         algorithm: 'HS512',
         ignoreExpiration: true,
-      };
-      const { exp, sub } = await jwt.verifyToken(token, jwtSecret, options);
-      const timestamp = Date.now() / 1000;
+      });
       const user = await UserModel.findOne({
         email: sub,
         verifyEmailToken: token,
@@ -131,6 +130,8 @@ module.exports = {
       if (!user) {
         ctx.throw(400, 'Invalid token specified or account does not exist.');
       }
+
+      const timestamp = Date.now() / 1000;
 
       if (timestamp > exp && !user.emailVerified) {
         await UserModel.deleteOne({ email: sub }).exec();
@@ -142,6 +143,7 @@ module.exports = {
       }
 
       user.emailVerified = true;
+      user.verifyEmailToken = undefined;
       await user.save();
 
       ctx.body = {
@@ -200,7 +202,7 @@ module.exports = {
       await jwt.verifyToken(token, secret);
 
       user.password = password;
-      user.resetPasswordToken = '';
+      user.resetPasswordToken = undefined;
       await user.save();
 
       ctx.body = {

@@ -2,16 +2,18 @@ const mongoose = require('mongoose');
 
 module.exports = mongoose;
 
-module.exports.middleware = function({
-  host,
-  port,
-  name,
-  uri,
-  user,
-  pass,
-  config = {},
-  events = {},
-} = {}) {
+module.exports.middleware = function(settings) {
+  const {
+    host,
+    port,
+    name,
+    uri,
+    user,
+    pass,
+    config = {},
+    events = {},
+  } = settings;
+
   if ((!host || !port || !name) && !uri) {
     const err = new Error('Missing required options.');
     err.status = 400;

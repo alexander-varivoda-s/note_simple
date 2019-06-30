@@ -14,6 +14,10 @@ module.exports = {
     iterations: process.env === 'production' ? 10000 : 1,
     keylen: 512,
     digest: 'sha512',
+    emailToken: {
+      algorithm: 'HS512',
+      expiresIn: '1h',
+    },
   },
   session: {
     key: 'secret key',

@@ -133,6 +133,7 @@ module.exports = {
       };
     };
   },
+
   pinNote() {
     return async ctx => {
       const { note } = ctx.state;
@@ -145,6 +146,7 @@ module.exports = {
       };
     };
   },
+
   unpinNote() {
     return async ctx => {
       const { note } = ctx.state;

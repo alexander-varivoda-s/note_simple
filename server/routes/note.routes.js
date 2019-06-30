@@ -6,9 +6,9 @@ const Tag = require('../models/tag');
 
 const router = new Router();
 
-router.prefix('/notes');
+router.prefix('/api/notes');
+
 router.use('/', async (ctx, next) => {
-  console.log(ctx.request.headers);
   if (!ctx.isAuthenticated()) {
     ctx.throw(401);
   }
@@ -16,26 +16,25 @@ router.use('/', async (ctx, next) => {
   await next();
 });
 
-const load = (model, name) => async (id, ctx, next) => {
+const loadParam = (model, name) => async (id, ctx, next) => {
+  const { user } = ctx.state;
+
   ctx.state[name] = await model
     .findOne({
       _id: id,
-      author: ctx.state.user.id,
+      author: user.id,
     })
     .exec();
 
   if (!ctx.state[name]) {
-    ctx.status = 404;
-    ctx.body = {
-      message: `${name} does not exists or not owned by current user.`,
-    };
+    ctx.throw(404, `${name} does not exists or not owned by current user.`);
   } else {
     await next();
   }
 };
 
-router.param('note', load(Note, 'note'));
-router.param('tag', load(Tag, 'tag'));
+router.param('note', loadParam(Note, 'note'));
+router.param('tag', loadParam(Tag, 'tag'));
 
 router.get('/', NotesController.getNotes());
 router.post('/', NotesController.createNote());

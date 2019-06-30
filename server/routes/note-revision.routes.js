@@ -4,7 +4,7 @@ const Note = require('../models/note');
 const RevisionsController = require('../controllers/note-revision.controller');
 
 const router = new Router();
-router.prefix('/revisions');
+router.prefix('/api/revisions');
 
 router.param('note', async (id, ctx, next) => {
   if (!ctx.isAuthenticated()) {
