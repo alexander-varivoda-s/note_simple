@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 
 import logout from './actions';
+import PageLoader from '../../components/PageLoader';
 
 export default function LogoutPage() {
   const dispatch = useDispatch();
-  dispatch(logout());
 
-  return <Redirect to='/login' />;
+  useEffect(() => {
+    dispatch(logout());
+  }, [dispatch]);
+
+  return <PageLoader />;
 }

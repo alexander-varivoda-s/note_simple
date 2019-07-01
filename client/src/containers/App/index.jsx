@@ -45,6 +45,7 @@ class App extends PureComponent {
 
   render() {
     const { user } = this.props;
+
     return (
       <Container>
         <GlobalStyle />
