@@ -1,29 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { getUser } from '../../User/selectors';
 
-function AnonymousRoute({ component: Component, user, ...rest }) {
+export default function AnonymousRoute({ component: Component, ...rest }) {
+  const user = useSelector(getUser);
+
   return (
-    <Route {...rest} render={props => (!user ? <Component {...props} /> : <Redirect to='/' />)} />
+    <Route
+      {...rest}
+      render={props => (!user ? <Component {...props} /> : <Redirect to='/' />)}
+    />
   );
 }
 
-AnonymousRoute.defaultProps = {
-  user: null,
-};
-
 AnonymousRoute.propTypes = {
-  component: PropTypes.oneOfType([PropTypes.element, PropTypes.object]).isRequired,
-  user: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
-    displayName: PropTypes.string.isRequired,
-    created: PropTypes.string.isRequired,
-    updated: PropTypes.string.isRequired,
-  }),
+  component: PropTypes.oneOfType([PropTypes.element, PropTypes.object])
+    .isRequired,
 };
-
-export default connect(state => ({ user: getUser(state) }))(AnonymousRoute);
