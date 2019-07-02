@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 // eslint-disable-next-line import/prefer-default-export
-export const StyledSearchBar = styled.div`
+export const TopBar = styled.div`
   align-items: center;
   border-bottom: 1px solid ${props => props.theme.palette.borderColor};
   border-right: 1px solid ${props => props.theme.palette.borderColor};

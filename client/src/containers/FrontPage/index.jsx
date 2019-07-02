@@ -13,12 +13,15 @@ import {
   getSidebarVisibilityStatus,
 } from './selectors';
 import { fetchDataAction } from './actions';
-import SearchBar from './containers/SearchBar';
+import SearchBar from './containers/Search';
 import NotesList from './containers/NotesList';
 import NoteEditor from './containers/NoteEditor';
 import Toolbar from './containers/Toolbar';
 import Menu from './containers/Menu';
 import Overlay from './components/Overlay';
+import { TopBar } from './styles';
+import MenuToggle from './containers/MenuToggle';
+import AddNote from './containers/AddNote';
 
 const Revisions = lazy(() => import('./containers/Revisions'));
 const NoteInfo = lazy(() => import('./containers/NoteInfo'));
@@ -45,7 +48,11 @@ export default function FrontPage() {
         <ContentContainer>
           <Overlay />
           <LeftColumn visible={isSidebarVisible}>
-            <SearchBar />
+            <TopBar>
+              <MenuToggle />
+              <SearchBar />
+              <AddNote />
+            </TopBar>
             <NotesList />
           </LeftColumn>
           <RightColumn>
