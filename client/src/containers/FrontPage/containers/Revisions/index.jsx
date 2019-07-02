@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { getSelectedNote } from '../../selectors';
 import { noteEditAction, noteSaveAction } from '../NoteEditor/actions';
 import { revisionsAPI } from '../../../../api';
@@ -18,16 +18,16 @@ import { toggleRevisionSelectorVisibilityAction } from './actions';
 
 let _currentNote = null;
 
-function Revisions(props) {
-  const {
-    note,
-    handleChange,
-    handleSave,
-    isRevisionSelectorVisible,
-    hideRevisionSelector,
-  } = props;
+export default function Revisions() {
   const [revisions, setRevisions] = useState([]);
   const [rangePosition, setRangePosition] = useState(0);
+
+  const note = useSelector(getSelectedNote);
+  const isRevisionSelectorVisible = useSelector(
+    getRevisionSelectorVisibilityStatus
+  );
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchRevisions = async () => {
@@ -48,28 +48,36 @@ function Revisions(props) {
     _currentNote = { ...note };
   }, [note]);
 
-  function performHandleChange(e) {
+  function editNote(text, id = null) {
+    dispatch(noteEditAction(text, id));
+  }
+
+  function changeHandler(e) {
     const { value } = e.target;
     const pos = parseInt(value, 10);
 
     if (revisions[pos]) {
-      handleChange(revisions[pos].text);
+      editNote(revisions[pos].text);
     }
 
     setRangePosition(pos);
   }
 
-  function performHandleCancel() {
-    if (rangePosition !== revisions.length) {
-      handleChange(_currentNote.text, note._id);
-    }
-
-    hideRevisionSelector();
+  function closeSelector() {
+    dispatch(toggleRevisionSelectorVisibilityAction(false));
   }
 
-  function performRestoreNote() {
-    handleSave(note.text, note._id);
-    hideRevisionSelector();
+  function cancelHandler() {
+    if (rangePosition !== revisions.length) {
+      editNote(_currentNote.text, note._id);
+    }
+
+    closeSelector();
+  }
+
+  function restoreNoteHandler() {
+    dispatch(noteSaveAction(note.text, note._id));
+    closeSelector();
   }
 
   const restoreBtnDisabled =
@@ -92,13 +100,13 @@ function Revisions(props) {
         max={revisions.length}
         step='1'
         value={rangePosition}
-        onChange={performHandleChange}
+        onChange={changeHandler}
       />
       <Actions>
-        <CancelButton onClick={performHandleCancel}>Cancel</CancelButton>
+        <CancelButton onClick={cancelHandler}>Cancel</CancelButton>
         <RestoreButton
           disabled={restoreBtnDisabled}
-          onClick={performRestoreNote}
+          onClick={restoreNoteHandler}
         >
           Restore Note
         </RestoreButton>
@@ -106,37 +114,3 @@ function Revisions(props) {
     </StyledRevisions>
   );
 }
-
-Revisions.propTypes = {
-  note: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
-    created: PropTypes.string.isRequired,
-    updated: PropTypes.string.isRequired,
-    pinned: PropTypes.string,
-    author: PropTypes.string.isRequired,
-    is_deleted: PropTypes.bool.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-  }).isRequired,
-  handleSave: PropTypes.func.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  isRevisionSelectorVisible: PropTypes.bool.isRequired,
-  hideRevisionSelector: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
-  note: getSelectedNote(state),
-  isRevisionSelectorVisible: getRevisionSelectorVisibilityStatus(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-  handleChange: text => dispatch(noteEditAction(text)),
-  handleSave: (text, noteId) => dispatch(noteSaveAction(text, noteId)),
-  hideRevisionSelector: () =>
-    dispatch(toggleRevisionSelectorVisibilityAction(false)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Revisions);
