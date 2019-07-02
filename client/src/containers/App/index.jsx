@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Switch, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import GlobalStyle from '../../theme/GlobalStyle';
 import Container from '../../components/Container';
@@ -12,6 +12,7 @@ import PageLoader from '../../components/PageLoader';
 import { getUser } from '../User/selectors';
 
 import getCurrentUser from './actions';
+import NotFoundPage from '../../components/NotFoundPage';
 
 const LoginPage = lazy(() => import('../LoginPage'));
 const RegisterPage = lazy(() => import('../RegisterPage'));
@@ -44,8 +45,6 @@ class App extends PureComponent {
   }
 
   render() {
-    const { user } = this.props;
-
     return (
       <Container>
         <GlobalStyle />
@@ -67,7 +66,7 @@ class App extends PureComponent {
               path='/password/:token/reset'
               component={ResetPasswordPage}
             />
-            <Redirect to={user ? '/' : '/login'} />
+            <Route component={NotFoundPage} />
           </Switch>
         </Suspense>
       </Container>
