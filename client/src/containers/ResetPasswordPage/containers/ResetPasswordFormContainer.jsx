@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { object, string, ref } from 'yup';
 
 import PropTypes from 'prop-types';
@@ -10,6 +10,7 @@ import reset from '../actions';
 const initialValues = {
   password: '',
   confirmPassword: '',
+  token: null,
 };
 
 const validationSchema = object().shape({
@@ -21,20 +22,20 @@ const validationSchema = object().shape({
     .required('Password confirmation required.'),
 });
 
-const handleSubmit = dispatch => (values, formikBag) => {
-  const payload = {
-    params: values,
-    onSuccess: () => formikBag.setSubmitting(false),
-    onFailure: () => {
-      formikBag.setSubmitting(false);
-    },
-  };
+export default function ResetPasswordFormContainer(props) {
+  const { token } = props;
 
-  dispatch(reset(payload));
-};
+  const dispatch = useDispatch();
 
-function ResetPasswordFormContainer(props) {
-  const { dispatch, token } = props;
+  function submitHandler(values, formikBag) {
+    const payload = {
+      params: values,
+      onSuccess: () => formikBag.setSubmitting(false),
+      onFailure: () => formikBag.setSubmitting(false),
+    };
+
+    dispatch(reset(payload));
+  }
 
   initialValues.token = token;
 
@@ -43,19 +44,11 @@ function ResetPasswordFormContainer(props) {
       render={ResetPasswordForm}
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={handleSubmit(dispatch)}
+      onSubmit={submitHandler}
     />
   );
 }
 
 ResetPasswordFormContainer.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
 };
-
-const mapDispatchToProps = dispatch => ({ dispatch });
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(ResetPasswordFormContainer);
