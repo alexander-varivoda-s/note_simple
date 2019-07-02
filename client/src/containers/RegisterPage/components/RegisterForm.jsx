@@ -5,41 +5,45 @@ import { TextField, FormActions, ErrorMessage } from '../../../components/Form';
 import SVG from '../../../components/SVG';
 import Button from '../../../components/Button';
 
-const RegisterForm = ({ isSubmitting, errors }) => (
-  <Form>
-    <Field
-      type='text'
-      name='displayName'
-      label='Display Name'
-      component={TextField}
-    />
-    <Field type='email' name='email' label='Email' component={TextField} />
-    <Field
-      type='password'
-      name='password'
-      label='Password'
-      component={TextField}
-    />
-    <Field
-      type='password'
-      name='confirmPassword'
-      label='Confirm Password'
-      component={TextField}
-    />
-    {errors.formSubmission && (
-      <ErrorMessage>{errors.formSubmission}</ErrorMessage>
-    )}
-    <FormActions>
-      <Button type='submit' disabled={isSubmitting}>
-        {isSubmitting ? (
-          <SVG name='spinner' size='25' color='#fff' />
-        ) : (
-          'Sing up'
-        )}
-      </Button>
-    </FormActions>
-  </Form>
-);
+export default function RegisterForm(props) {
+  const { isSubmitting, errors } = props;
+
+  return (
+    <Form>
+      <Field
+        type='text'
+        name='displayName'
+        label='Display Name'
+        component={TextField}
+      />
+      <Field type='email' name='email' label='Email' component={TextField} />
+      <Field
+        type='password'
+        name='password'
+        label='Password'
+        component={TextField}
+      />
+      <Field
+        type='password'
+        name='confirmPassword'
+        label='Confirm Password'
+        component={TextField}
+      />
+      {errors.formSubmission && (
+        <ErrorMessage>{errors.formSubmission}</ErrorMessage>
+      )}
+      <FormActions>
+        <Button type='submit' disabled={isSubmitting}>
+          {isSubmitting ? (
+            <SVG name='spinner' size='25' color='#fff' />
+          ) : (
+            'Sing up'
+          )}
+        </Button>
+      </FormActions>
+    </Form>
+  );
+}
 
 RegisterForm.propTypes = {
   errors: PropTypes.shape({
@@ -52,5 +56,3 @@ RegisterForm.propTypes = {
   }).isRequired,
   isSubmitting: PropTypes.bool.isRequired,
 };
-
-export default RegisterForm;
