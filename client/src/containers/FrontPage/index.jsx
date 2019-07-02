@@ -1,6 +1,5 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useEffect, Suspense, lazy } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 
 import FrontPageContainer from './components/FrontPageContainer';
@@ -8,60 +7,35 @@ import ContentContainer from './components/ContentContainer';
 import RightColumn from './components/RightColumn';
 import LeftColumn from './components/LeftColumn';
 import {
-  dataFetchStatus,
   getMenuVisibilityStatus,
   getNoteInfoVisibilityStatus,
   getSelectedNote,
   getSidebarVisibilityStatus,
 } from './selectors';
-import { fetchDataAction, addNoteAction } from './actions';
+import { fetchDataAction } from './actions';
 import SearchBar from './containers/SearchBar';
 import NotesList from './containers/NotesList';
 import NoteEditor from './containers/NoteEditor';
 import Toolbar from './containers/Toolbar';
-import NoteInfo from './containers/NoteInfo';
 import Menu from './containers/Menu';
 import Overlay from './components/Overlay';
-import Revisions from './containers/Revisions';
 
-class FrontPage extends PureComponent {
-  static defaultProps = {
-    selectedNote: null,
-  };
+const Revisions = lazy(() => import('./containers/Revisions'));
+const NoteInfo = lazy(() => import('./containers/NoteInfo'));
 
-  static propTypes = {
-    fetchData: PropTypes.func.isRequired,
-    addNote: PropTypes.func.isRequired,
-    selectedNote: PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-      created: PropTypes.string.isRequired,
-      updated: PropTypes.string.isRequired,
-      pinned: PropTypes.string,
-      author: PropTypes.string.isRequired,
-      is_deleted: PropTypes.bool.isRequired,
-      tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-    }),
-    isNoteInfoVisible: PropTypes.bool.isRequired,
-    isSidebarVisible: PropTypes.bool.isRequired,
-    isMenuVisible: PropTypes.bool.isRequired,
-  };
+export default function FrontPage() {
+  const selectedNote = useSelector(getSelectedNote);
+  const isNoteInfoVisible = useSelector(getNoteInfoVisibilityStatus);
+  const isSidebarVisible = useSelector(getSidebarVisibilityStatus);
+  const isMenuVisible = useSelector(getMenuVisibilityStatus);
+  const dispatch = useDispatch();
 
-  componentDidMount() {
-    const { fetchData } = this.props;
-    fetchData();
-  }
+  useEffect(() => {
+    dispatch(fetchDataAction());
+  }, [dispatch]);
 
-  render() {
-    const {
-      addNote,
-      selectedNote,
-      isNoteInfoVisible,
-      isSidebarVisible,
-      isMenuVisible,
-    } = this.props;
-
-    return (
+  return (
+    <Suspense fallback={() => 'Loading...'}>
       <FrontPageContainer
         isNoteInfoVisible={isNoteInfoVisible}
         isMenuVisible={isMenuVisible}
@@ -71,7 +45,7 @@ class FrontPage extends PureComponent {
         <ContentContainer>
           <Overlay />
           <LeftColumn visible={isSidebarVisible}>
-            <SearchBar addNote={addNote} />
+            <SearchBar />
             <NotesList />
           </LeftColumn>
           <RightColumn>
@@ -82,24 +56,6 @@ class FrontPage extends PureComponent {
         </ContentContainer>
         {isNoteInfoVisible && <NoteInfo note={selectedNote} />}
       </FrontPageContainer>
-    );
-  }
+    </Suspense>
+  );
 }
-
-const mapStateToProps = state => ({
-  dataIsFetched: dataFetchStatus(state),
-  selectedNote: getSelectedNote(state),
-  isNoteInfoVisible: getNoteInfoVisibilityStatus(state),
-  isSidebarVisible: getSidebarVisibilityStatus(state),
-  isMenuVisible: getMenuVisibilityStatus(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-  fetchData: () => dispatch(fetchDataAction()),
-  addNote: text => () => dispatch(addNoteAction(text)),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FrontPage);
