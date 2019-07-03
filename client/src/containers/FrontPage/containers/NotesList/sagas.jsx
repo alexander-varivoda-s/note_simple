@@ -6,48 +6,47 @@ import {
   UNPIN_FAILURE,
   UNPIN_SUCCEEDED,
 } from './constants';
-import { getSelectedNote } from '../../selectors';
+import { getNotes, getSelectedNote } from '../../selectors';
 import { selectNoteAction } from './actions';
 
-function* selectNote(note) {
+function* selectNote(noteId) {
   const selectedNote = yield select(getSelectedNote);
 
-  if (selectedNote && selectedNote._id !== note._id) {
-    yield put(selectNoteAction(note));
+  if (selectedNote && selectedNote._id !== noteId) {
+    const notes = yield select(getNotes);
+    const noteToSelect = notes.find(note => note._id === noteId);
+
+    yield put(selectNoteAction(noteToSelect));
   }
 }
 
 export function* pinNote(action) {
-  const { note: noteToPin } = action.payload;
+  const { noteId } = action.payload;
 
   try {
     const {
       data: { note },
-    } = yield call(
-      notesAPI.pinNote,
-      { id: noteToPin._id },
-      { withCredentials: true }
-    );
+    } = yield call(notesAPI.pinNote, { id: noteId }, { withCredentials: true });
     yield put({ type: PIN_SUCCEEDED, payload: { note } });
-    yield selectNote(noteToPin);
+    yield selectNote(noteId);
   } catch (e) {
     yield put({ type: PIN_FAILURE, error: e });
   }
 }
 
 export function* unpinNote(action) {
-  const { note: noteToUnpin } = action.payload;
+  const { noteId } = action.payload;
 
   try {
     const {
       data: { note },
     } = yield call(
       notesAPI.unpinNote,
-      { id: noteToUnpin._id },
+      { id: noteId },
       { withCredentials: true }
     );
     yield put({ type: UNPIN_SUCCEEDED, payload: { note } });
-    yield selectNote(noteToUnpin);
+    yield selectNote(noteId);
   } catch (e) {
     yield put({ type: UNPIN_FAILURE, error: e });
   }

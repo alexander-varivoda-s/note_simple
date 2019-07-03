@@ -72,7 +72,11 @@ class NoteEditor extends PureComponent {
     const { selectedNote: prevSelectedNote } = prevProps;
     const { selectedNote: currentSelectedNote } = this.props;
 
-    if (prevSelectedNote && currentSelectedNote._id !== prevSelectedNote._id) {
+    if (
+      currentSelectedNote &&
+      prevSelectedNote &&
+      currentSelectedNote._id !== prevSelectedNote._id
+    ) {
       this._textarea.current.focus();
     }
   }

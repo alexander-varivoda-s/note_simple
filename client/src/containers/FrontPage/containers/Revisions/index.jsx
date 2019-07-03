@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getSelectedNote } from '../../selectors';
 import { noteEditAction, noteSaveAction } from '../NoteEditor/actions';
 import { revisionsAPI } from '../../../../api';

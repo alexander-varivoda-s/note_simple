@@ -5,10 +5,10 @@ import {
   UNPIN_REQUEST,
 } from './constants';
 
-export const pinAction = (isPinned, note) => ({
+export const pinAction = (isPinned, noteId) => ({
   type: isPinned ? PIN_REQUEST : UNPIN_REQUEST,
   payload: {
-    note,
+    noteId,
   },
 });
 

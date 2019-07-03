@@ -38,7 +38,7 @@ export default function FrontPage() {
   }, [dispatch]);
 
   return (
-    <Suspense fallback={() => 'Loading...'}>
+    <Suspense fallback={<div>Loading...</div>}>
       <FrontPageContainer
         isNoteInfoVisible={isNoteInfoVisible}
         isMenuVisible={isMenuVisible}

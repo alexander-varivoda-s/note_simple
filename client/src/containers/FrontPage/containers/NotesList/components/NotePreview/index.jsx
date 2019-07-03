@@ -1,33 +1,9 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 
-export const StyledNotePreview = styled.div`
-  border-bottom: 1px solid ${props => props.theme.notesList.borderBottomColor};
-  overflow: hidden;
-  padding: 0.625em 0;
-  width: 100%;
-
-  div,
-  p {
-    line-height: 1.5;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  p {
-    color: gray;
-    font-size: 0.875em;
-    margin: 0;
-  }
-`;
-
-export const Highlight = styled.span`
-  color: #fff;
-  background-color: ${props => props.theme.palette.main};
-  border-radius: 2px;
-`;
+import { StyledNotePreview, Highlight } from './styles';
+import { getSearchPhrase } from '../../../../selectors';
 
 function formatString(str, ch = '\u00A0', maxLen = 200) {
   if (!str.length) return ch;
@@ -69,16 +45,17 @@ function performNoteSelect(action, noteToSelect) {
 }
 
 export default function NotePreview(props) {
-  const { note, previewLines, selectNote, highlight } = props;
+  const { note, previewLines, selectNoteHandler } = props;
+  const searchPhrase = useSelector(getSearchPhrase);
   const nbsp = '\u00A0';
 
-  const preview = generatePreview(note, previewLines, highlight);
+  const preview = generatePreview(note, previewLines, searchPhrase);
 
   let title = preview.shift();
   if (title === nbsp) title = 'New Note...';
 
   return (
-    <StyledNotePreview onClick={performNoteSelect(selectNote, note)}>
+    <StyledNotePreview onClick={performNoteSelect(selectNoteHandler, note)}>
       <div>{title}</div>
       {preview.map((part, i) => (
         // eslint-disable-next-line react/no-array-index-key
@@ -90,7 +67,6 @@ export default function NotePreview(props) {
 
 NotePreview.defaultProps = {
   previewLines: 2,
-  highlight: '',
 };
 
 NotePreview.propTypes = {
@@ -98,7 +74,6 @@ NotePreview.propTypes = {
     _id: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
   }).isRequired,
-  selectNote: PropTypes.func.isRequired,
+  selectNoteHandler: PropTypes.func.isRequired,
   previewLines: PropTypes.oneOf([0, 1, 2, 3, 4]),
-  highlight: PropTypes.string,
 };

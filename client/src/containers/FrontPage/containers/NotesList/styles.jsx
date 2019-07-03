@@ -1,8 +1,16 @@
 import styled, { css } from 'styled-components';
-import { StyledPinner } from '../Pinner';
-import { StyledNotePreview } from '../NotePreview';
+import { StyledNotePreview } from './components/NotePreview/styles';
+import { StyledPinner } from './components/Pinner/styles';
 
-export default styled.li`
+// eslint-disable-next-line import/prefer-default-export
+export const StyledNotesList = styled.div`
+  border-right: 1px solid ${props => props.theme.palette.borderColor};
+  flex: 1 1 auto;
+  overflow-y: scroll;
+  width: 100%;
+`;
+
+export const NotesListItem = styled.li`
   display: flex;
   padding: 0 0 0 0.625em;
 
