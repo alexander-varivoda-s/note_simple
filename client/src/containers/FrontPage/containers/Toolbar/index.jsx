@@ -137,7 +137,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     isNoteSelected: !!selectedNote,
     toggleNoteInfoVisibility: () =>
       dispatch(toggleNoteVisibilityAction(!isNoteInfoVisible)),
-    moveToTrash: () => dispatch(moveToTrashAction(selectedNote)),
+    moveToTrash: () => dispatch(moveToTrashAction(selectedNote._id)),
     toggleSidebarVisibility: () =>
       dispatch(toggleSidebarVisibilityAction(!isSidebarVisible)),
     toggleRevisionSelectorVisibility: () =>
