@@ -4,8 +4,7 @@ import { noteEditAction, noteSaveAction } from './actions';
 import TagsEditor from '../TagsEditor';
 import { getSelectedNote } from '../../selectors';
 import { getRevisionSelectorVisibilityStatus } from '../Revisions/selectors';
-import { StyledNoteEditor, TextareaWrapper } from './styles';
-import CenteredContainer from '../../../../components/CenteredContainer';
+import { StyledNoteEditor, TextareaWrapper, StyledLogo } from './styles';
 import SVG from '../../../../components/SVG';
 
 const _timeout = [];
@@ -43,27 +42,24 @@ export default function NoteEditor() {
     }
   }
 
-  if (!note) {
-    return (
-      <CenteredContainer>
-        <SVG name='logo' />
-      </CenteredContainer>
-    );
-  }
-
   return (
     <StyledNoteEditor revisionSelectorVisible={isRevisionSelectorVisible}>
-      <TextareaWrapper>
-        <textarea
-          value={note.text}
-          onChange={changeHandler}
-          onKeyUp={keyUpHandler}
-          ref={_textarea}
-          spellCheck={false}
-          disabled={note.is_deleted}
-        />
-      </TextareaWrapper>
-      <TagsEditor />
+      {!note ? (
+        <StyledLogo>
+          <SVG name='logo' size='140' color='gray' style={{ opacity: 0.2 }} />
+        </StyledLogo>
+      ) : (
+        <TextareaWrapper>
+          <textarea
+            value={note.text}
+            onChange={changeHandler}
+            onKeyUp={keyUpHandler}
+            ref={_textarea}
+            spellCheck={false}
+            disabled={note.is_deleted}
+          />
+        </TextareaWrapper>
+      )}
     </StyledNoteEditor>
   );
 }

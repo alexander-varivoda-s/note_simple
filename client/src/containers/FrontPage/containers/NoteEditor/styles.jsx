@@ -7,6 +7,7 @@ export const StyledNoteEditor = styled.div`
   flex: 1 1 auto;
   flex-direction: column;
   padding-top: 0;
+  position: relative;
   transition: padding-top 0.5s ease-in-out;
 
   ${props =>
@@ -34,4 +35,13 @@ export const TextareaWrapper = styled.div`
   margin: 0 auto;
   max-width: 48.75em;
   width: 100%;
+`;
+
+export const StyledLogo = styled.div`
+  left: 50%;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 140px;
 `;
