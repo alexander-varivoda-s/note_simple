@@ -15,8 +15,7 @@ function* selectNote(noteId) {
   if (selectedNote && selectedNote._id !== noteId) {
     const notes = yield select(getNotes);
     const noteToSelect = notes.find(note => note._id === noteId);
-
-    yield put(selectNoteAction(noteToSelect));
+    yield put(selectNoteAction(noteToSelect._id));
   }
 }
 

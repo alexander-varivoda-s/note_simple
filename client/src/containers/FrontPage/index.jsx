@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense, lazy } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 
@@ -22,9 +22,8 @@ import Overlay from './components/Overlay';
 import { TopBar } from './styles';
 import MenuToggle from './containers/MenuToggle';
 import AddNote from './containers/AddNote';
-
-const Revisions = lazy(() => import('./containers/Revisions'));
-const NoteInfo = lazy(() => import('./containers/NoteInfo'));
+import Revisions from './containers/Revisions';
+import NoteInfo from './containers/NoteInfo';
 
 export default function FrontPage() {
   const selectedNote = useSelector(getSelectedNote);
@@ -38,31 +37,29 @@ export default function FrontPage() {
   }, [dispatch]);
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <FrontPageContainer
-        isNoteInfoVisible={isNoteInfoVisible}
-        isMenuVisible={isMenuVisible}
-      >
-        <Helmet title='Simplenote' />
-        <Menu />
-        <ContentContainer>
-          <Overlay />
-          <LeftColumn visible={isSidebarVisible}>
-            <TopBar>
-              <MenuToggle />
-              <SearchBar />
-              <AddNote />
-            </TopBar>
-            <NotesList />
-          </LeftColumn>
-          <RightColumn>
-            {selectedNote && <Revisions />}
-            <Toolbar />
-            <NoteEditor />
-          </RightColumn>
-        </ContentContainer>
-        {isNoteInfoVisible && <NoteInfo note={selectedNote} />}
-      </FrontPageContainer>
-    </Suspense>
+    <FrontPageContainer
+      isNoteInfoVisible={isNoteInfoVisible}
+      isMenuVisible={isMenuVisible}
+    >
+      <Helmet title='Simplenote' />
+      <Menu />
+      <ContentContainer>
+        <Overlay />
+        <LeftColumn visible={isSidebarVisible}>
+          <TopBar>
+            <MenuToggle />
+            <SearchBar />
+            <AddNote />
+          </TopBar>
+          <NotesList />
+        </LeftColumn>
+        <RightColumn>
+          <Toolbar />
+          <NoteEditor />
+          {selectedNote && <Revisions />}
+        </RightColumn>
+      </ContentContainer>
+      {isNoteInfoVisible && <NoteInfo note={selectedNote} />}
+    </FrontPageContainer>
   );
 }

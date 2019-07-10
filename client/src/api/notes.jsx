@@ -9,4 +9,8 @@ export default client => ({
     client.patch(`${BASE_PATH}/${params.id}/unpin`, params, config),
   updateNote: (noteId, params, config = {}) =>
     client.patch(`${BASE_PATH}/${noteId}`, params, config),
+  tagNote: (tagId, noteId, config = {}) =>
+    client.patch(`${BASE_PATH}/${noteId}/tag/${tagId}`, {}, config),
+  untagNote: (tagId, noteId, config = {}) =>
+    client.patch(`${BASE_PATH}/${noteId}/untag/${tagId}`, {}, config),
 });

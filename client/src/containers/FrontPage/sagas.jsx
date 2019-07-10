@@ -129,7 +129,7 @@ export function* tagNote(action) {
 
     const {
       data: { note },
-    } = yield call(tagsAPI.tagNote, tagId, selectedNote._id, {
+    } = yield call(notesAPI.tagNote, tagId, selectedNote._id, {
       withCredentials: true,
     });
     yield put({ type: TAG_REQUEST_SUCCEEDED, payload: { note } });
@@ -145,7 +145,7 @@ export function* untagNote(action) {
   try {
     const {
       data: { note },
-    } = yield call(tagsAPI.untagNote, tagId, selectedNote._id, {
+    } = yield call(notesAPI.untagNote, tagId, selectedNote._id, {
       withCredentials: true,
     });
     yield put({ type: UNTAG_REQUEST_SUCCEEDED, payload: { note } });

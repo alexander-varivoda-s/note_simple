@@ -1,11 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { noteEditAction, noteSaveAction } from './actions';
-import TagsEditor from '../TagsEditor';
 import { getSelectedNote } from '../../selectors';
 import { getRevisionSelectorVisibilityStatus } from '../Revisions/selectors';
 import { StyledNoteEditor, TextareaWrapper, StyledLogo } from './styles';
 import SVG from '../../../../components/SVG';
+import TagsEditor from '../TagsEditor';
 
 const _timeout = [];
 
@@ -18,12 +18,6 @@ export default function NoteEditor() {
   const isRevisionSelectorVisible = useSelector(
     getRevisionSelectorVisibilityStatus
   );
-
-  useEffect(() => {
-    if (note && !note.is_deleted) {
-      _textarea.current.focus();
-    }
-  }, [note]);
 
   function changeHandler(e) {
     const { value } = e.target;
@@ -49,16 +43,19 @@ export default function NoteEditor() {
           <SVG name='logo' size='140' color='gray' style={{ opacity: 0.2 }} />
         </StyledLogo>
       ) : (
-        <TextareaWrapper>
-          <textarea
-            value={note.text}
-            onChange={changeHandler}
-            onKeyUp={keyUpHandler}
-            ref={_textarea}
-            spellCheck={false}
-            disabled={note.is_deleted}
-          />
-        </TextareaWrapper>
+        <>
+          <TextareaWrapper>
+            <textarea
+              value={note.text}
+              onChange={changeHandler}
+              onKeyUp={keyUpHandler}
+              ref={_textarea}
+              spellCheck={false}
+              disabled={note.is_deleted}
+            />
+          </TextareaWrapper>
+          <TagsEditor />
+        </>
       )}
     </StyledNoteEditor>
   );

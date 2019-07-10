@@ -8,7 +8,17 @@ export const getTags = state => state.appData.tags;
 
 export const getFilter = state => state.appData.filter;
 
-export const getSelectedNote = state => state.appData.selectedNote;
+export const getSelectedNoteFocusStatus = state =>
+  state.appData.isSelectedNoteInFocus;
+
+export const getSelectedNote = createSelector(
+  [getNotes, state => state.appData.selectedNote],
+  (notes, selectedNote) => {
+    if (!selectedNote && !notes.length) return null;
+    const note = notes.find(n => n._id === selectedNote);
+    return note || null;
+  }
+);
 
 export const getSearchPhrase = state => state.appData.searchPhrase;
 
@@ -52,7 +62,10 @@ export const getNoteInfoVisibilityStatus = state =>
 
 export const getSelectedNoteTags = createSelector(
   [getSelectedNote, getTags],
-  (note, tags) => note.tags.map(tagId => tags.find(tag => tag._id === tagId))
+  (note, tags) =>
+    note && tags.length
+      ? note.tags.map(tagId => tags.find(tag => tag._id === tagId))
+      : []
 );
 
 export const getTagsDiff = createSelector(

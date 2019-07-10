@@ -3,7 +3,10 @@ import {
   PIN_SUCCEEDED,
   UNPIN_SUCCEEDED,
 } from '../containers/NotesList/constants';
-import { NOTE_SAVE_SUCCEEDED } from '../containers/NoteEditor/constants';
+import {
+  NOTE_EDIT,
+  NOTE_SAVE_SUCCEEDED,
+} from '../containers/NoteEditor/constants';
 import {
   TAG_DELETE_SUCCEEDED,
   TAG_REQUEST_SUCCEEDED,
@@ -51,6 +54,18 @@ export default function notesReducer(state = [], action) {
       }
 
       return newNotes;
+    }
+
+    case NOTE_EDIT: {
+      const { noteId, text } = action.payload;
+      const index = state.findIndex(n => n._id === noteId);
+      if (index < 0) {
+        return state;
+      }
+
+      const newState = [...state];
+      newState[index] = { ...newState[index], text };
+      return newState;
     }
 
     default: {

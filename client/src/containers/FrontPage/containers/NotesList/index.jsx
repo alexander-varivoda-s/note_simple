@@ -22,7 +22,7 @@ export default function NotesList() {
   const selectNote = useCallback(
     noteToSelect => {
       if (!selectedNote || noteToSelect._id !== selectedNote._id) {
-        dispatch(selectNoteAction(noteToSelect));
+        dispatch(selectNoteAction(noteToSelect._id));
       }
     },
     [selectedNote, dispatch]
