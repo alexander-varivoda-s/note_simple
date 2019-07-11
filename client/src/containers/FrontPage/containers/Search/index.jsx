@@ -35,7 +35,7 @@ export default function Search() {
         onChange={changeHandler}
         value={searchPhrase}
       />
-      {searchPhrase.length && (
+      {!!searchPhrase.length && (
         <Button type='button' title='Clear' onClick={clickHandler}>
           <SVG name='cross' size='22' />
         </Button>

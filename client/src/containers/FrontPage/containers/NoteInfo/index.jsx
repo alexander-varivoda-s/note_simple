@@ -1,30 +1,73 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import {
+  StyledNoteInfo,
+  Header,
+  HeaderTop,
+  Modified,
+  PinToTop,
+} from './styles';
+import Button from '../../../../components/Button';
+import SVG from '../../../../components/SVG';
+import { toggleNoteVisibilityAction } from '../Toolbar/actions';
+import { pinAction } from '../NotesList/actions';
 
-import PinToTop from './components/PinToTop';
-import Header from './components/Header';
-
-export const StyledNoteInfo = styled.div`
-  border-left: 1px solid ${props => props.theme.palette.borderColor};
-  height: 100%;
-  left: 100%;
-  position: absolute;
-  top: 0;
-  width: 16.75em;
-
-  & > div:not(:first-of-type) {
-    border-top: 1px solid ${props => props.theme.palette.borderColor};
-  }
-`;
+function formatDate(dateString) {
+  return new Date(dateString).toLocaleString('en-US', {
+    hour12: true,
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}
 
 export default function NoteInfo(props) {
   const { note } = props;
 
+  const [isChecked, setIsChecked] = useState(!!note.pinned);
+
+  const dispatch = useDispatch();
+
+  function clickHandler() {
+    dispatch(toggleNoteVisibilityAction(false));
+  }
+
+  function changeHandler() {
+    setIsChecked(!isChecked);
+  }
+
+  useEffect(() => {
+    if ((!!note.pinned && !isChecked) || (!note.pinned && isChecked)) {
+      dispatch(pinAction(isChecked, note._id));
+    }
+  }, [isChecked, note, dispatch]);
+
   return (
     <StyledNoteInfo>
-      <Header date={note.updated} />
-      <PinToTop isChecked={!!note.pinned} noteId={note._id} />
+      <Header>
+        <HeaderTop>
+          <h2>Info</h2>
+          <Button onClick={clickHandler}>
+            <SVG name='cross' size='32' />
+          </Button>
+        </HeaderTop>
+        <Modified>
+          <div>Modified</div>
+          <p>{formatDate(note.updated)}</p>
+        </Modified>
+      </Header>
+      <PinToTop>
+        <label htmlFor='pin-to-top'>Pin to top</label>
+        <input
+          id='pin-to-top'
+          type='checkbox'
+          checked={isChecked}
+          onChange={changeHandler}
+        />
+      </PinToTop>
     </StyledNoteInfo>
   );
 }
