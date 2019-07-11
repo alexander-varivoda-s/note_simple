@@ -97,8 +97,6 @@ export default function TagsEditor() {
     }
   }
 
-  console.log(tagName, suggestions, inputInFocus);
-
   function keyDownHandler(e) {
     const { key } = e;
 
