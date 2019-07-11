@@ -31,7 +31,7 @@ export default function Search() {
     <StyledSearch>
       <SearchInput
         type='text'
-        placeholder={placeholders[filter] || ''}
+        placeholder={placeholders[filter] || filter}
         onChange={changeHandler}
         value={searchPhrase}
       />
