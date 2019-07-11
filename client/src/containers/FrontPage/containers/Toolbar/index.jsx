@@ -1,7 +1,5 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   getNoteInfoVisibilityStatus,
@@ -21,45 +19,44 @@ import { getRevisionSelectorVisibilityStatus } from '../Revisions/selectors';
 import AccountDropdown from '../../../AccountDropdown';
 import { getUser } from '../../../User/selectors';
 
-export const StyledToolbar = styled.div`
-  align-items: center;
-  border-bottom: 1px solid ${props => props.theme.palette.borderColor};
-  display: flex;
-  flex: 0 0 3.5em;
-  justify-content: space-between;
-  padding: 0 1em;
+import { StyledToolbar, ToolsList } from './styles';
 
-  ${Button} {
-    height: 2em;
-    width: 2em;
+export default function Toolbar() {
+  const user = useSelector(getUser);
+  const selectedNote = useSelector(getSelectedNote);
+  const isNoteInfoVisible = useSelector(getNoteInfoVisibilityStatus);
+  const isSidebarVisible = useSelector(getSidebarVisibilityStatus);
+  const isRevisionSelectorVisible = useSelector(
+    getRevisionSelectorVisibilityStatus
+  );
+
+  const dispatch = useDispatch();
+
+  function noteInfoToggle() {
+    dispatch(toggleNoteVisibilityAction(!isNoteInfoVisible));
   }
-`;
 
-const ToolsList = styled.ul`
-  display: flex;
-
-  & > li {
-    margin-right: 0.875em;
+  function sidebarToggle() {
+    dispatch(toggleSidebarVisibilityAction(!isSidebarVisible));
   }
-`;
 
-function Toolbar(props) {
-  const {
-    isNoteSelected,
-    toggleNoteInfoVisibility,
-    moveToTrash,
-    toggleSidebarVisibility,
-    toggleRevisionSelectorVisibility,
-    user,
-  } = props;
+  function revisionSelectorToggle() {
+    dispatch(
+      toggleRevisionSelectorVisibilityAction(!isRevisionSelectorVisible)
+    );
+  }
+
+  function moveToTrash() {
+    dispatch(moveToTrashAction(selectedNote._id));
+  }
 
   return (
     <StyledToolbar>
-      {isNoteSelected && (
-        <Fragment>
+      {selectedNote && (
+        <>
           <ToolsList>
             <li>
-              <Button onClick={toggleSidebarVisibility}>
+              <Button onClick={sidebarToggle}>
                 <SVG name='sidebar' size='22' />
               </Button>
             </li>
@@ -71,7 +68,7 @@ function Toolbar(props) {
           </ToolsList>
           <ToolsList>
             <li>
-              <Button onClick={toggleRevisionSelectorVisibility}>
+              <Button onClick={revisionSelectorToggle}>
                 <SVG name='revisions' size='22' />
               </Button>
             </li>
@@ -81,7 +78,7 @@ function Toolbar(props) {
               </Button>
             </li>
             <li>
-              <Button onClick={toggleNoteInfoVisibility}>
+              <Button onClick={noteInfoToggle}>
                 <SVG name='info' size='22' />
               </Button>
             </li>
@@ -95,60 +92,8 @@ function Toolbar(props) {
               />
             </li>
           </ToolsList>
-        </Fragment>
+        </>
       )}
     </StyledToolbar>
   );
 }
-
-Toolbar.propTypes = {
-  isNoteSelected: PropTypes.bool.isRequired,
-  toggleNoteInfoVisibility: PropTypes.func.isRequired,
-  moveToTrash: PropTypes.func.isRequired,
-  toggleSidebarVisibility: PropTypes.func.isRequired,
-  toggleRevisionSelectorVisibility: PropTypes.func.isRequired,
-  user: PropTypes.shape({
-    email: PropTypes.string.isRequired,
-  }).isRequired,
-};
-
-const mapStateToProps = state => ({
-  selectedNote: getSelectedNote(state),
-  isNoteInfoVisible: getNoteInfoVisibilityStatus(state),
-  isSidebarVisible: getSidebarVisibilityStatus(state),
-  isRevisionSelectorVisible: getRevisionSelectorVisibilityStatus(state),
-  user: getUser(state),
-});
-
-const mapDispatchToProps = dispatch => ({ dispatch });
-
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const {
-    selectedNote,
-    isNoteInfoVisible,
-    isSidebarVisible,
-    isRevisionSelectorVisible,
-  } = stateProps;
-  const { dispatch } = dispatchProps;
-
-  return {
-    ...ownProps,
-    user: stateProps.user,
-    isNoteSelected: !!selectedNote,
-    toggleNoteInfoVisibility: () =>
-      dispatch(toggleNoteVisibilityAction(!isNoteInfoVisible)),
-    moveToTrash: () => dispatch(moveToTrashAction(selectedNote._id)),
-    toggleSidebarVisibility: () =>
-      dispatch(toggleSidebarVisibilityAction(!isSidebarVisible)),
-    toggleRevisionSelectorVisibility: () =>
-      dispatch(
-        toggleRevisionSelectorVisibilityAction(!isRevisionSelectorVisible)
-      ),
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-  mergeProps
-)(Toolbar);
