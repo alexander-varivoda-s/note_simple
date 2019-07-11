@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import { object, string, ref } from 'yup';
 
@@ -72,8 +72,8 @@ const submitHandler = dispatch => ({ oldPassword, newPassword }, formikBag) => {
   dispatch(updatePasswordAction(oldPassword, newPassword, reset, reset));
 };
 
-function PasswordFormContainer(props) {
-  const { dispatch } = props;
+export default function PasswordFormContainer() {
+  const dispatch = useDispatch();
 
   return (
     <Formik
@@ -84,14 +84,3 @@ function PasswordFormContainer(props) {
     />
   );
 }
-
-PasswordFormContainer.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = dispatch => ({ dispatch });
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(PasswordFormContainer);

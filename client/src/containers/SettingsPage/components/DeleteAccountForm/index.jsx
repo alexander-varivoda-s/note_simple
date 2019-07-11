@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { object, bool, string } from 'yup';
 
@@ -62,8 +62,8 @@ const submitHandler = dispatch => ({ password }) => {
   dispatch(deleteAccountAction(password));
 };
 
-function DeleteAccountFormContainer(props) {
-  const { dispatch } = props;
+export default function DeleteAccountFormContainer() {
+  const dispatch = useDispatch();
 
   return (
     <Formik
@@ -74,14 +74,3 @@ function DeleteAccountFormContainer(props) {
     />
   );
 }
-
-DeleteAccountFormContainer.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = dispatch => ({ dispatch });
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(DeleteAccountFormContainer);

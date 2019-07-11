@@ -1,7 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Container from '../../components/Container';
@@ -14,8 +13,12 @@ import DisplaySettings from './components/DisplaySettings';
 import { getAppSettings } from '../../utils/settings';
 import { getSettings } from './selectors';
 
-function SettingsPage(props) {
-  const { user, dispatch, settings } = props;
+export default function SettingsPage() {
+  const user = useSelector(getUser);
+  const settings = useSelector(getAppSettings);
+
+  const dispatch = useDispatch();
+
   return (
     <Container>
       <Helmet>
@@ -41,22 +44,3 @@ function SettingsPage(props) {
     </Container>
   );
 }
-
-SettingsPage.propTypes = {
-  user: PropTypes.shape({
-    email: PropTypes.string.isRequired,
-  }).isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
-  user: getUser(state),
-  settings: getSettings(state),
-});
-
-const mapDispatchToProps = dispatch => ({ dispatch });
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SettingsPage);

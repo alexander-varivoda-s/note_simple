@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { object, string, ref } from 'yup';
 
@@ -74,8 +74,8 @@ const submitHandler = dispatch => ({ email, password }, formikBag) => {
   dispatch(updateEmailAction(email, password, reset, reset));
 };
 
-function EmailFormContainer(props) {
-  const { dispatch } = props;
+export default function EmailFormContainer() {
+  const dispatch = useDispatch();
 
   return (
     <Formik
@@ -86,14 +86,3 @@ function EmailFormContainer(props) {
     />
   );
 }
-
-EmailFormContainer.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = dispatch => ({ dispatch });
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(EmailFormContainer);

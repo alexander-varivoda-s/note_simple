@@ -1,40 +1,29 @@
-import { PureComponent } from 'react';
+import { useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import verifyEmail from './actions';
 
-class VerifyEmail extends PureComponent {
-  static propTypes = {
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        token: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
-    verify: PropTypes.func.isRequired,
-  };
+export default function VerifyEmail(props) {
+  const {
+    match: {
+      params: { token },
+    },
+  } = props;
 
-  componentDidMount() {
-    const {
-      match: {
-        params: { token },
-      },
-      verify,
-    } = this.props;
+  const dispatch = useDispatch();
 
-    verify(token);
-  }
+  useLayoutEffect(() => {
+    dispatch(verifyEmail(token));
+  });
 
-  render() {
-    return null;
-  }
+  return null;
 }
 
-const mapDispatchToProps = dispatch => ({
-  verify: token => dispatch(verifyEmail(token)),
-});
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(VerifyEmail);
+VerifyEmail.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      token: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
