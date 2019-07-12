@@ -1,14 +1,14 @@
 import { all } from 'redux-saga/effects';
 
-import loginSaga from './containers/LoginPage/sagas';
-import registrationSaga from './containers/RegisterPage/sagas';
-import emailVerificationSaga from './containers/VerifyEmail/sagas';
-import getUser from './containers/App/sagas';
-import forgotPassword from './containers/ForgotPage/sagas';
-import resetPassword from './containers/ResetPasswordPage/sagas';
-import logoutSaga from './containers/LogoutPage/sagas';
-import fetchDataSaga from './containers/FrontPage/sagas';
-import settingsPageSaga from './containers/SettingsPage/sagas';
+import loginSaga from './components/LoginPage/sagas';
+import registrationSaga from './components/RegisterPage/sagas';
+import emailVerificationSaga from './components/VerifyEmail/sagas';
+import getUser from './components/App/sagas';
+import forgotPassword from './components/ForgotPage/sagas';
+import resetPassword from './components/ResetPasswordPage/sagas';
+import logoutSaga from './components/LogoutPage/sagas';
+import fetchDataSaga from './components/FrontPage/sagas';
+import settingsPageSaga from './components/SettingsPage/sagas';
 
 export default function* rootSaga() {
   yield all([

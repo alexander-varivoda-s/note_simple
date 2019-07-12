@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import userReducer from './containers/User/reducers/user';
-import flashReducer from './containers/FlashMessages/reducers/flash';
-import frontPageReducer from './containers/FrontPage/reducers';
-import settingsReducer from './containers/SettingsPage/reducers/settings';
+import userReducer from './components/User/reducers/user';
+import flashReducer from './components/FlashMessages/reducers/flash';
+import frontPageReducer from './components/FrontPage/reducers';
+import settingsReducer from './components/SettingsPage/reducers/settings';
 
 export default combineReducers({
   user: userReducer,

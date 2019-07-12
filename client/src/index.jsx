@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import { Router } from 'react-router-dom';
-import App from './containers/App';
+import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import configureStore from './store';
 import defaultTheme from './theme/default';
@@ -27,9 +27,9 @@ const render = Component =>
 render(App);
 
 if (module.hot) {
-  module.hot.accept('./containers/App', () => {
+  module.hot.accept('./components/App', () => {
     // eslint-disable-next-line global-require
-    const NextApp = require('./containers/App').default;
+    const NextApp = require('./components/App').default;
     render(NextApp);
   });
 }

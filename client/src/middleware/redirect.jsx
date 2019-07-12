@@ -1,4 +1,4 @@
-import { REDIRECT } from '../containers/shared/constants';
+import { REDIRECT } from '../components/Shared/constants';
 
 export default history => () => next => action => {
   if (action.type !== REDIRECT) {
