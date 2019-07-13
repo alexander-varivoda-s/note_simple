@@ -20,14 +20,14 @@ import {
   NOTE_UNSELECTED,
   PIN_REQUEST,
   UNPIN_REQUEST,
-} from './containers/NotesList/constants';
+} from './components/NotesList/constants';
 
-import { pinNote, unpinNote } from './containers/NotesList/sagas';
+import { pinNote, unpinNote } from './components/NotesList/sagas';
 import {
   NOTE_SAVE_FAILURE,
   NOTE_SAVE_REQUEST,
   NOTE_SAVE_SUCCEEDED,
-} from './containers/NoteEditor/constants';
+} from './components/NoteEditor/constants';
 import {
   TAG_CREATE_FAILURE,
   TAG_CREATE_REQUEST,
@@ -41,13 +41,13 @@ import {
   UNTAG_REQUEST,
   UNTAG_REQUEST_FAILURE,
   UNTAG_REQUEST_SUCCEEDED,
-} from './containers/TagsEditor/constants';
+} from './components/TagsEditor/constants';
 import { getSelectedNote } from './selectors';
 import {
   MOVE_TO_TRASH_FAILURE,
   MOVE_TO_TRASH_REQUEST,
   MOVE_TO_TRASH_SUCCEEDED,
-} from './containers/Toolbar/constants';
+} from './components/Toolbar/constants';
 
 export function* fetchData() {
   try {

@@ -2,17 +2,17 @@ import { ADD_NOTE_SUCCEEDED, FETCH_DATA_SUCCEEDED } from '../constants';
 import {
   PIN_SUCCEEDED,
   UNPIN_SUCCEEDED,
-} from '../containers/NotesList/constants';
+} from '../components/NotesList/constants';
 import {
   NOTE_EDIT,
   NOTE_SAVE_SUCCEEDED,
-} from '../containers/NoteEditor/constants';
+} from '../components/NoteEditor/constants';
 import {
   TAG_DELETE_SUCCEEDED,
   TAG_REQUEST_SUCCEEDED,
   UNTAG_REQUEST_SUCCEEDED,
-} from '../containers/TagsEditor/constants';
-import { MOVE_TO_TRASH_SUCCEEDED } from '../containers/Toolbar/constants';
+} from '../components/TagsEditor/constants';
+import { MOVE_TO_TRASH_SUCCEEDED } from '../components/Toolbar/constants';
 
 function tagsReducer(tags = [], tagId) {
   return tags.filter(tag => tag !== tagId);

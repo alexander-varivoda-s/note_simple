@@ -9,7 +9,7 @@ import selectedNote from './selectedNote';
 import isNoteInfoVisible from './isNoteInfoVisible';
 import isSidebarVisible from './isSidebarVisible';
 import isMenuVisible from './isMenuVisible';
-import isRevisionSelectorVisible from '../containers/Revisions/reducers/isRevisionSelectorVisible';
+import isRevisionSelectorVisible from '../components/Revisions/reducers/isRevisionSelectorVisible';
 
 export default combineReducers({
   tags,

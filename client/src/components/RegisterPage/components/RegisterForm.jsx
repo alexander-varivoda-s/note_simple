@@ -1,15 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, Form } from 'formik';
-import {
-  TextField,
-  FormActions,
-  ErrorMessage,
-} from '../../Shared/components/Form';
-import SVG from '../../Shared/components/SVG';
-import Button from '../../Shared/components/Button';
+import { Field, Form, Formik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { object, string, ref } from 'yup';
 
-export default function RegisterForm(props) {
+import register from '../actions';
+import {
+  ErrorMessage,
+  FormActions,
+  TextField,
+} from '../../Shared/components/Form';
+import Button from '../../Shared/components/Button';
+import SVG from '../../Shared/components/SVG';
+
+const initialValues = {
+  displayName: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+};
+
+const validationSchema = object().shape({
+  displayName: string().max(32, 'Display name exceeds 32 characters limit.'),
+  email: string()
+    .email('Email is not valid!')
+    .required('Email is required!'),
+  password: string()
+    .min(6, 'Password too short, has to be at least 6 characters long!')
+    .required('Password is required!'),
+  confirmPassword: string()
+    .oneOf([ref('password')], "Passwords don't match!")
+    .required('Password confirmation required.'),
+});
+
+function RegisterForm(props) {
   const { isSubmitting, errors } = props;
 
   return (
@@ -60,3 +84,25 @@ RegisterForm.propTypes = {
   }).isRequired,
   isSubmitting: PropTypes.bool.isRequired,
 };
+
+export default function RegisterFormContainer() {
+  const dispatch = useDispatch();
+
+  function submitHandler(values, formikBag) {
+    const payload = {
+      params: values,
+      onSuccess: () => formikBag.setSubmitting(false),
+      onFailure: () => formikBag.setSubmitting(false),
+    };
+
+    dispatch(register(payload));
+  }
+  return (
+    <Formik
+      render={RegisterForm}
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={submitHandler}
+    />
+  );
+}

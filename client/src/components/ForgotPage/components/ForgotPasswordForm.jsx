@@ -1,15 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, Form } from 'formik';
-import {
-  TextField,
-  FormActions,
-  ErrorMessage,
-} from '../../Shared/components/Form';
-import SVG from '../../Shared/components/SVG';
-import Button from '../../Shared/components/Button';
+import { Field, Form, Formik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { object, string } from 'yup';
+import jwt from 'jsonwebtoken';
 
-export default function ForgotPasswordForm(props) {
+import forgot from '../actions';
+import {
+  ErrorMessage,
+  FormActions,
+  TextField,
+} from '../../Shared/components/Form';
+import Button from '../../Shared/components/Button';
+import SVG from '../../Shared/components/SVG';
+
+const initialValues = {
+  email: '',
+};
+
+const validationSchema = object().shape({
+  email: string()
+    .email('Email is not valid!')
+    .required('Email is required!'),
+});
+
+function ForgotPasswordForm(props) {
   const { isSubmitting, errors } = props;
 
   return (
@@ -43,3 +58,48 @@ ForgotPasswordForm.propTypes = {
   }).isRequired,
   isSubmitting: PropTypes.bool.isRequired,
 };
+
+export default function ForgotPasswordFormContainer() {
+  const dispatch = useDispatch();
+
+  function submitHandler(values, formikBag) {
+    const cancelSubmission = () => formikBag.setSubmitting(false);
+    const { email } = values;
+
+    let token = null;
+
+    try {
+      token = jwt.sign({ sub: email }, process.env.REACT_APP_JWT_SECRET, {
+        expiresIn: '1h',
+      });
+    } catch (e) {
+      formikBag.setFieldError(
+        'formSubmission',
+        'Failed to submit. Please try again.'
+      );
+      cancelSubmission();
+    }
+
+    const payload = {
+      params: {
+        email,
+        token,
+      },
+      onSuccess: cancelSubmission,
+      onFailure: () => {
+        cancelSubmission();
+      },
+    };
+
+    dispatch(forgot(payload));
+  }
+
+  return (
+    <Formik
+      render={ForgotPasswordForm}
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={submitHandler}
+    />
+  );
+}

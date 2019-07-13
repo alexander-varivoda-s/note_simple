@@ -2,10 +2,6 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 
-import FrontPageContainer from './components/FrontPageContainer';
-import ContentContainer from './components/ContentContainer';
-import RightColumn from './components/RightColumn';
-import LeftColumn from './components/LeftColumn';
 import {
   getMenuVisibilityStatus,
   getNoteInfoVisibilityStatus,
@@ -13,17 +9,23 @@ import {
   getSidebarVisibilityStatus,
 } from './selectors';
 import { fetchDataAction } from './actions';
-import SearchBar from './containers/Search';
-import NotesList from './containers/NotesList';
-import NoteEditor from './containers/NoteEditor';
-import Toolbar from './containers/Toolbar';
-import Menu from './containers/Menu';
+import SearchBar from './components/Search';
+import NotesList from './components/NotesList';
+import NoteEditor from './components/NoteEditor';
+import Toolbar from './components/Toolbar';
+import Menu from './components/Menu';
 import Overlay from './components/Overlay';
-import { TopBar } from './styles';
-import MenuToggle from './containers/MenuToggle';
-import AddNote from './containers/AddNote';
-import Revisions from './containers/Revisions';
-import NoteInfo from './containers/NoteInfo';
+import {
+  TopBar,
+  FrontPageContainer,
+  ContentContainer,
+  LeftColumn,
+  RightColumn,
+} from './styles';
+import MenuToggle from './components/MenuToggle';
+import AddNote from './components/AddNote';
+import Revisions from './components/Revisions';
+import NoteInfo from './components/NoteInfo';
 
 export default function FrontPage() {
   const selectedNote = useSelector(getSelectedNote);

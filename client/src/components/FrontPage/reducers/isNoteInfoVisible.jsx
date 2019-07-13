@@ -1,4 +1,4 @@
-import { TOGGLE_NOTE_INFO } from '../containers/Toolbar/constants';
+import { TOGGLE_NOTE_INFO } from '../components/Toolbar/constants';
 
 export default function noteInfoVisiblityReducer(state = false, action) {
   switch (action.type) {

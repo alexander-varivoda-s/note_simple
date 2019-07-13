@@ -1,7 +1,7 @@
 import {
   NOTE_SELECTED,
   NOTE_UNSELECTED,
-} from '../containers/NotesList/constants';
+} from '../components/NotesList/constants';
 
 export default function notesReducer(state = null, action) {
   switch (action.type) {

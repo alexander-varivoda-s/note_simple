@@ -6,7 +6,7 @@ import PageHeader from '../Shared/components/PageHeader';
 import PageTitle from '../Shared/components/PageTitle';
 import Container from '../Shared/components/Container';
 import CenteredContainer from '../Shared/components/CenteredContainer';
-import ResetPasswordFormContainer from './containers/ResetPasswordFormContainer';
+import ResetPasswordForm from './components/ResetPasswordForm';
 import FlashMessages from '../FlashMessages';
 
 export default function ResetPasswordPage(props) {
@@ -29,7 +29,7 @@ export default function ResetPasswordPage(props) {
       <CenteredContainer>
         <PageTitle>Reset your password</PageTitle>
         <FlashMessages />
-        <ResetPasswordFormContainer token={token} />
+        <ResetPasswordForm token={token} />
       </CenteredContainer>
     </Container>
   );

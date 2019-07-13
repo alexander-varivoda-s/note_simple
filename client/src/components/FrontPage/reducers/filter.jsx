@@ -1,4 +1,4 @@
-import { FILTER_NOTES } from '../containers/Menu/constants';
+import { FILTER_NOTES } from '../components/Menu/constants';
 
 export default function filterReducer(state = 'all', action) {
   switch (action.type) {

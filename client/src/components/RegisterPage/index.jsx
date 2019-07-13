@@ -4,7 +4,7 @@ import PageHeader from '../Shared/components/PageHeader';
 import PageTitle from '../Shared/components/PageTitle';
 import Container from '../Shared/components/Container';
 import CenteredContainer from '../Shared/components/CenteredContainer';
-import RegisterFormContainer from './containers/RegisterFormContainer';
+import RegisterForm from './components/RegisterForm';
 import FlashMessages from '../FlashMessages';
 
 export default function RegisterPage() {
@@ -21,7 +21,7 @@ export default function RegisterPage() {
       <CenteredContainer>
         <PageTitle>Create an account</PageTitle>
         <FlashMessages />
-        <RegisterFormContainer />
+        <RegisterForm />
       </CenteredContainer>
     </Container>
   );

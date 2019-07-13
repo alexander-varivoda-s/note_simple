@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import Container from '../Shared/components/Container';
 
-// eslint-disable-next-line import/prefer-default-export
 export const TopBar = styled.div`
   align-items: center;
   border-bottom: 1px solid ${props => props.theme.palette.borderColor};
@@ -10,4 +10,50 @@ export const TopBar = styled.div`
   justify-content: space-between;
   padding: 0 1em;
   width: 100%;
+`;
+
+export const RightColumn = styled.div`
+  display: flex;
+  flex: auto;
+  flex-direction: column;
+  position: relative;
+`;
+
+export const LeftColumn = styled.div`
+  display: flex;
+  flex: 0 0 300px;
+  flex-direction: column;
+  transition: all 0.2s ease-in-out;
+  margin-left: -18.75em;
+
+  ${props =>
+    props.visible &&
+    css`
+      margin-left: 0;
+    `}
+`;
+
+export const FrontPageContainer = styled(Container)`
+  display: flex;
+  transition: all 0.2s ease-in-out;
+  transform: translateX(0);
+  
+  ${props =>
+    props.isMenuVisible &&
+    css`
+      transform: translateX(13.5em);
+    `}
+
+  ${props =>
+    props.isNoteInfoVisible &&
+    css`
+      transform: translateX(-16.75em);
+    `}
+}
+`;
+
+export const ContentContainer = styled.div`
+  display: flex;
+  flex: 1 1 auto;
+  height: 100vh;
 `;

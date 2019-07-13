@@ -1,4 +1,4 @@
-import { TOGGLE_MENU_VISIBILITY } from '../containers/Menu/constants';
+import { TOGGLE_MENU_VISIBILITY } from '../components/Menu/constants';
 
 export default function sidebarVisibilityReducer(state = false, action) {
   switch (action.type) {

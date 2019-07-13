@@ -2,7 +2,7 @@ import { FETCH_DATA_SUCCEEDED } from '../constants';
 import {
   TAG_CREATE_SUCCEEDED,
   TAG_DELETE_SUCCEEDED,
-} from '../containers/TagsEditor/constants';
+} from '../components/TagsEditor/constants';
 
 export default function tagsReducer(state = [], action) {
   switch (action.type) {

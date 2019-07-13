@@ -1,15 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, Form } from 'formik';
-import {
-  TextField,
-  FormActions,
-  ErrorMessage,
-} from '../../Shared/components/Form';
-import SVG from '../../Shared/components/SVG';
-import Button from '../../Shared/components/Button';
+import { Field, Form, Formik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { object, string } from 'yup';
 
-export default function LoginForm(props) {
+import login from '../actions';
+import {
+  ErrorMessage,
+  FormActions,
+  TextField,
+} from '../../Shared/components/Form';
+import Button from '../../Shared/components/Button';
+import SVG from '../../Shared/components/SVG';
+
+const initialValues = {
+  email: '',
+  password: '',
+};
+
+const validationSchema = object().shape({
+  email: string()
+    .email('Email is not valid!')
+    .required('Email is required!'),
+  password: string()
+    .min(6, 'Password too short, has to be at least 6 characters long!')
+    .required('Password is required!'),
+});
+
+function LoginForm(props) {
   const { isSubmitting, errors } = props;
 
   return (
@@ -49,3 +67,25 @@ LoginForm.propTypes = {
   }).isRequired,
   isSubmitting: PropTypes.bool.isRequired,
 };
+
+export default function LoginFormContainer() {
+  const dispatch = useDispatch();
+
+  function submitHandler(values, formikBag) {
+    const payload = {
+      params: values,
+      onSuccess: () => formikBag.setSubmitting(false),
+      onFailure: () => formikBag.setSubmitting(false),
+    };
+
+    dispatch(login(payload));
+  }
+  return (
+    <Formik
+      render={LoginForm}
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={submitHandler}
+    />
+  );
+}
