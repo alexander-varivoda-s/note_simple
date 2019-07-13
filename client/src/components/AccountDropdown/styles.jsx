@@ -5,6 +5,7 @@ export const Dropdown = styled.div`
 `;
 
 export const Header = styled.div`
+  line-height: 1.5;
   padding: 0.571em 1.143em;
 
   div {
@@ -23,7 +24,6 @@ export const ListContainer = styled.nav`
   font-size: 0.875rem;
   left: auto;
   max-width: 12.857em;
-  padding-bottom: 0.571em;
   position: absolute;
   top: 2.8em;
   right: -0.15em;
@@ -54,6 +54,7 @@ export const ListContainer = styled.nav`
 
 export const LinksList = styled.ul`
   border-top: 1px solid #e1e4e8;
+  padding: 0.3em 0;
 
   li {
     margin: 0;

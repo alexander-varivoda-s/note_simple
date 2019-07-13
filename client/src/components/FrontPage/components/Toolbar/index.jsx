@@ -82,18 +82,16 @@ export default function Toolbar() {
                 <SVG name='info' size='22' />
               </Button>
             </li>
-            <li>
-              <AccountDropdown
-                email={user.email}
-                items={[
-                  <Link to='/settings'>Settings</Link>,
-                  <Link to='/logout'>Sign Out</Link>,
-                ]}
-              />
-            </li>
           </ToolsList>
         </>
       )}
+      <AccountDropdown
+        email={user.email}
+        items={[
+          <Link to='/settings'>Settings</Link>,
+          <Link to='/logout'>Sign Out</Link>,
+        ]}
+      />
     </StyledToolbar>
   );
 }
