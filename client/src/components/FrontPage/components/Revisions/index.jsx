@@ -42,7 +42,13 @@ export default function Revisions() {
   }, [note._id, isRevisionSelectorVisible]);
 
   useEffect(() => {
-    _currentNote = { ...note };
+    if (
+      !_currentNote ||
+      _currentNote._id !== note._id ||
+      _currentNote.updated !== note.updated
+    ) {
+      _currentNote = { ...note };
+    }
   }, [note]);
 
   const closeSelector = useCallback(() => {
@@ -50,29 +56,28 @@ export default function Revisions() {
   }, [dispatch]);
 
   useEffect(() => {
-    function handleDocumentClick(e) {
-      if (
-        isRevisionSelectorVisible &&
-        !_revisionSelector.current.contains(e.target)
-      ) {
+    function documentClickHandler(e) {
+      const { current } = _revisionSelector;
+      if (isRevisionSelectorVisible && !current.contains(e.target)) {
+        dispatch(noteEditAction(_currentNote.text, _currentNote._id));
         closeSelector();
       }
     }
-    document.addEventListener('click', handleDocumentClick);
+    document.addEventListener('click', documentClickHandler);
 
-    return () => document.removeEventListener('click', handleDocumentClick);
-  }, [isRevisionSelectorVisible, closeSelector]);
-
-  function editNote(text, id = null) {
-    dispatch(noteEditAction(text, id));
-  }
+    return () => document.removeEventListener('click', documentClickHandler);
+  }, [isRevisionSelectorVisible, closeSelector, dispatch]);
 
   function changeHandler(e) {
     const { value } = e.target;
     const pos = parseInt(value, 10);
 
+    if (pos === revisions.length) {
+      dispatch(noteEditAction(_currentNote.text, _currentNote._id));
+    }
+
     if (revisions[pos]) {
-      editNote(revisions[pos].text);
+      dispatch(noteEditAction(revisions[pos].text, note._id));
     }
 
     setRangePosition(pos);
@@ -80,7 +85,7 @@ export default function Revisions() {
 
   function cancelHandler() {
     if (rangePosition !== revisions.length) {
-      editNote(_currentNote.text, note._id);
+      dispatch(noteEditAction(_currentNote.text, note._id));
     }
 
     closeSelector();

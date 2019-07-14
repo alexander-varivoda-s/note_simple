@@ -20,19 +20,22 @@ export default function NoteEditor() {
   );
 
   function changeHandler(e) {
-    const { value } = e.target;
-    dispatch(noteEditAction(value, note._id));
+    dispatch(noteEditAction(e.target.value, note._id));
   }
 
   function keyUpHandler() {
-    const { _id: id, text } = note;
-    if (_timeout[id]) {
-      clearTimeout(_timeout[id]);
-      _timeout[id] = null;
+    const { _id: noteId, text } = note;
+
+    if (_timeout[noteId]) {
+      clearTimeout(_timeout[noteId]);
+      _timeout[noteId] = null;
     }
 
-    if (!_timeout[id]) {
-      _timeout[id] = setTimeout(() => dispatch(noteSaveAction(text, id)), 750);
+    if (!_timeout[noteId]) {
+      _timeout[noteId] = setTimeout(
+        () => dispatch(noteSaveAction(text, noteId)),
+        750
+      );
     }
   }
 
