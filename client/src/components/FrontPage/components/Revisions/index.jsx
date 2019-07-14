@@ -4,16 +4,13 @@ import { getSelectedNote } from '../../selectors';
 import { noteEditAction, noteSaveAction } from '../NoteEditor/actions';
 import { revisionsAPI } from '../../../../api';
 import { getNoteHistoryDateFormat } from '../../../../utils/date';
-import {
-  StyledRevisions,
-  SelectedRevision,
-  Range,
-  Actions,
-  RestoreButton,
-  CancelButton,
-} from './styles';
+import { StyledRevisions, SelectedRevision, Range, Actions } from './styles';
 import { getRevisionSelectorVisibilityStatus } from './selectors';
 import { toggleRevisionSelectorVisibilityAction } from './actions';
+import {
+  PrimaryButton,
+  SecondaryButton,
+} from '../../../Shared/components/Button';
 
 let _currentNote = null;
 
@@ -102,13 +99,16 @@ export default function Revisions() {
         onChange={changeHandler}
       />
       <Actions>
-        <CancelButton onClick={cancelHandler}>Cancel</CancelButton>
-        <RestoreButton
+        <SecondaryButton onClick={cancelHandler} compact>
+          Cancel
+        </SecondaryButton>
+        <PrimaryButton
           disabled={restoreBtnDisabled}
           onClick={restoreNoteHandler}
+          compact
         >
           Restore Note
-        </RestoreButton>
+        </PrimaryButton>
       </Actions>
     </StyledRevisions>
   );

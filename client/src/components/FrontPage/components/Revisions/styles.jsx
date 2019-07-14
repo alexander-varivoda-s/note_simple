@@ -1,5 +1,8 @@
 import styled, { css } from 'styled-components';
-import Button from '../../../Shared/components/Button';
+import {
+  PrimaryButton,
+  SecondaryButton,
+} from '../../../Shared/components/Button';
 
 export const StyledRevisions = styled.div`
   align-items: center;
@@ -62,23 +65,24 @@ export const Range = styled.input`
   }
 `;
 
-export const RestoreButton = styled(Button)`
-  background: white;
-  color: ${props => props.theme.palette.main};
-  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
-  padding: 0.45em 1.25em;
-`;
-
-export const CancelButton = styled(Button)`
-  border: 2px solid #fff;
-  color: white;
-  margin-right: 1em;
-  padding: 0.3em 1.25em;
-`;
-
 export const Actions = styled.div`
-  ${Button} {
-    font-size: 0.75rem;
-    border-radius: 3px;
+  ${PrimaryButton} {
+    background-color: #fff;
+    border-color: #fff;
+    color: #448ac9;
+    width: auto;
+
+    &:disabled {
+      opacity: 0.5;
+    }
+
+    &:active {
+      background: #c7def3;
+      border-color: #c7def3;
+    }
+  }
+
+  ${SecondaryButton} {
+    margin-right: 0.714em;
   }
 `;

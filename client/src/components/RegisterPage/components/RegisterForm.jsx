@@ -10,7 +10,7 @@ import {
   FormActions,
   TextField,
 } from '../../Shared/components/Form';
-import Button from '../../Shared/components/Button';
+import { PrimaryButton } from '../../Shared/components/Button';
 import SVG from '../../Shared/components/SVG';
 
 const initialValues = {
@@ -61,13 +61,13 @@ function RegisterForm(props) {
         <ErrorMessage>{errors.formSubmission}</ErrorMessage>
       )}
       <FormActions>
-        <Button type='submit' disabled={isSubmitting}>
+        <PrimaryButton type='submit' disabled={isSubmitting}>
           {isSubmitting ? (
             <SVG name='spinner' size='25' color='#fff' />
           ) : (
             'Sing up'
           )}
-        </Button>
+        </PrimaryButton>
       </FormActions>
     </Form>
   );

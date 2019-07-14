@@ -8,7 +8,7 @@ import {
 } from '../../selectors';
 
 import SVG from '../../../Shared/components/SVG';
-import Button from '../../../Shared/components/Button';
+import { IconButton } from '../../../Shared/components/Button';
 import {
   moveToTrashAction,
   toggleNoteVisibilityAction,
@@ -56,31 +56,31 @@ export default function Toolbar() {
         <>
           <ToolsList>
             <li>
-              <Button onClick={sidebarToggle}>
+              <IconButton onClick={sidebarToggle}>
                 <SVG name='sidebar' size='22' />
-              </Button>
+              </IconButton>
             </li>
             <li>
-              <Button>
+              <IconButton>
                 <SVG name='back' size='22' />
-              </Button>
+              </IconButton>
             </li>
           </ToolsList>
           <ToolsList>
             <li>
-              <Button onClick={revisionSelectorToggle}>
+              <IconButton onClick={revisionSelectorToggle}>
                 <SVG name='revisions' size='22' />
-              </Button>
+              </IconButton>
             </li>
             <li>
-              <Button onClick={moveToTrash}>
+              <IconButton onClick={moveToTrash}>
                 <SVG name='trash' size='22' />
-              </Button>
+              </IconButton>
             </li>
             <li>
-              <Button onClick={noteInfoToggle}>
+              <IconButton onClick={noteInfoToggle}>
                 <SVG name='info' size='22' />
-              </Button>
+              </IconButton>
             </li>
           </ToolsList>
         </>

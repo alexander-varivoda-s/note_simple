@@ -50,7 +50,7 @@ export default function NoteInfo(props) {
       <Header>
         <HeaderTop>
           <h2>Info</h2>
-          <Button onClick={clickHandler}>
+          <Button onClick={clickHandler} svg>
             <SVG name='cross' size='32' />
           </Button>
         </HeaderTop>

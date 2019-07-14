@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import SVG from '../Shared/components/SVG';
-import Button from '../Shared/components/Button';
+import { IconButton } from '../Shared/components/Button';
 import { Dropdown, ListContainer, Header, LinksList } from './styles';
 
 export default function AccountDropdown(props) {
@@ -27,9 +27,9 @@ export default function AccountDropdown(props) {
 
   return (
     <Dropdown ref={dropdown}>
-      <Button onClick={toggleDropdown}>
+      <IconButton onClick={toggleDropdown}>
         <SVG name='user' size='18' />
-      </Button>
+      </IconButton>
       {isVisible && (
         <ListContainer>
           <Header>

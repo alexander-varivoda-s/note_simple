@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { Field, Form, Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { object, string } from 'yup';
+import jwt from 'jsonwebtoken';
 
-import login from '../actions';
+import forgot from '../actions';
 import {
   ErrorMessage,
   FormActions,
@@ -15,30 +16,20 @@ import SVG from '../../Shared/components/SVG';
 
 const initialValues = {
   email: '',
-  password: '',
 };
 
 const validationSchema = object().shape({
   email: string()
     .email('Email is not valid!')
     .required('Email is required!'),
-  password: string()
-    .min(6, 'Password too short, has to be at least 6 characters long!')
-    .required('Password is required!'),
 });
 
-function LoginForm(props) {
+function ForgotPasswordForm(props) {
   const { isSubmitting, errors } = props;
 
   return (
     <Form>
       <Field type='email' name='email' label='Email' component={TextField} />
-      <Field
-        type='password'
-        name='password'
-        label='Password'
-        component={TextField}
-      />
       {errors.formSubmission && (
         <ErrorMessage>{errors.formSubmission}</ErrorMessage>
       )}
@@ -47,7 +38,7 @@ function LoginForm(props) {
           {isSubmitting ? (
             <SVG name='spinner' size='25' color='#fff' />
           ) : (
-            'Log in'
+            'Remind Me'
           )}
         </PrimaryButton>
       </FormActions>
@@ -55,7 +46,7 @@ function LoginForm(props) {
   );
 }
 
-LoginForm.propTypes = {
+ForgotPasswordForm.propTypes = {
   errors: PropTypes.shape({
     email: PropTypes.string,
     password: PropTypes.string,
@@ -68,21 +59,44 @@ LoginForm.propTypes = {
   isSubmitting: PropTypes.bool.isRequired,
 };
 
-export default function LoginFormContainer() {
+export default function ForgotPasswordFormContainer() {
   const dispatch = useDispatch();
 
   function submitHandler(values, formikBag) {
+    const cancelSubmission = () => formikBag.setSubmitting(false);
+    const { email } = values;
+
+    let token = null;
+
+    try {
+      token = jwt.sign({ sub: email }, process.env.REACT_APP_JWT_SECRET, {
+        expiresIn: '1h',
+      });
+    } catch (e) {
+      formikBag.setFieldError(
+        'formSubmission',
+        'Failed to submit. Please try again.'
+      );
+      cancelSubmission();
+    }
+
     const payload = {
-      params: values,
-      onSuccess: () => formikBag.setSubmitting(false),
-      onFailure: () => formikBag.setSubmitting(false),
+      params: {
+        email,
+        token,
+      },
+      onSuccess: cancelSubmission,
+      onFailure: () => {
+        cancelSubmission();
+      },
     };
 
-    dispatch(login(payload));
+    dispatch(forgot(payload));
   }
+
   return (
     <Formik
-      render={LoginForm}
+      render={ForgotPasswordForm}
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={submitHandler}

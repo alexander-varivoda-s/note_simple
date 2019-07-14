@@ -1,6 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Button from '../../../Shared/components/Button';
+import {
+  BorderlessButton,
+  IconButton,
+} from '../../../Shared/components/Button';
 import SVG from '../../../Shared/components/SVG';
 import { getFilter, getSelectedNote, getTags } from '../../selectors';
 import { filterNotesAction, toggleMenuVisibilityAction } from './actions';
@@ -45,24 +48,24 @@ export default function Menu() {
     <StyledMenu>
       <OptionsWrapper>
         <OptionContainer>
-          <Button
+          <BorderlessButton
             active={filter === 'all'}
             data-filter='all'
             onClick={handleClick}
           >
             <SVG name='notes' size='22' color='#1e1e1e' />
             <span>All Notes</span>
-          </Button>
+          </BorderlessButton>
         </OptionContainer>
         <OptionContainer>
-          <Button
+          <BorderlessButton
             active={filter === 'trash'}
             data-filter='trash'
             onClick={handleClick}
           >
             <SVG name='trash' size='22' color='#1e1e1e' />
             <span>Trash</span>
-          </Button>
+          </BorderlessButton>
         </OptionContainer>
       </OptionsWrapper>
       <TagsListWrapper>
@@ -73,9 +76,9 @@ export default function Menu() {
               <Tag data-filter={tag.name} onClick={handleClick}>
                 <span>{tag.name}</span>
               </Tag>
-              <Button onClick={performTagDelete} data-id={tag._id}>
+              <IconButton onClick={performTagDelete} data-id={tag._id}>
                 <SVG name='cross-outline' color='#d94f4f' size='22' />
-              </Button>
+              </IconButton>
             </TagsListItem>
           ))}
         </TagsList>

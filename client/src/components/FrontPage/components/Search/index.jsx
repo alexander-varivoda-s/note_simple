@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import searchAction from './actions';
 import { getFilter, getSearchPhrase } from '../../selectors';
-import Button from '../../../Shared/components/Button';
+import { IconButton } from '../../../Shared/components/Button';
 import SVG from '../../../Shared/components/SVG';
 
 import { StyledSearch, SearchInput } from './styles';
@@ -36,9 +36,9 @@ export default function Search() {
         value={searchPhrase}
       />
       {!!searchPhrase.length && (
-        <Button type='button' title='Clear' onClick={clickHandler}>
+        <IconButton svg title='Clear' onClick={clickHandler}>
           <SVG name='cross' size='22' />
-        </Button>
+        </IconButton>
       )}
     </StyledSearch>
   );

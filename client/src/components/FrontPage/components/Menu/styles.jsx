@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Button from '../../../Shared/components/Button';
+import Button, { BorderlessButton } from '../../../Shared/components/Button';
 
 export const StyledMenu = styled.div`
   border-right: 1px solid #e6e6e6;
@@ -23,11 +23,8 @@ export const OptionsWrapper = styled.div`
 
 export const OptionContainer = styled.div`
   padding-left: 1em;
-  ${Button} {
-    font-size: 0.875em;
-    font-weight: bold;
-    margin: 0.6em 0;
 
+  ${BorderlessButton} {
     span {
       padding-left: 0.5em;
     }

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getMenuVisibilityStatus } from '../../selectors';
 import { toggleMenuVisibilityAction } from '../Menu/actions';
 
-import Button from '../../../Shared/components/Button';
+import { IconButton } from '../../../Shared/components/Button';
 import SVG from '../../../Shared/components/SVG';
 
 export default function MenuToggle() {
@@ -16,8 +16,8 @@ export default function MenuToggle() {
   }
 
   return (
-    <Button type='button' title='Menu' onClick={menuToggleHandler}>
+    <IconButton title='Menu' onClick={menuToggleHandler}>
       <SVG name='menu' size='24' />
-    </Button>
+    </IconButton>
   );
 }
