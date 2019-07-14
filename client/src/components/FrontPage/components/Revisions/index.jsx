@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSelectedNote } from '../../selectors';
 import { noteEditAction, noteSaveAction } from '../NoteEditor/actions';
@@ -15,6 +15,7 @@ import {
 let _currentNote = null;
 
 export default function Revisions() {
+  const _revisionSelector = useRef(null);
   const [revisions, setRevisions] = useState([]);
   const [rangePosition, setRangePosition] = useState(0);
 
@@ -44,6 +45,24 @@ export default function Revisions() {
     _currentNote = { ...note };
   }, [note]);
 
+  const closeSelector = useCallback(() => {
+    dispatch(toggleRevisionSelectorVisibilityAction(false));
+  }, [dispatch]);
+
+  useEffect(() => {
+    function handleDocumentClick(e) {
+      if (
+        isRevisionSelectorVisible &&
+        !_revisionSelector.current.contains(e.target)
+      ) {
+        closeSelector();
+      }
+    }
+    document.addEventListener('click', handleDocumentClick);
+
+    return () => document.removeEventListener('click', handleDocumentClick);
+  }, [isRevisionSelectorVisible, closeSelector]);
+
   function editNote(text, id = null) {
     dispatch(noteEditAction(text, id));
   }
@@ -57,10 +76,6 @@ export default function Revisions() {
     }
 
     setRangePosition(pos);
-  }
-
-  function closeSelector() {
-    dispatch(toggleRevisionSelectorVisibilityAction(false));
   }
 
   function cancelHandler() {
@@ -88,7 +103,10 @@ export default function Revisions() {
   }
 
   return (
-    <StyledRevisions isVisible={isRevisionSelectorVisible}>
+    <StyledRevisions
+      isVisible={isRevisionSelectorVisible}
+      ref={_revisionSelector}
+    >
       <SelectedRevision>{revision}</SelectedRevision>
       <Range
         type='range'
