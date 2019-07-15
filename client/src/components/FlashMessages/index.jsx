@@ -54,7 +54,6 @@ class FlashMessages extends PureComponent {
 
   render() {
     const { messages } = this.props;
-    console.log(messages);
 
     return (
       <StyledFlashMessages>

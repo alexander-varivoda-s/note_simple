@@ -70,6 +70,17 @@ module.exports = {
     };
   },
 
+  deleteNote() {
+    return async ctx => {
+      const { note } = ctx.state;
+      await note.remove();
+
+      ctx.body = {
+        deleted: note._id,
+      };
+    };
+  },
+
   clearAll() {
     return async ctx => {
       const { user } = ctx.state;

@@ -40,6 +40,7 @@ router.get('/', NotesController.getNotes());
 router.post('/', NotesController.createNote());
 router.patch('/:note', NotesController.updateNote());
 router.delete('/', NotesController.clearAll());
+router.delete('/:note', NotesController.deleteNote());
 router.patch('/:note/tag/:tag', NotesController.tagNote());
 router.patch('/:note/untag/:tag', NotesController.untagNote());
 router.patch('/:note/pin', NotesController.pinNote());

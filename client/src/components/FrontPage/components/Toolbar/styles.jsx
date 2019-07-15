@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import Button from '../../../Shared/components/Button';
 
 export const StyledToolbar = styled.div`
   align-items: center;
@@ -7,11 +6,6 @@ export const StyledToolbar = styled.div`
   display: flex;
   flex: 0 0 3.5em;
   padding: 0 1em;
-
-  ${Button} {
-    height: 2em;
-    width: 2em;
-  }
 
   ul:last-of-type {
     margin-left: auto;

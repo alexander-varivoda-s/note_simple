@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getSelectedNote, getSortedNotes } from '../../selectors';
@@ -22,26 +22,14 @@ export default function NotesList() {
   const selectNote = useCallback(
     noteToSelect => {
       if (!selectedNote || noteToSelect._id !== selectedNote._id) {
+        if (selectedNote) {
+          dispatch(unselectNoteAction());
+        }
         dispatch(selectNoteAction(noteToSelect._id));
       }
     },
     [selectedNote, dispatch]
   );
-
-  const unselectNote = useCallback(() => dispatch(unselectNoteAction()), [
-    dispatch,
-  ]);
-
-  useEffect(() => {
-    if (notes.length && !selectedNoteId) {
-      selectNote(notes[0]);
-    } else if (
-      selectedNoteId &&
-      notes.findIndex(n => n._id === selectedNoteId) === -1
-    ) {
-      unselectNote();
-    }
-  }, [notes, selectedNoteId, selectNote, unselectNote]);
 
   return (
     <StyledNotesList>

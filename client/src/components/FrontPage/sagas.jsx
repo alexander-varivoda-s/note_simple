@@ -16,12 +16,7 @@ import {
   ADD_NOTE_FAILURE,
 } from './constants';
 import { notesAPI, tagsAPI } from '../../api';
-import {
-  NOTE_UNSELECTED,
-  PIN_REQUEST,
-  UNPIN_REQUEST,
-} from './components/NotesList/constants';
-
+import { PIN_REQUEST, UNPIN_REQUEST } from './components/NotesList/constants';
 import { pinNote, unpinNote } from './components/NotesList/sagas';
 import {
   NOTE_SAVE_FAILURE,
@@ -42,12 +37,29 @@ import {
   UNTAG_REQUEST_FAILURE,
   UNTAG_REQUEST_SUCCEEDED,
 } from './components/TagsEditor/constants';
-import { getSelectedNote } from './selectors';
+import { getSelectedNote, getSortedNotes } from './selectors';
 import {
-  MOVE_TO_TRASH_FAILURE,
+  DELETE_NOTE_REQUEST,
   MOVE_TO_TRASH_REQUEST,
-  MOVE_TO_TRASH_SUCCEEDED,
+  RESTORE_NOTE_REQUEST,
 } from './components/Toolbar/constants';
+import {
+  deleteNote,
+  restoreNote,
+  moveToTrash,
+} from './components/Toolbar/sagas';
+import { FILTER_NOTES } from './components/Menu/constants';
+import {
+  selectNoteAction,
+  unselectNoteAction,
+} from './components/NotesList/actions';
+
+function* selectDefaultNote() {
+  const notes = yield select(getSortedNotes);
+  if (notes.length) {
+    yield put(selectNoteAction(notes[0]._id));
+  }
+}
 
 export function* fetchData() {
   try {
@@ -63,6 +75,7 @@ export function* fetchData() {
     };
 
     yield put({ type: FETCH_DATA_SUCCEEDED, payload: data });
+    yield selectDefaultNote();
   } catch (e) {
     yield put({ type: FETCH_DATA_FAILURE, error: e });
   }
@@ -165,23 +178,14 @@ export function* deleteTag(action) {
   }
 }
 
-export function* moveToTrash(action) {
-  const { noteId } = action.payload;
+export function* noteSelection() {
+  const selectedNote = yield select(getSelectedNote);
 
-  try {
-    const {
-      data: { note },
-    } = yield call(
-      notesAPI.updateNote,
-      noteId,
-      { is_deleted: true },
-      { withCredentials: true }
-    );
-    yield put({ type: MOVE_TO_TRASH_SUCCEEDED, payload: { note } });
-    yield put({ type: NOTE_UNSELECTED });
-  } catch (e) {
-    yield { type: MOVE_TO_TRASH_FAILURE, error: e };
+  if (selectedNote) {
+    yield put(unselectNoteAction());
   }
+
+  yield selectDefaultNote();
 }
 
 export default function* fetchDataWatcher() {
@@ -194,4 +198,7 @@ export default function* fetchDataWatcher() {
   yield takeEvery(UNTAG_REQUEST, untagNote);
   yield takeEvery(TAG_DELETE_REQUEST, deleteTag);
   yield takeEvery(MOVE_TO_TRASH_REQUEST, moveToTrash);
+  yield takeLatest(RESTORE_NOTE_REQUEST, restoreNote);
+  yield takeLatest(DELETE_NOTE_REQUEST, deleteNote);
+  yield takeEvery(FILTER_NOTES, noteSelection);
 }

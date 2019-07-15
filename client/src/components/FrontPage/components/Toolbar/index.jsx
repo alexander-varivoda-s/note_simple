@@ -8,9 +8,15 @@ import {
 } from '../../selectors';
 
 import SVG from '../../../Shared/components/SVG';
-import { IconButton } from '../../../Shared/components/Button';
 import {
+  IconButton,
+  PrimaryButton,
+  DangerButton,
+} from '../../../Shared/components/Button';
+import {
+  deleteNoteRequest,
   moveToTrashAction,
+  restoreNoteAction,
   toggleNoteVisibilityAction,
   toggleSidebarVisibilityAction,
 } from './actions';
@@ -47,12 +53,20 @@ export default function Toolbar() {
   }
 
   function moveToTrash() {
-    dispatch(moveToTrashAction(selectedNote._id));
+    dispatch(moveToTrashAction());
+  }
+
+  function noteRestoreHandler() {
+    dispatch(restoreNoteAction());
+  }
+
+  function noteDeleteHandler() {
+    dispatch(deleteNoteRequest());
   }
 
   return (
     <StyledToolbar>
-      {selectedNote && (
+      {selectedNote && !selectedNote.is_deleted && (
         <>
           <ToolsList>
             <li>
@@ -84,6 +98,20 @@ export default function Toolbar() {
             </li>
           </ToolsList>
         </>
+      )}
+      {selectedNote && selectedNote.is_deleted && (
+        <ToolsList>
+          <li>
+            <DangerButton compact onClick={noteDeleteHandler}>
+              Delete Forever
+            </DangerButton>
+          </li>
+          <li>
+            <PrimaryButton compact onClick={noteRestoreHandler}>
+              Restore Note
+            </PrimaryButton>
+          </li>
+        </ToolsList>
       )}
       <AccountDropdown
         email={user.email}

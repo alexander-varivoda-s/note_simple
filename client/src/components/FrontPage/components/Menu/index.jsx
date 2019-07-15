@@ -5,10 +5,9 @@ import {
   IconButton,
 } from '../../../Shared/components/Button';
 import SVG from '../../../Shared/components/SVG';
-import { getFilter, getSelectedNote, getTags } from '../../selectors';
+import { getFilter, getTags } from '../../selectors';
 import { filterNotesAction, toggleMenuVisibilityAction } from './actions';
 import { tagDeleteAction } from '../TagsEditor/actions';
-import { unselectNoteAction } from '../NotesList/actions';
 import {
   StyledMenu,
   OptionsWrapper,
@@ -23,7 +22,6 @@ import {
 export default function Menu() {
   const filter = useSelector(getFilter);
   const tags = useSelector(getTags);
-  const selectedNote = useSelector(getSelectedNote);
 
   const dispatch = useDispatch();
 
@@ -31,9 +29,6 @@ export default function Menu() {
     const { filter: selectedFilter } = e.currentTarget.dataset;
 
     dispatch(filterNotesAction(selectedFilter));
-    if (selectedNote) {
-      dispatch(unselectNoteAction());
-    }
     dispatch(toggleMenuVisibilityAction(false));
   }
 

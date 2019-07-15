@@ -99,6 +99,8 @@ export const BorderlessButton = styled(Button)`
 export const IconButton = styled(Button)`
   background-color: transparent;
   border: none;
+  min-height: 2em;
+  min-width: 2em;
   padding: 0;
 `;
 

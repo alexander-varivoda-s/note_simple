@@ -1,5 +1,7 @@
 import {
+  DELETE_NOTE_REQUEST,
   MOVE_TO_TRASH_REQUEST,
+  RESTORE_NOTE_REQUEST,
   TOGGLE_NOTE_INFO,
   TOGGLE_SIDEBAR_VISIBILITY,
 } from './constants';
@@ -18,9 +20,14 @@ export const toggleSidebarVisibilityAction = isVisible => ({
   },
 });
 
-export const moveToTrashAction = noteId => ({
+export const moveToTrashAction = () => ({
   type: MOVE_TO_TRASH_REQUEST,
-  payload: {
-    noteId,
-  },
+});
+
+export const restoreNoteAction = () => ({
+  type: RESTORE_NOTE_REQUEST,
+});
+
+export const deleteNoteRequest = () => ({
+  type: DELETE_NOTE_REQUEST,
 });

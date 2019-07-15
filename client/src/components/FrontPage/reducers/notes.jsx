@@ -12,7 +12,11 @@ import {
   TAG_REQUEST_SUCCEEDED,
   UNTAG_REQUEST_SUCCEEDED,
 } from '../components/TagsEditor/constants';
-import { MOVE_TO_TRASH_SUCCEEDED } from '../components/Toolbar/constants';
+import {
+  DELETE_NOTE_SUCCEEDED,
+  MOVE_TO_TRASH_SUCCEEDED,
+  RESTORE_NOTE_SUCCEEDED,
+} from '../components/Toolbar/constants';
 
 function tagsReducer(tags = [], tagId) {
   return tags.filter(tag => tag !== tagId);
@@ -34,7 +38,8 @@ export default function notesReducer(state = [], action) {
     case NOTE_SAVE_SUCCEEDED:
     case TAG_REQUEST_SUCCEEDED:
     case UNTAG_REQUEST_SUCCEEDED:
-    case MOVE_TO_TRASH_SUCCEEDED: {
+    case MOVE_TO_TRASH_SUCCEEDED:
+    case RESTORE_NOTE_SUCCEEDED: {
       const { note } = action.payload;
       const newNotes = [...state];
       const index = newNotes.findIndex(n => n._id === note._id);
@@ -66,6 +71,12 @@ export default function notesReducer(state = [], action) {
       const newState = [...state];
       newState[index] = { ...newState[index], text };
       return newState;
+    }
+
+    case DELETE_NOTE_SUCCEEDED: {
+      const { deleted } = action.payload;
+
+      return state.filter(n => n._id !== deleted);
     }
 
     default: {
