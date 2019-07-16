@@ -1,11 +1,13 @@
 import styled from 'styled-components';
-import Button from '../../../Shared/components/Button';
+import { IconButton } from '../../../Shared/components/Button';
 
 export const StyledSearch = styled.div`
   margin: 0 0.625em;
   position: relative;
 
-  ${Button} {
+  ${IconButton} {
+    min-height: 0;
+    min-width: 0;
     position: absolute;
     top: 0.071em;
     right: 0.243em;

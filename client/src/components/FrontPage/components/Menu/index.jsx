@@ -72,7 +72,7 @@ export default function Menu() {
                 <span>{tag.name}</span>
               </Tag>
               <IconButton onClick={performTagDelete} data-id={tag._id}>
-                <SVG name='cross-outline' color='#d94f4f' size='22' />
+                <SVG name='cross-outline' color='#d94f4f' size='20' />
               </IconButton>
             </TagsListItem>
           ))}

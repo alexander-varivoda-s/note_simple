@@ -8,7 +8,7 @@ import {
   Modified,
   PinToTop,
 } from './styles';
-import Button from '../../../Shared/components/Button';
+import { IconButton } from '../../../Shared/components/Button';
 import SVG from '../../../Shared/components/SVG';
 import { toggleNoteVisibilityAction } from '../Toolbar/actions';
 import { pinAction } from '../NotesList/actions';
@@ -50,9 +50,9 @@ export default function NoteInfo(props) {
       <Header>
         <HeaderTop>
           <h2>Info</h2>
-          <Button onClick={clickHandler} svg>
+          <IconButton onClick={clickHandler}>
             <SVG name='cross' size='32' />
-          </Button>
+          </IconButton>
         </HeaderTop>
         <Modified>
           <div>Modified</div>

@@ -1,5 +1,8 @@
 import styled from 'styled-components';
-import Button, { BorderlessButton } from '../../../Shared/components/Button';
+import {
+  BorderlessButton,
+  IconButton,
+} from '../../../Shared/components/Button';
 
 export const StyledMenu = styled.div`
   border-right: 1px solid #e6e6e6;
@@ -49,12 +52,14 @@ export const TagsListItem = styled.li`
   justify-content: space-between;
   padding: 0.4em 0;
 
-  ${Button} {
+  ${IconButton} {
     display: none;
   }
 
-  &:hover ${Button} {
+  &:hover ${IconButton} {
     display: block;
+    min-height: 0;
+    min-width: 0;
   }
 `;
 
