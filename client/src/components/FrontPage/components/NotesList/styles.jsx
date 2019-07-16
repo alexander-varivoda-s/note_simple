@@ -6,7 +6,8 @@ import { StyledPinner } from './components/Pinner/styles';
 export const StyledNotesList = styled.div`
   border-right: 1px solid ${props => props.theme.palette.borderColor};
   flex: 1 1 auto;
-  overflow-y: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
   width: 100%;
 `;
 

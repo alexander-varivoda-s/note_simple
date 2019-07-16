@@ -21,10 +21,10 @@ export const RightColumn = styled.div`
 
 export const LeftColumn = styled.div`
   display: flex;
-  flex: 0 0 300px;
+  flex: 0 0 20.5em;
   flex-direction: column;
   transition: all 0.2s ease-in-out;
-  margin-left: -18.75em;
+  margin-left: -20.5em;
 
   ${props =>
     props.visible &&

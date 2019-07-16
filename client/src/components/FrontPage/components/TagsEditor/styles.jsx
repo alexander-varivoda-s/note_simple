@@ -7,7 +7,8 @@ export const StyledTagsEditor = styled.div`
   line-height: 1.75;
   max-height: calc(2.5 * 1.75em + 1rem);
   outline: none;
-  overflow-y: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
   padding: 0.571em 0.857em;
 `;
 

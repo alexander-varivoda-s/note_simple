@@ -43,7 +43,8 @@ export const TagsListWrapper = styled.div`
 
 export const TagsList = styled.ul`
   flex: 1 1 auto;
-  overflow-y: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
 `;
 
 export const TagsListItem = styled.li`

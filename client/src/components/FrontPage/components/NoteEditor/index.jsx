@@ -54,10 +54,9 @@ export default function NoteEditor() {
               onKeyUp={keyUpHandler}
               ref={_textarea}
               spellCheck={false}
-              disabled={note.is_deleted}
             />
           </TextareaWrapper>
-          <TagsEditor />
+          {!note.is_deleted && <TagsEditor />}
         </>
       )}
     </StyledNoteEditor>
