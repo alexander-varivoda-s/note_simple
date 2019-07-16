@@ -3,7 +3,7 @@ import { APP_SETTINGS_UPDATE_SUCCEEDED } from '../constants';
 const initialState = {
   sorting: {
     by: 'modified',
-    order: 'asc',
+    order: 'desc',
   },
   previewLines: 1,
   tabKeyBehavior: true,

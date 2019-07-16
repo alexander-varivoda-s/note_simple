@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { getSettings } from '../SettingsPage/selectors';
 
 export const dataFetchStatus = state => state.dataIsFetched;
 
@@ -7,9 +8,6 @@ export const getNotes = state => state.appData.notes;
 export const getTags = state => state.appData.tags;
 
 export const getFilter = state => state.appData.filter;
-
-export const getSelectedNoteFocusStatus = state =>
-  state.appData.isSelectedNoteInFocus;
 
 export const getSelectedNote = createSelector(
   [getNotes, state => state.appData.selectedNote],
@@ -82,19 +80,38 @@ export const getSidebarVisibilityStatus = state =>
 export const getMenuVisibilityStatus = state => state.appData.isMenuVisible;
 
 export const getSortedNotes = createSelector(
-  [getSearchedNotes],
-  notes =>
-    notes
-      .sort((a, b) => {
-        const aDate = new Date(a.updated);
-        const bDate = new Date(b.updated);
+  [getSearchedNotes, getSettings],
+  (notes, settings) => {
+    const { order, by } = settings.sorting;
+    const pinnedNotes = notes.filter(n => n.pinned);
+    const notPinnedNotes = notes.filter(n => !n.pinned);
 
-        return bDate.getTime() - aDate.getTime();
-      })
-      .sort((a, b) => {
-        const aDate = new Date(a.pinned || 0);
-        const bDate = new Date(b.pinned || 0);
+    const mapSortByToProp = sortBy => {
+      if (sortBy === 'modified') return 'updated';
+      if (sortBy === 'alphabet') return 'text';
 
-        return bDate.getTime() - aDate.getTime();
-      })
+      return 'created';
+    };
+
+    const prop = mapSortByToProp(by);
+
+    const sort = items => {
+      return items.sort((a, b) => {
+        if (by === 'alphabet') {
+          return order === 'asc'
+            ? a[prop].localeCompare(b[prop])
+            : b[prop].localeCompare(a[prop]);
+        }
+
+        const aDate = new Date(a[prop]);
+        const bDate = new Date(b[prop]);
+
+        return order === 'asc'
+          ? aDate.getTime() - bDate.getTime()
+          : bDate.getTime() - aDate.getTime();
+      });
+    };
+
+    return sort(pinnedNotes).concat(sort(notPinnedNotes));
+  }
 );
