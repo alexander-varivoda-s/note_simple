@@ -5,7 +5,7 @@ import { Formik, Form, ErrorMessage, Field } from 'formik';
 import { object, string, ref } from 'yup';
 
 import { FieldContainer } from '../../styles';
-import Button from '../../../Shared/components/Button';
+import { PrimaryButton } from '../../../Shared/components/Button';
 import { updatePasswordAction } from '../../action';
 
 const initialValues = {
@@ -45,9 +45,9 @@ function PasswordForm(props) {
         <ErrorMessage name='confirmPassword' component='div' />
       </FieldContainer>
       <div>
-        <Button type='submit' submit disabled={isSubmitting}>
+        <PrimaryButton type='submit' compact disabled={isSubmitting}>
           Change password
-        </Button>
+        </PrimaryButton>
       </div>
     </Form>
   );

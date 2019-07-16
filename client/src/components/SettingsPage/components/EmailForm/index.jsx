@@ -5,7 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import { object, string, ref } from 'yup';
 
 import { FieldContainer, StyledErrorMessage } from '../../styles';
-import Button from '../../../Shared/components/Button';
+import { PrimaryButton } from '../../../Shared/components/Button';
 import { updateEmailAction } from '../../action';
 
 const initialValues = {
@@ -47,9 +47,9 @@ function EmailForm(props) {
         <StyledErrorMessage name='password' component='div' />
       </FieldContainer>
       <div>
-        <Button type='submit' submit disabled={isSubmitting}>
+        <PrimaryButton type='submit' disabled={isSubmitting} compact>
           Change email
-        </Button>
+        </PrimaryButton>
       </div>
     </Form>
   );

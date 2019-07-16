@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import Button from '../../../Shared/components/Button';
+import { BorderlessButton } from '../../../Shared/components/Button';
 
+// eslint-disable-next-line import/prefer-default-export
 export const Header = styled.header`
   align-items: center;
   border-bottom: 1px solid #e0e2e4;
@@ -13,11 +14,11 @@ export const Header = styled.header`
     font-weight: 400;
     margin: 0 0 0.2em;
   }
-`;
 
-export const SettingToggle = styled(Button)`
-  color: ${props => props.theme.palette.main};
-  font-size: 0.75rem;
-  padding: 0;
-  text-transform: uppercase;
+  ${BorderlessButton} {
+    color: ${props => props.theme.palette.main};
+    font-size: 0.75rem;
+    padding: 0;
+    text-transform: uppercase;
+  }
 `;

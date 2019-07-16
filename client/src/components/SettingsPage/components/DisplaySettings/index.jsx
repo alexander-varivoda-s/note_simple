@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   SettingsSection,
@@ -11,9 +11,13 @@ import SettingHeader from '../SettingHeader';
 import SelectField from '../SelectField';
 import CheckboxField from '../CheckboxField';
 import { updateSettingsAction } from '../../action';
+import { getSettings } from '../../selectors';
 
-function DisplaySettings(props) {
-  const { dispatch, settings } = props;
+function DisplaySettings() {
+  const settings = useSelector(getSettings);
+
+  const dispatch = useDispatch();
+
   const [isSortingSettingsOpen, setSortingSettingsOpen] = useState(false);
   const [isPreviewLinesSettingsOpen, setPreviewLinesSettingsOpen] = useState(
     false
@@ -177,17 +181,5 @@ function DisplaySettings(props) {
     </SettingsSection>
   );
 }
-
-DisplaySettings.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  settings: PropTypes.shape({
-    sorting: PropTypes.shape({
-      by: PropTypes.string.isRequired,
-      order: PropTypes.string.isRequired,
-    }),
-    previewLines: PropTypes.number.isRequired,
-    tabKeyBehavior: PropTypes.bool.isRequired,
-  }).isRequired,
-};
 
 export default DisplaySettings;

@@ -5,7 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import { object, bool, string } from 'yup';
 
 import { FieldContainer, StyledErrorMessage } from '../../styles';
-import Button from '../../../Shared/components/Button';
+import { PrimaryButton } from '../../../Shared/components/Button';
 import { deleteAccountAction } from '../../action';
 
 const initialValues = {
@@ -40,9 +40,9 @@ function DeleteAccountForm(props) {
         <StyledErrorMessage name='password' component='div' />
       </FieldContainer>
       <label>
-        <Button type='submit' disabled={isSubmitting} color='red'>
+        <PrimaryButton type='submit' compact disabled={isSubmitting}>
           Delete account
-        </Button>
+        </PrimaryButton>
       </label>
     </Form>
   );

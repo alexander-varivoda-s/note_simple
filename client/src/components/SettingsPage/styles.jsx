@@ -70,3 +70,16 @@ export const CheckboxContainer = styled(FieldContainer)`
 export const StyledErrorMessage = styled(ErrorMessage)`
   color: red;
 `;
+
+export const SettingsContainer = styled.div`
+  margin: 10em auto 2em;
+  width: 20em;
+
+  @media (min-width: 320px) {
+    margin-top: 2em;
+  }
+
+  @media (min-width: 768px) {
+    margin-top: 10em;
+  }
+`;

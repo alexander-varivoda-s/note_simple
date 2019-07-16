@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Header, SettingToggle } from './styles';
+import { Header } from './styles';
+import { BorderlessButton } from '../../../Shared/components/Button';
 
 export default function SettingHeader(props) {
   const { title, isOpen, clickHandler } = props;
@@ -8,9 +9,9 @@ export default function SettingHeader(props) {
   return (
     <Header>
       <h2>{title}</h2>
-      <SettingToggle onClick={clickHandler}>
+      <BorderlessButton onClick={clickHandler}>
         {isOpen ? 'Hide' : 'Edit'}
-      </SettingToggle>
+      </BorderlessButton>
     </Header>
   );
 }

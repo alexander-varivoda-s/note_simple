@@ -1,24 +1,18 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Container from '../Shared/components/Container';
-import CenteredContainer from '../Shared/components/CenteredContainer';
 import PageHeader from '../Shared/components/PageHeader';
 import AccountDropdown from '../AccountDropdown';
 import { getUser } from '../User/selectors';
 import AccountSettings from './components/AccountSettings';
 import DisplaySettings from './components/DisplaySettings';
-import { getAppSettings } from '../../utils/settings';
-import { getSettings } from './selectors';
+import { SettingsContainer } from './styles';
 
 export default function SettingsPage() {
   const user = useSelector(getUser);
-  const settings = useSelector(getAppSettings);
-
-  const dispatch = useDispatch();
-
   return (
     <Container>
       <Helmet>
@@ -37,10 +31,10 @@ export default function SettingsPage() {
           ]}
         />
       </PageHeader>
-      <CenteredContainer>
+      <SettingsContainer>
         <AccountSettings user={user} />
-        <DisplaySettings dispatch={dispatch} settings={settings} />
-      </CenteredContainer>
+        <DisplaySettings />
+      </SettingsContainer>
     </Container>
   );
 }
