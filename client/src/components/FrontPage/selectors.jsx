@@ -12,7 +12,8 @@ export const getFilter = state => state.appData.filter;
 export const getSelectedNote = createSelector(
   [getNotes, state => state.appData.selectedNote],
   (notes, selectedNote) => {
-    if (!selectedNote && !notes.length) return null;
+    console.log(notes, selectedNote);
+    if (!selectedNote || !notes.length) return null;
     const note = notes.find(n => n._id === selectedNote);
     return note || null;
   }

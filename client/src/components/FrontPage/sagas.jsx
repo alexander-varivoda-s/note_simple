@@ -31,6 +31,8 @@ import { saveNoteSaga } from './components/NoteEditor/sagas';
 import { tagNoteSaga, untagNoteSaga } from './components/TagsEditor/sagas';
 import { deleteTagSaga, noteSelectionSaga } from './components/Menu/sagas';
 import { selectDefaultNoteSaga } from '../Shared/sagas';
+import { SEARCH } from './components/Search/constants';
+import { searchSaga } from './components/Search/sagas';
 
 export function* fetchData() {
   try {
@@ -65,4 +67,5 @@ export default function* fetchDataWatcher() {
   yield takeLatest(RESTORE_NOTE_REQUEST, restoreNote);
   yield takeLatest(DELETE_NOTE_REQUEST, deleteNote);
   yield takeEvery(FILTER_NOTES, noteSelectionSaga);
+  yield takeEvery(SEARCH, searchSaga);
 }

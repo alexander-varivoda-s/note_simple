@@ -23,7 +23,7 @@ export default function Search() {
     dispatch(searchAction(value));
   }
 
-  function clickHandler() {
+  function clearHandler() {
     dispatch(searchAction(''));
   }
 
@@ -36,7 +36,7 @@ export default function Search() {
         value={searchPhrase}
       />
       {!!searchPhrase.length && (
-        <IconButton svg title='Clear' onClick={clickHandler}>
+        <IconButton svg title='Clear' onClick={clearHandler}>
           <SVG name='cross' size='22' />
         </IconButton>
       )}

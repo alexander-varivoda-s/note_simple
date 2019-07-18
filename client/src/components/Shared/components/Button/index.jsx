@@ -24,6 +24,10 @@ const Button = styled.button`
     cursor: pointer;
   }
 
+  &:disabled {
+    opacity: 0.5;
+  }
+
   ${props =>
     props.type === 'submit' &&
     css`
