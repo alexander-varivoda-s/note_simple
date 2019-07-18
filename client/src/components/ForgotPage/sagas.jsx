@@ -1,7 +1,7 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
 
 import { authAPI } from '../../api';
-import redirect from '../Shared/actions';
+import { redirectAction } from '../Shared/actions';
 import flashMessage from '../FlashMessages/actions';
 
 import {
@@ -10,14 +10,14 @@ import {
   FORGOT_PASSWORD_REQUEST_FAILURE,
 } from './constants';
 
-export function* forgot(action) {
+export function* passwordReminderSaga(action) {
   const { params, onSuccess, onFailure } = action.payload;
 
   try {
     yield call(authAPI.forgotPassword, params);
     yield put({ type: FORGOT_PASSWORD_REQUEST_SUCCEEDED });
     yield call(onSuccess);
-    yield put(redirect('/login'));
+    yield put(redirectAction('/login'));
     yield put(
       flashMessage({
         type: 'status',
@@ -43,5 +43,5 @@ export function* forgot(action) {
 }
 
 export default function* watchForgotPasswordRequest() {
-  yield takeLatest(FORGOT_PASSWORD_REQUEST, forgot);
+  yield takeLatest(FORGOT_PASSWORD_REQUEST, passwordReminderSaga);
 }

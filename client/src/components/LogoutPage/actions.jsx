@@ -1,7 +1,6 @@
 import { LOGOUT_REQUESTED } from './constants';
 
-export default function logout() {
-  return {
-    type: LOGOUT_REQUESTED,
-  };
-}
+// eslint-disable-next-line import/prefer-default-export
+export const logoutAction = () => ({
+  type: LOGOUT_REQUESTED,
+});

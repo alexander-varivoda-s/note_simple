@@ -6,7 +6,7 @@ import { object, bool, string } from 'yup';
 
 import { FieldContainer, StyledErrorMessage } from '../../styles';
 import { PrimaryButton } from '../../../Shared/components/Button';
-import { deleteAccountAction } from '../../action';
+import { deleteAccountAction } from '../../actions';
 
 const initialValues = {
   confirm: false,

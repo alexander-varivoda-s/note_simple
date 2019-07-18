@@ -3,7 +3,7 @@ import { all } from 'redux-saga/effects';
 import loginSaga from './components/LoginPage/sagas';
 import registrationSaga from './components/RegisterPage/sagas';
 import emailVerificationSaga from './components/VerifyEmail/sagas';
-import getUser from './components/App/sagas';
+import getUser from './components/User/sagas';
 import forgotPassword from './components/ForgotPage/sagas';
 import resetPassword from './components/ResetPasswordPage/sagas';
 import logoutSaga from './components/LogoutPage/sagas';

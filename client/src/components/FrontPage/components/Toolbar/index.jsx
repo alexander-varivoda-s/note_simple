@@ -74,11 +74,6 @@ export default function Toolbar() {
                 <SVG name='sidebar' size='22' />
               </IconButton>
             </li>
-            <li>
-              <IconButton>
-                <SVG name='back' size='22' />
-              </IconButton>
-            </li>
           </ToolsList>
           <ToolsList>
             <li>

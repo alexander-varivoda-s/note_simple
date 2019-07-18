@@ -6,7 +6,7 @@ import { object, string, ref } from 'yup';
 
 import { FieldContainer } from '../../styles';
 import { PrimaryButton } from '../../../Shared/components/Button';
-import { updatePasswordAction } from '../../action';
+import { updatePasswordAction } from '../../actions';
 
 const initialValues = {
   oldPassword: '',

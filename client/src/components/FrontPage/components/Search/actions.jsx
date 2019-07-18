@@ -1,10 +1,9 @@
 import { SEARCH } from './constants';
 
-export default function searchAction(phrase) {
-  return {
-    type: SEARCH,
-    payload: {
-      phrase,
-    },
-  };
-}
+// eslint-disable-next-line import/prefer-default-export
+export const searchAction = phrase => ({
+  type: SEARCH,
+  payload: {
+    phrase,
+  },
+});

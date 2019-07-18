@@ -4,7 +4,7 @@ import { Field, Form, Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { object, string, ref } from 'yup';
 
-import register from '../actions';
+import { registerAction } from '../actions';
 import {
   ErrorMessage,
   FormActions,
@@ -95,7 +95,7 @@ export default function RegisterFormContainer() {
       onFailure: () => formikBag.setSubmitting(false),
     };
 
-    dispatch(register(payload));
+    dispatch(registerAction(payload));
   }
   return (
     <Formik

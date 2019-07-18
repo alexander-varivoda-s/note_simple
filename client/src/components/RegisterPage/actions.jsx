@@ -1,8 +1,7 @@
 import { REGISTRATION_REQUEST } from './constants';
 
-export default function register(payload) {
-  return {
-    type: REGISTRATION_REQUEST,
-    payload,
-  };
-}
+// eslint-disable-next-line import/prefer-default-export
+export const registerAction = payload => ({
+  type: REGISTRATION_REQUEST,
+  payload,
+});

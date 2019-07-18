@@ -1,7 +1,6 @@
 import { USER_REQUESTED } from './constants';
 
-export default function getCurrentUser() {
-  return {
-    type: USER_REQUESTED,
-  };
-}
+// eslint-disable-next-line import/prefer-default-export
+export const fetchCurrentUserAction = () => ({
+  type: USER_REQUESTED,
+});

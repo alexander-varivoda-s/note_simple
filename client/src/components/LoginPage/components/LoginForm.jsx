@@ -4,7 +4,7 @@ import { Field, Form, Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { object, string } from 'yup';
 
-import login from '../actions';
+import { loginAction } from '../actions';
 import {
   ErrorMessage,
   FormActions,
@@ -78,7 +78,7 @@ export default function LoginFormContainer() {
       onFailure: () => formikBag.setSubmitting(false),
     };
 
-    dispatch(login(payload));
+    dispatch(loginAction(payload));
   }
   return (
     <Formik

@@ -27,10 +27,6 @@
     <path stroke-linejoin="miter" stroke-linecap="butt" stroke-miterlimit="10" stroke-width="2" d="M22 11c0 3.314-2.686 6-6 6s-6-2.686-6-6c0-3.314 2.686-6 6-6s6 2.686 6 6z"></path>
     <path stroke-linejoin="miter" stroke-linecap="butt" stroke-miterlimit="10" stroke-width="2" d="M7 26c0-5 4-9 9-9s9 4 9 9"></path>
   </symbol>
-  <symbol id="icon-back" viewBox="0 0 32 32">
-    <title>back</title>
-    <path d="M27.636 14.545h-18.307l7.699-7.699-2.057-2.057-11.21 11.21 11.21 11.21 2.057-2.057-7.699-7.699h18.307z"></path>
-  </symbol>
   <symbol id="icon-cross" viewBox="0 0 32 32">
     <title>cross</title>
     <path d="M27.21 6.847l-2.057-2.057-9.153 9.153-9.153-9.153-2.057 2.057 9.153 9.153-9.153 9.153 2.057 2.057 9.153-9.153 9.153 9.153 2.057-2.057-9.153-9.153z"></path>

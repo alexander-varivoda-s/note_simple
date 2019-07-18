@@ -7,14 +7,15 @@ import {
 } from './constants';
 
 import { authAPI } from '../../api';
-import redirect from '../Shared/actions';
+import { redirectAction } from '../Shared/actions';
 import flashMessage from '../FlashMessages/actions';
 
-export function* verifyEmail(action) {
+function* emailVerificationSaga(action) {
+  const { token } = action.payload;
   try {
-    yield call(authAPI.verifyEmail, action.payload.token);
+    yield call(authAPI.verifyEmail, token);
     yield put({ type: EMAIL_VERIFICATION_SUCCEEDED });
-    yield put(redirect('/login'));
+    yield put(redirectAction('/login'));
     yield put(
       flashMessage({
         type: 'status',
@@ -35,11 +36,11 @@ export function* verifyEmail(action) {
     }
 
     yield put({ type: EMAIL_VERIFICATION_FAILURE, error: e });
-    yield put(redirect('/login'));
+    yield put(redirectAction('/login'));
     yield put(flashMessage(messages || message));
   }
 }
 
 export default function* watchEmailVerificationRequest() {
-  yield takeLatest(EMAIL_VERIFICATION_REQUEST, verifyEmail);
+  yield takeLatest(EMAIL_VERIFICATION_REQUEST, emailVerificationSaga);
 }

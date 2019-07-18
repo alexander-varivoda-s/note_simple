@@ -1,10 +1,9 @@
 import { REDIRECT } from './constants';
 
-export default function redirect(to) {
-  return {
-    type: REDIRECT,
-    payload: {
-      to,
-    },
-  };
-}
+// eslint-disable-next-line import/prefer-default-export
+export const redirectAction = to => ({
+  type: REDIRECT,
+  payload: {
+    to,
+  },
+});

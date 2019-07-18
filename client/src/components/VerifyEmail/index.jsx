@@ -2,7 +2,7 @@ import { useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 
-import verifyEmail from './actions';
+import { emailVerificationAction } from './actions';
 
 export default function VerifyEmail(props) {
   const {
@@ -14,7 +14,7 @@ export default function VerifyEmail(props) {
   const dispatch = useDispatch();
 
   useLayoutEffect(() => {
-    dispatch(verifyEmail(token));
+    dispatch(emailVerificationAction(token));
   });
 
   return null;

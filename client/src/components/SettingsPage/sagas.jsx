@@ -9,14 +9,14 @@ import {
   DELETE_ACCOUNT_SUCCEEDED,
   UPDATE_EMAIL_FAILURE,
   UPDATE_EMAIL_REQUEST,
-  UPDATE_EMAIL_SUCCEEDED,
   UPDATE_PASSWORD_FAILURE,
   UPDATE_PASSWORD_REQUEST,
   UPDATE_PASSWORD_SUCCEEDED,
 } from './constants';
 import { resetAppSettings, saveAppSettings } from '../../utils/settings';
+import { UPDATE_EMAIL_SUCCEEDED } from '../Shared/constants';
 
-export function* updateEmail(action) {
+export function* updateEmailSaga(action) {
   try {
     const result = yield call(userAPI.updateEmail, action.payload, {
       withCredentials: true,
@@ -33,7 +33,7 @@ export function* updateEmail(action) {
   }
 }
 
-export function* updatePassword(action) {
+export function* updatePasswordSaga(action) {
   try {
     yield call(userAPI.updatePassword, action.payload, {
       withCredentials: true,
@@ -50,7 +50,7 @@ export function* updatePassword(action) {
   }
 }
 
-export function* deleteAccount() {
+export function* deleteAccountSaga() {
   try {
     yield call(userAPI.deleteAccount);
     yield call(resetAppSettings);
@@ -60,7 +60,7 @@ export function* deleteAccount() {
   }
 }
 
-export function* updateSettings(action) {
+export function* updateSettingsSaga(action) {
   const { settings } = action.payload;
 
   try {
@@ -73,9 +73,9 @@ export function* updateSettings(action) {
 
 export default function* watchSettingsPageSaga() {
   yield all([
-    yield takeLatest(UPDATE_EMAIL_REQUEST, updateEmail),
-    yield takeLatest(UPDATE_PASSWORD_REQUEST, updatePassword),
-    yield takeLatest(DELETE_ACCOUNT_REQUEST, deleteAccount),
-    yield takeEvery(APP_SETTINGS_UPDATE_REQUEST, updateSettings),
+    yield takeLatest(UPDATE_EMAIL_REQUEST, updateEmailSaga),
+    yield takeLatest(UPDATE_PASSWORD_REQUEST, updatePasswordSaga),
+    yield takeLatest(DELETE_ACCOUNT_REQUEST, deleteAccountSaga),
+    yield takeEvery(APP_SETTINGS_UPDATE_REQUEST, updateSettingsSaga),
   ]);
 }

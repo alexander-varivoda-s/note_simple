@@ -1,8 +1,7 @@
 import { RESET_PASSWORD_REQUEST } from './constants';
 
-export default function reset(payload) {
-  return {
-    type: RESET_PASSWORD_REQUEST,
-    payload,
-  };
-}
+// eslint-disable-next-line import/prefer-default-export
+export const resetPasswordAction = payload => ({
+  type: RESET_PASSWORD_REQUEST,
+  payload,
+});

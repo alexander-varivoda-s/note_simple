@@ -1,7 +1,9 @@
-import { LOGIN_SUCCEEDED } from '../../LoginPage/constants';
-import { USER_REQUEST_SUCCEEDED } from '../../Shared/constants';
-import { LOGOUT_SUCCEEDED } from '../../LogoutPage/constants';
-import { UPDATE_EMAIL_SUCCEEDED } from '../../SettingsPage/constants';
+import {
+  USER_REQUEST_SUCCEEDED,
+  LOGIN_SUCCEEDED,
+  LOGOUT_SUCCEEDED,
+  UPDATE_EMAIL_SUCCEEDED,
+} from '../../Shared/constants';
 
 export default (state = null, action) => {
   switch (action.type) {

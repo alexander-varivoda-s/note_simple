@@ -1,8 +1,7 @@
 import { LOGIN_REQUESTED } from './constants';
 
-export default function login(payload) {
-  return {
-    type: LOGIN_REQUESTED,
-    payload,
-  };
-}
+// eslint-disable-next-line import/prefer-default-export
+export const loginAction = payload => ({
+  type: LOGIN_REQUESTED,
+  payload,
+});

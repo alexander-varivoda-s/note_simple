@@ -8,7 +8,7 @@ import AnonymousRoute from './components/AnonymousRoute';
 import PrivateRoute from './components/PrivateRoute';
 import PageLoader from '../Shared/components/PageLoader';
 
-import getCurrentUser from './actions';
+import { fetchCurrentUserAction } from './actions';
 import NotFoundPage from '../Shared/components/NotFoundPage';
 
 const LoginPage = lazy(() => import('../LoginPage'));
@@ -24,7 +24,7 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getCurrentUser());
+    dispatch(fetchCurrentUserAction());
   }, [dispatch]);
 
   return (

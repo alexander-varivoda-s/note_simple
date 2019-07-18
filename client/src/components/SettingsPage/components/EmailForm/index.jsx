@@ -6,7 +6,7 @@ import { object, string, ref } from 'yup';
 
 import { FieldContainer, StyledErrorMessage } from '../../styles';
 import { PrimaryButton } from '../../../Shared/components/Button';
-import { updateEmailAction } from '../../action';
+import { updateEmailAction } from '../../actions';
 
 const initialValues = {
   email: '',

@@ -10,7 +10,7 @@ import {
 import SettingHeader from '../SettingHeader';
 import SelectField from '../SelectField';
 import CheckboxField from '../CheckboxField';
-import { updateSettingsAction } from '../../action';
+import { updateSettingsAction } from '../../actions';
 import { getSettings } from '../../selectors';
 
 function DisplaySettings() {

@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { object, string } from 'yup';
 import jwt from 'jsonwebtoken';
 
-import forgot from '../actions';
+import { forgotPasswordAction } from '../actions';
 import {
   ErrorMessage,
   FormActions,
@@ -91,7 +91,7 @@ export default function ForgotPasswordFormContainer() {
       },
     };
 
-    dispatch(forgot(payload));
+    dispatch(forgotPasswordAction(payload));
   }
 
   return (

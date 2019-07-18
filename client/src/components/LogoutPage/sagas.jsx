@@ -1,19 +1,16 @@
 import { takeLatest, put, call } from 'redux-saga/effects';
-import {
-  LOGOUT_REQUESTED,
-  LOGOUT_SUCCEEDED,
-  LOGOUT_FAILURE,
-} from './constants';
+import { LOGOUT_REQUESTED, LOGOUT_FAILURE } from './constants';
 
 import { authAPI } from '../../api';
-import redirect from '../Shared/actions';
+import { redirectAction } from '../Shared/actions';
 import flashMessage from '../FlashMessages/actions';
+import { LOGOUT_SUCCEEDED } from '../Shared/constants';
 
-export function* logout() {
+function* logoutSaga() {
   try {
     yield call(authAPI.logout, { withCredentials: true });
     yield put({ type: LOGOUT_SUCCEEDED });
-    yield put(redirect('/login'));
+    yield put(redirectAction('/login'));
   } catch (e) {
     const { response } = e;
     const message = {
@@ -31,5 +28,5 @@ export function* logout() {
 }
 
 export default function* watchLogout() {
-  yield takeLatest(LOGOUT_REQUESTED, logout);
+  yield takeLatest(LOGOUT_REQUESTED, logoutSaga);
 }

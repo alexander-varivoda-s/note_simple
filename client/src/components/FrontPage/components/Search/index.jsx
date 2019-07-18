@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import searchAction from './actions';
+import { searchAction } from './actions';
 import { getFilter, getSearchPhrase } from '../../selectors';
 import { IconButton } from '../../../Shared/components/Button';
 import SVG from '../../../Shared/components/SVG';

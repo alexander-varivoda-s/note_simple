@@ -6,17 +6,17 @@ import {
   REGISTRATION_SUCCEEDED,
   REGISTRATION_FAILED,
 } from './constants';
-import redirect from '../Shared/actions';
+import { redirectAction } from '../Shared/actions';
 import flashMessage from '../FlashMessages/actions';
 
-export function* register(action) {
+function* registrationSaga(action) {
   const { params, onSuccess, onFailure } = action.payload;
 
   try {
     yield call(authAPI.register, params);
     yield put({ type: REGISTRATION_SUCCEEDED });
     yield call(onSuccess);
-    yield put(redirect('/login'));
+    yield put(redirectAction('/login'));
     yield put(
       flashMessage({
         type: 'status',
@@ -43,5 +43,5 @@ export function* register(action) {
 }
 
 export default function* watchRegister() {
-  yield takeLatest(REGISTRATION_REQUEST, register);
+  yield takeLatest(REGISTRATION_REQUEST, registrationSaga);
 }

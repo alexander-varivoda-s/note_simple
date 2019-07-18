@@ -6,17 +6,17 @@ import {
   RESET_PASSWORD_FAILURE,
 } from './constants';
 import { authAPI } from '../../api';
-import redirect from '../Shared/actions';
+import { redirectAction } from '../Shared/actions';
 import flashMessage from '../FlashMessages/actions';
 
-export function* reset(action) {
+export function* resetPasswordSaga(action) {
   const { params, onSuccess, onFailure } = action.payload;
 
   try {
     yield call(authAPI.resetPassword, params);
     yield put({ type: RESET_PASSWORD_SUCCEEDED });
     yield call(onSuccess);
-    yield put(redirect('/login'));
+    yield put(redirectAction('/login'));
     yield put(
       flashMessage({
         type: 'status',
@@ -42,5 +42,5 @@ export function* reset(action) {
 }
 
 export default function* watchResetPasswordRequest() {
-  yield takeLatest(RESET_PASSWORD_REQUEST, reset);
+  yield takeLatest(RESET_PASSWORD_REQUEST, resetPasswordSaga);
 }
