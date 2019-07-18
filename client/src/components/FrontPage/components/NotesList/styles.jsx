@@ -4,7 +4,6 @@ import { StyledPinner } from './components/Pinner/styles';
 
 // eslint-disable-next-line import/prefer-default-export
 export const StyledNotesList = styled.div`
-  border-right: 1px solid ${props => props.theme.palette.borderColor};
   flex: 1 1 auto;
   overflow-x: hidden;
   overflow-y: auto;

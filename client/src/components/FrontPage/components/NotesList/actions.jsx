@@ -1,9 +1,5 @@
-import {
-  NOTE_SELECTED,
-  NOTE_UNSELECTED,
-  PIN_REQUEST,
-  UNPIN_REQUEST,
-} from './constants';
+import { PIN_REQUEST, UNPIN_REQUEST } from './constants';
+import { NOTE_SELECTED } from '../../../Shared/constants';
 
 export const pinAction = (isPinned, noteId) => ({
   type: isPinned ? PIN_REQUEST : UNPIN_REQUEST,
@@ -17,8 +13,4 @@ export const selectNoteAction = noteId => ({
   payload: {
     noteId,
   },
-});
-
-export const unselectNoteAction = () => ({
-  type: NOTE_UNSELECTED,
 });

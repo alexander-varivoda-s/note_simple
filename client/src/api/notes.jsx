@@ -15,4 +15,5 @@ export default client => ({
     client.patch(`${BASE_PATH}/${noteId}/untag/${tagId}`, {}, config),
   deleteNote: (noteId, config = {}) =>
     client.delete(`${BASE_PATH}/${noteId}`, config),
+  emptyTrash: (config = {}) => client.delete(BASE_PATH, config),
 });

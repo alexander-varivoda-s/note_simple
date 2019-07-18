@@ -17,6 +17,7 @@ import {
   MOVE_TO_TRASH_SUCCEEDED,
   RESTORE_NOTE_SUCCEEDED,
 } from '../components/Toolbar/constants';
+import { EMPTY_TRASH_SUCCEEDED } from '../../Shared/constants';
 
 function tagsReducer(tags = [], tagId) {
   return tags.filter(tag => tag !== tagId);
@@ -77,6 +78,10 @@ export default function notesReducer(state = [], action) {
       const { deleted } = action.payload;
 
       return state.filter(n => n._id !== deleted);
+    }
+
+    case EMPTY_TRASH_SUCCEEDED: {
+      return state.filter(n => !n.is_deleted);
     }
 
     default: {

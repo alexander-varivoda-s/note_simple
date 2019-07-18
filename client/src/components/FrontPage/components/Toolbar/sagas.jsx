@@ -7,8 +7,9 @@ import {
   RESTORE_NOTE_FAILURE,
   RESTORE_NOTE_SUCCEEDED,
 } from './constants';
-import { NOTE_SELECTED, NOTE_UNSELECTED } from '../NotesList/constants';
+import { NOTE_SELECTED } from '../../../Shared/constants';
 import { getSelectedNote, getSortedNotes } from '../../selectors';
+import { unselectNoteAction } from '../../../Shared/actions';
 
 function findNoteToSelect(notes, currentNote) {
   let noteToSelect = null;
@@ -41,7 +42,7 @@ export function* restoreNote() {
       { withCredentials: true }
     );
     yield put({ type: RESTORE_NOTE_SUCCEEDED, payload: { note } });
-    yield put({ type: NOTE_UNSELECTED });
+    yield put(unselectNoteAction());
 
     const noteToSelect = findNoteToSelect(notes, selectedNote);
 
@@ -64,7 +65,7 @@ export function* deleteNote() {
       withCredentials: true,
     });
     yield put({ type: DELETE_NOTE_SUCCEEDED, payload: { deleted } });
-    yield put({ type: NOTE_UNSELECTED });
+    yield put(unselectNoteAction());
 
     const noteToSelect = findNoteToSelect(notes, selectedNote);
 
@@ -90,7 +91,7 @@ export function* moveToTrash() {
       { withCredentials: true }
     );
     yield put({ type: MOVE_TO_TRASH_SUCCEEDED, payload: { note } });
-    yield put({ type: NOTE_UNSELECTED });
+    yield put(unselectNoteAction());
 
     const noteToSelect = findNoteToSelect(notes, selectedNote);
 

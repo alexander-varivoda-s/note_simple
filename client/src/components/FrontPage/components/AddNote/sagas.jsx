@@ -3,8 +3,8 @@ import { call, put, select } from 'redux-saga/effects';
 import { notesAPI } from '../../../../api';
 import { ADD_NOTE_FAILURE, ADD_NOTE_SUCCEEDED } from '../../constants';
 import { getSelectedNote } from '../../selectors';
-import { unselectNoteAction } from '../NotesList/actions';
-import { NOTE_SELECTED } from '../NotesList/constants';
+import { unselectNoteAction } from '../../../Shared/actions';
+import { NOTE_SELECTED } from '../../../Shared/constants';
 
 // eslint-disable-next-line import/prefer-default-export
 export function* addNoteSaga(action) {

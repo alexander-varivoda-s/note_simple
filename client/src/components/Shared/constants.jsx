@@ -7,3 +7,7 @@ export const ALL_NOTES = 'ALL_NOTES';
 export const TRASH = 'TRASH';
 export const APP_DATA = 'APP_DATA';
 export const FLAGS = 'FLAGS';
+export const EMPTY_TRASH_REQUEST = 'EMPTY_TRASH_REQUEST';
+export const EMPTY_TRASH_SUCCEEDED = 'EMPTY_TRASH_SUCCEEDED';
+export const NOTE_UNSELECTED = 'NOTE_UNSELECTED';
+export const NOTE_SELECTED = 'NOTE_SELECTED';

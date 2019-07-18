@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getSelectedNote, getSortedNotes } from '../../selectors';
 import NotePreview from './components/NotePreview';
 import Pinner from './components/Pinner';
-import { pinAction, selectNoteAction, unselectNoteAction } from './actions';
+import { pinAction, selectNoteAction } from './actions';
+import { unselectNoteAction } from '../../../Shared/actions';
 import { StyledNotesList, NotesListItem } from './styles';
 
 export default function NotesList() {

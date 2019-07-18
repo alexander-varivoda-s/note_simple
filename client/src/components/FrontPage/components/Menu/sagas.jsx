@@ -6,7 +6,7 @@ import {
   TAG_DELETE_SUCCEEDED,
 } from '../TagsEditor/constants';
 import { getSelectedNote } from '../../selectors';
-import { unselectNoteAction } from '../NotesList/actions';
+import { unselectNoteAction } from '../../../Shared/actions';
 import { selectDefaultNoteSaga } from '../../../Shared/sagas';
 
 export function* deleteTagSaga(action) {

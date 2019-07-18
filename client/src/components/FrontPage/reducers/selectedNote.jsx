@@ -1,7 +1,4 @@
-import {
-  NOTE_SELECTED,
-  NOTE_UNSELECTED,
-} from '../components/NotesList/constants';
+import { NOTE_SELECTED, NOTE_UNSELECTED } from '../../Shared/constants';
 
 export default function notesReducer(state = null, action) {
   switch (action.type) {

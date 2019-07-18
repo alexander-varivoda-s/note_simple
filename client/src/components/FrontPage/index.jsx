@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 
 import {
+  getFilter,
   getMenuVisibilityStatus,
   getNoteInfoVisibilityStatus,
   getSelectedNote,
   getSidebarVisibilityStatus,
+  getSortedNotes,
 } from './selectors';
 import { fetchDataAction } from './actions';
 import SearchBar from './components/Search';
@@ -26,12 +28,16 @@ import MenuToggle from './components/MenuToggle';
 import AddNote from './components/AddNote';
 import Revisions from './components/Revisions';
 import NoteInfo from './components/NoteInfo';
+import { TRASH } from '../Shared/constants';
+import EmptyTrash from './components/EmptyTrash';
 
 export default function FrontPage() {
   const selectedNote = useSelector(getSelectedNote);
   const isNoteInfoVisible = useSelector(getNoteInfoVisibilityStatus);
   const isSidebarVisible = useSelector(getSidebarVisibilityStatus);
   const isMenuVisible = useSelector(getMenuVisibilityStatus);
+  const filter = useSelector(getFilter);
+  const notes = useSelector(getSortedNotes);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -54,6 +60,7 @@ export default function FrontPage() {
             <AddNote />
           </TopBar>
           <NotesList />
+          {filter === TRASH && !!notes.length && <EmptyTrash />}
         </LeftColumn>
         <RightColumn>
           <Toolbar />

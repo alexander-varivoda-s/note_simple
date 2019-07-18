@@ -4,7 +4,6 @@ import Container from '../Shared/components/Container';
 export const TopBar = styled.div`
   align-items: center;
   border-bottom: 1px solid ${props => props.theme.palette.borderColor};
-  border-right: 1px solid ${props => props.theme.palette.borderColor};
   display: flex;
   flex: 0 0 3.5em;
   justify-content: space-between;
@@ -20,6 +19,7 @@ export const RightColumn = styled.div`
 `;
 
 export const LeftColumn = styled.div`
+  border-right: 1px solid #cdcdcd;
   display: flex;
   flex: 0 0 20.5em;
   flex-direction: column;

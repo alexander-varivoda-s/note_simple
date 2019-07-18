@@ -33,6 +33,8 @@ import { deleteTagSaga, noteSelectionSaga } from './components/Menu/sagas';
 import { selectDefaultNoteSaga } from '../Shared/sagas';
 import { SEARCH } from './components/Search/constants';
 import { searchSaga } from './components/Search/sagas';
+import { emptyTrashSaga } from './components/EmptyTrash/sagas';
+import { EMPTY_TRASH_REQUEST } from '../Shared/constants';
 
 export function* fetchData() {
   try {
@@ -68,4 +70,5 @@ export default function* fetchDataWatcher() {
   yield takeLatest(DELETE_NOTE_REQUEST, deleteNote);
   yield takeEvery(FILTER_NOTES, noteSelectionSaga);
   yield takeEvery(SEARCH, searchSaga);
+  yield takeEvery(EMPTY_TRASH_REQUEST, emptyTrashSaga);
 }
