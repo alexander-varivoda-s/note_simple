@@ -32,9 +32,14 @@ module.exports.middleware = function(settings) {
     mongoose.connection.on(event, events[event]);
   });
 
-  mongoose.connect(dbUri, config).then(() => {
-    console.log(`MongoDB is running on mongodb://${host}:${port}/${name}`);
-  });
+  mongoose
+    .connect(dbUri, config)
+    .then(() => {
+      console.log(`MongoDB is running on mongodb://${host}:${port}/${name}`);
+    })
+    .catch(e => {
+      console.log(e.message);
+    });
 
   return async (ctx, next) => {
     await next();
