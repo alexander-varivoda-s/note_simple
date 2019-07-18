@@ -18,6 +18,7 @@ import {
   TagsListTitle,
   TagsListWrapper,
 } from './styles';
+import { ALL_NOTES, TRASH } from '../../../Shared/constants';
 
 export default function Menu() {
   const filter = useSelector(getFilter);
@@ -44,8 +45,8 @@ export default function Menu() {
       <OptionsWrapper>
         <OptionContainer>
           <BorderlessButton
-            active={filter === 'all'}
-            data-filter='all'
+            active={filter === ALL_NOTES}
+            data-filter={ALL_NOTES}
             onClick={handleClick}
           >
             <SVG name='notes' size='22' color='#1e1e1e' />
@@ -54,8 +55,8 @@ export default function Menu() {
         </OptionContainer>
         <OptionContainer>
           <BorderlessButton
-            active={filter === 'trash'}
-            data-filter='trash'
+            active={filter === TRASH}
+            data-filter={TRASH}
             onClick={handleClick}
           >
             <SVG name='trash' size='22' color='#1e1e1e' />

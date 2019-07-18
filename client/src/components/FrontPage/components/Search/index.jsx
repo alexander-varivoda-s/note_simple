@@ -6,11 +6,12 @@ import { IconButton } from '../../../Shared/components/Button';
 import SVG from '../../../Shared/components/SVG';
 
 import { StyledSearch, SearchInput } from './styles';
+import { ALL_NOTES, TRASH } from '../../../Shared/constants';
 
 export default function Search() {
   const placeholders = {
-    all: 'All Notes',
-    trash: 'Trash',
+    [ALL_NOTES]: 'All Notes',
+    [TRASH]: 'Trash',
   };
 
   const searchPhrase = useSelector(getSearchPhrase);

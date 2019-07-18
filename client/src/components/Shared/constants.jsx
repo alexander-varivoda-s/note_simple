@@ -3,3 +3,7 @@ export const USER_REQUEST_SUCCEEDED = 'USER_REQUEST_SUCCEEDED';
 export const LOGIN_SUCCEEDED = 'LOGIN_SUCCEEDED';
 export const LOGOUT_SUCCEEDED = 'LOGOUT_SUCCEEDED';
 export const UPDATE_EMAIL_SUCCEEDED = 'UPDATE_EMAIL_SUCCEEDED';
+export const ALL_NOTES = 'ALL_NOTES';
+export const TRASH = 'TRASH';
+export const APP_DATA = 'APP_DATA';
+export const FLAGS = 'FLAGS';

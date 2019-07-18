@@ -11,15 +11,18 @@ import isSidebarVisible from './isSidebarVisible';
 import isMenuVisible from './isMenuVisible';
 import isRevisionSelectorVisible from '../components/Revisions/reducers/isRevisionSelectorVisible';
 
-export default combineReducers({
+export const flags = combineReducers({
+  isNoteInfoVisible,
+  isSidebarVisible,
+  isMenuVisible,
+  isRevisionSelectorVisible,
+});
+
+export const appData = combineReducers({
   tags,
   notes,
   dataIsFetched,
   searchPhrase,
   filter,
   selectedNote,
-  isNoteInfoVisible,
-  isSidebarVisible,
-  isMenuVisible,
-  isRevisionSelectorVisible,
 });
