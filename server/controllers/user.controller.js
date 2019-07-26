@@ -1,10 +1,19 @@
 const config = require('config');
 
-const jwt = require('../utils/jsonwebtoken');
+const {
+  signRefreshToken,
+  signAccessToken,
+  signEmailVerificationToken,
+  decodeEmailVerificationToken,
+  signRefreshPasswordToken,
+  decodeRefreshPasswordToken,
+  decodeRefreshToken,
+  decodeAccessToken,
+} = require('../utils/jsonwebtoken');
+const RefreshToken = require('../models/refresh-token');
 const UserModel = require('../models/user');
 const sendEmail = require('../libs/email');
 
-const jwtSecret = config.get('mailer.secret');
 const omit =
   'emailVerified salt password_hash verifyEmailToken resetPasswordToken __v';
 
@@ -19,20 +28,13 @@ module.exports = {
   createUser() {
     return async ctx => {
       const { email, password, displayName = '' } = ctx.request.body;
-      const payload = {
-        sub: email,
-      };
-      const { algorithm, expiresIn } = config.get('crypto.emailToken');
-      const verifyEmailToken = await jwt.signToken(payload, jwtSecret, {
-        algorithm,
-        expiresIn,
-      });
+      const emailVerificationToken = await signEmailVerificationToken(email);
 
       const user = await UserModel.create({
         displayName,
         email,
         password,
-        verifyEmailToken,
+        verifyEmailToken: emailVerificationToken,
       });
 
       await sendEmail({
@@ -41,7 +43,7 @@ module.exports = {
         template: 'registration.email',
         link: `http://${config.get(
           'server.host'
-        )}:3000/verify/${verifyEmailToken}`,
+        )}:3000/verify/${emailVerificationToken}`,
       });
 
       ctx.body = {
@@ -65,13 +67,25 @@ module.exports = {
     };
   },
 
-  logout() {
+  login() {
     return async ctx => {
-      ctx.logout();
+      const { user } = ctx.state;
+      const accessToken = await signAccessToken(user.id);
+      const { exp: expiresIn } = await decodeAccessToken(accessToken);
+      const refreshToken = await signRefreshToken(user.id);
+
+      const refreshTokenEntity = new RefreshToken({
+        token: refreshToken,
+        user: user.id,
+      });
+
+      await refreshTokenEntity.save();
 
       ctx.body = {
-        type: 'status',
-        message: 'Log out succeeded.',
+        user: user.toObject({ omit }),
+        accessToken,
+        expiresIn,
+        refreshToken,
       };
     };
   },
@@ -118,10 +132,7 @@ module.exports = {
   verifyEmail() {
     return async ctx => {
       const { token } = ctx.params;
-      const { exp, sub } = await jwt.verifyToken(token, jwtSecret, {
-        algorithm: 'HS512',
-        ignoreExpiration: true,
-      });
+      const { exp, sub } = await decodeEmailVerificationToken(token);
       const user = await UserModel.findOne({
         email: sub,
         verifyEmailToken: token,
@@ -131,11 +142,9 @@ module.exports = {
         ctx.throw(400, 'Invalid token specified or account does not exist.');
       }
 
-      const timestamp = Date.now() / 1000;
-
-      if (timestamp > exp && !user.emailVerified) {
+      if (Date.now() / 1000 > exp && !user.emailVerified) {
         await UserModel.deleteOne({ email: sub }).exec();
-        ctx.throw(401, 'Token already expired.');
+        ctx.throw(400, 'Token already expired.');
       }
 
       if (user.emailVerified) {
@@ -163,10 +172,7 @@ module.exports = {
         ctx.throw(400, 'Account does not exist.');
       }
 
-      const secret = user.password_hash + user.created;
-      const token = await jwt.signToken({ sub: email }, secret, {
-        expiresIn: '30m',
-      });
+      const token = await signRefreshPasswordToken(user);
 
       user.resetPasswordToken = token;
       await user.save();
@@ -198,8 +204,7 @@ module.exports = {
         ctx.throw(400, 'Invalid reset password token specified.');
       }
 
-      const secret = user.password_hash + user.created;
-      await jwt.verifyToken(token, secret);
+      await decodeRefreshPasswordToken(token, user);
 
       user.password = password;
       user.resetPasswordToken = undefined;
@@ -208,6 +213,41 @@ module.exports = {
       ctx.body = {
         type: 'status',
         messages: 'Password successfully reset.',
+      };
+    };
+  },
+
+  refreshToken() {
+    return async ctx => {
+      const { refreshToken } = ctx.request.body;
+      const { sub: userId, exp } = await decodeRefreshToken(refreshToken);
+      const refreshTokenEntity = await RefreshToken.findOne({
+        user: userId,
+        token: refreshToken,
+      }).exec();
+
+      if (!refreshTokenEntity) {
+        ctx.throw(400, 'Invalid refresh token specified');
+      }
+
+      if (exp < Date.now() / 1000) {
+        ctx.throw(400, 'Refresh token already expired');
+      }
+
+      const newRefreshTokenEntity = new RefreshToken({
+        user: userId,
+        token: await signRefreshToken(userId),
+      });
+
+      await newRefreshTokenEntity.save();
+
+      const accessToken = await signAccessToken(userId);
+      const { exp: expiresIn } = await decodeAccessToken(accessToken);
+
+      ctx.body = {
+        accessToken,
+        expiresIn,
+        refreshToken: await signRefreshToken(userId),
       };
     };
   },

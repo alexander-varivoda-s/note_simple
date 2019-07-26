@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const config = require('config');
-const mongooseBeautifulUniqueValidation = require('mongoose-beautiful-unique-validation');
 
 const Note = require('./note');
 const Tag = require('./tag');
@@ -115,7 +114,5 @@ userSchema.pre('save', async function(next) {
   this.updated = Date.now();
   await next();
 });
-
-userSchema.plugin(mongooseBeautifulUniqueValidation);
 
 module.exports = mongoose.model('User', userSchema, 'users');

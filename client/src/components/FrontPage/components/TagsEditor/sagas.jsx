@@ -19,7 +19,7 @@ export function* createTagSaga(name) {
   try {
     ({
       data: { tag },
-    } = yield call(tagsAPI.createTag, name, { withCredentials: true }));
+    } = yield call(tagsAPI.createTag, name));
     yield put({ type: TAG_CREATE_SUCCEEDED, payload: { tag } });
     return tag;
   } catch (e) {
@@ -42,9 +42,7 @@ export function* tagNoteSaga(action) {
 
     const {
       data: { note },
-    } = yield call(notesAPI.tagNote, tagId, selectedNote._id, {
-      withCredentials: true,
-    });
+    } = yield call(notesAPI.tagNote, tagId, selectedNote._id);
     yield put({ type: TAG_REQUEST_SUCCEEDED, payload: { note } });
   } catch (e) {
     yield put({ type: TAG_REQUEST_FAILURE, error: e });
@@ -58,9 +56,7 @@ export function* untagNoteSaga(action) {
   try {
     const {
       data: { note },
-    } = yield call(notesAPI.untagNote, tagId, selectedNote._id, {
-      withCredentials: true,
-    });
+    } = yield call(notesAPI.untagNote, tagId, selectedNote._id);
     yield put({ type: UNTAG_REQUEST_SUCCEEDED, payload: { note } });
   } catch (e) {
     yield put({ type: UNTAG_REQUEST_FAILURE, error: e });

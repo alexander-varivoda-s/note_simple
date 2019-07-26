@@ -19,9 +19,6 @@ module.exports = {
       expiresIn: '1h',
     },
   },
-  session: {
-    key: 'secret key',
-  },
   mailer: {
     transport: 'gmail',
     secret: 'Hi1UsFiqxwZMYfsSQazG9AEF9IB02XaI',
@@ -35,5 +32,12 @@ module.exports = {
         fromName: 'Note Simple',
       },
     },
+  },
+  jwt: {
+    accessTokenSecret: '&ZW#rBHAc,25K$Gq',
+    accessTokenExpiresIn: 3600,
+    refreshTokenSecret: '4XK[PvC~m+`6+dT#',
+    refreshTokenExpiresIn: 24 * 3600,
+    algorithm: 'HS512',
   },
 };

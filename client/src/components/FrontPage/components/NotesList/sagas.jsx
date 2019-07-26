@@ -25,7 +25,7 @@ export function* pinNote(action) {
   try {
     const {
       data: { note },
-    } = yield call(notesAPI.pinNote, { id: noteId }, { withCredentials: true });
+    } = yield call(notesAPI.pinNote, { id: noteId });
     yield put({ type: PIN_SUCCEEDED, payload: { note } });
     yield selectNote(noteId);
   } catch (e) {
@@ -39,11 +39,7 @@ export function* unpinNote(action) {
   try {
     const {
       data: { note },
-    } = yield call(
-      notesAPI.unpinNote,
-      { id: noteId },
-      { withCredentials: true }
-    );
+    } = yield call(notesAPI.unpinNote, { id: noteId });
     yield put({ type: UNPIN_SUCCEEDED, payload: { note } });
     yield selectNote(noteId);
   } catch (e) {

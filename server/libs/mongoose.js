@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongooseBeautifulUniqueValidation = require('mongoose-beautiful-unique-validation');
 
 module.exports = mongoose;
 
@@ -35,6 +36,7 @@ module.exports.middleware = function(settings) {
   mongoose
     .connect(dbUri, config)
     .then(() => {
+      mongoose.plugin(mongooseBeautifulUniqueValidation);
       console.log(`MongoDB is running on mongodb://${host}:${port}/${name}`);
     })
     .catch(e => {

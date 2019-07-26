@@ -35,12 +35,9 @@ export function* restoreNote() {
   try {
     const {
       data: { note },
-    } = yield call(
-      notesAPI.updateNote,
-      selectedNote._id,
-      { is_deleted: false },
-      { withCredentials: true }
-    );
+    } = yield call(notesAPI.updateNote, selectedNote._id, {
+      is_deleted: false,
+    });
     yield put({ type: RESTORE_NOTE_SUCCEEDED, payload: { note } });
     yield put(unselectNoteAction());
 
@@ -61,9 +58,7 @@ export function* deleteNote() {
   try {
     const {
       data: { deleted },
-    } = yield call(notesAPI.deleteNote, selectedNote._id, {
-      withCredentials: true,
-    });
+    } = yield call(notesAPI.deleteNote, selectedNote._id);
     yield put({ type: DELETE_NOTE_SUCCEEDED, payload: { deleted } });
     yield put(unselectNoteAction());
 
@@ -84,12 +79,9 @@ export function* moveToTrash() {
   try {
     const {
       data: { note },
-    } = yield call(
-      notesAPI.updateNote,
-      selectedNote._id,
-      { is_deleted: true },
-      { withCredentials: true }
-    );
+    } = yield call(notesAPI.updateNote, selectedNote._id, {
+      is_deleted: true,
+    });
     yield put({ type: MOVE_TO_TRASH_SUCCEEDED, payload: { note } });
     yield put(unselectNoteAction());
 

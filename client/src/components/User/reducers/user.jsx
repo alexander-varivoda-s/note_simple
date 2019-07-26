@@ -9,11 +9,15 @@ export default (state = null, action) => {
   switch (action.type) {
     case LOGIN_SUCCEEDED:
     case USER_REQUEST_SUCCEEDED:
-    case UPDATE_EMAIL_SUCCEEDED:
-      return action.payload.data.user;
-    case LOGOUT_SUCCEEDED:
+    case UPDATE_EMAIL_SUCCEEDED: {
+      const { user } = action.payload;
+      return user;
+    }
+    case LOGOUT_SUCCEEDED: {
       return null;
-    default:
+    }
+    default: {
       return state;
+    }
   }
 };

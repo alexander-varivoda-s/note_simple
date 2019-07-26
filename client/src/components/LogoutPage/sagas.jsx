@@ -1,14 +1,14 @@
 import { takeLatest, put, call } from 'redux-saga/effects';
 import { LOGOUT_REQUESTED, LOGOUT_FAILURE } from './constants';
 
-import { authAPI } from '../../api';
 import { redirectAction } from '../Shared/actions';
 import flashMessage from '../FlashMessages/actions';
 import { LOGOUT_SUCCEEDED } from '../Shared/constants';
+import { clearTokens } from '../../utils/jwt';
 
 function* logoutSaga() {
   try {
-    yield call(authAPI.logout, { withCredentials: true });
+    yield call(clearTokens);
     yield put({ type: LOGOUT_SUCCEEDED });
     yield put(redirectAction('/login'));
   } catch (e) {

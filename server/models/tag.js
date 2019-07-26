@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const mongooseBeautifulUniqueValidation = require('mongoose-beautiful-unique-validation');
 
 const Note = require('./note');
 
@@ -42,11 +41,9 @@ tagSchema.pre('remove', async function(next) {
     notes.map(note => {
       note.tags = note.tags.filter(oid => oid.toString() !== this.id);
       return note.save();
-    }),
+    })
   );
   await next();
 });
-
-tagSchema.plugin(mongooseBeautifulUniqueValidation);
 
 module.exports = mongoose.model('Tag', tagSchema, 'tags');

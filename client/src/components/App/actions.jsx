@@ -1,6 +1,6 @@
-import { USER_REQUESTED } from './constants';
+import { INIT } from './constants';
 
 // eslint-disable-next-line import/prefer-default-export
-export const fetchCurrentUserAction = () => ({
-  type: USER_REQUESTED,
+export const initApp = () => ({
+  type: INIT,
 });

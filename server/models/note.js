@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const mongooseBeautifulUniqueValidation = require('mongoose-beautiful-unique-validation');
 
 const Revision = require('./note-revision');
 
@@ -48,7 +47,5 @@ noteSchema.pre('remove', async function(next) {
   await Revision.deleteMany({ note: this.id }).exec();
   await next();
 });
-
-mongoose.plugin(mongooseBeautifulUniqueValidation);
 
 module.exports = mongoose.model('Note', noteSchema, 'notes');

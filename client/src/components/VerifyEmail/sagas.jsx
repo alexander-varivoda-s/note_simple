@@ -13,7 +13,7 @@ import flashMessage from '../FlashMessages/actions';
 function* emailVerificationSaga(action) {
   const { token } = action.payload;
   try {
-    yield call(authAPI.verifyEmail, token);
+    yield call(authAPI.verifyEmail, token, { useAccessToken: false });
     yield put({ type: EMAIL_VERIFICATION_SUCCEEDED });
     yield put(redirectAction('/login'));
     yield put(

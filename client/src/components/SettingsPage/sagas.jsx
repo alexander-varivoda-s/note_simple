@@ -18,9 +18,7 @@ import { UPDATE_EMAIL_SUCCEEDED } from '../Shared/constants';
 
 export function* updateEmailSaga(action) {
   try {
-    const result = yield call(userAPI.updateEmail, action.payload, {
-      withCredentials: true,
-    });
+    const result = yield call(userAPI.updateEmail, action.payload);
     if (typeof action.payload.onSuccess === 'function') {
       yield call(action.payload.onSuccess);
     }
@@ -35,9 +33,7 @@ export function* updateEmailSaga(action) {
 
 export function* updatePasswordSaga(action) {
   try {
-    yield call(userAPI.updatePassword, action.payload, {
-      withCredentials: true,
-    });
+    yield call(userAPI.updatePassword, action.payload);
     if (typeof action.payload.onSuccess === 'function') {
       yield call(action.payload.onSuccess);
     }

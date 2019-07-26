@@ -6,4 +6,6 @@ export default client => ({
   updatePassword: (params = {}, config = {}) =>
     client.patch(`${BASE_PATH}/update-password`, params, config),
   deleteAccount: (config = {}) => client.delete('/users', {}, config),
+  refreshToken: (refreshToken, config = {}) =>
+    client.post(`${BASE_PATH}/refresh-token`, { refreshToken }, config),
 });

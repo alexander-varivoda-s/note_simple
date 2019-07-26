@@ -11,7 +11,7 @@ export function* emptyTrashSaga() {
   const selectedNote = yield select(getSelectedNote);
 
   try {
-    yield call(notesAPI.emptyTrash, { withCredentials: true });
+    yield call(notesAPI.emptyTrash);
     if (selectedNote) {
       yield put(unselectNoteAction());
     }

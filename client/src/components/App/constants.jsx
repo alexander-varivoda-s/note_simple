@@ -1,2 +1,2 @@
-export const USER_REQUESTED = 'USER_REQUESTED';
-export const USER_REQUEST_FAILURE = 'USER_REQUEST_FAILURE';
+// eslint-disable-next-line import/prefer-default-export
+export const INIT = 'INIT';

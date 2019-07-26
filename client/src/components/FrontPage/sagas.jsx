@@ -26,7 +26,6 @@ import {
   moveToTrash,
 } from './components/Toolbar/sagas';
 import { FILTER_NOTES } from './components/Menu/constants';
-import { addNoteSaga } from './components/AddNote/sagas';
 import { saveNoteSaga } from './components/NoteEditor/sagas';
 import { tagNoteSaga, untagNoteSaga } from './components/TagsEditor/sagas';
 import { deleteTagSaga, noteSelectionSaga } from './components/Menu/sagas';
@@ -35,13 +34,13 @@ import { SEARCH } from './components/Search/constants';
 import { searchSaga } from './components/Search/sagas';
 import { emptyTrashSaga } from './components/EmptyTrash/sagas';
 import { EMPTY_TRASH_REQUEST } from '../Shared/constants';
+import { addNoteSaga } from './components/AddNote/sagas';
 
-export function* fetchData() {
+function* fetchDataSaga() {
   try {
-    const config = { withCredentials: true };
     const { notesResponse, tagsResponse } = yield all({
-      notesResponse: call(notesAPI.fetchNotes, config),
-      tagsResponse: call(tagsAPI.fetchTags, config),
+      notesResponse: call(notesAPI.fetchNotes),
+      tagsResponse: call(tagsAPI.fetchTags),
     });
 
     const data = {
@@ -57,8 +56,7 @@ export function* fetchData() {
 }
 
 export default function* fetchDataWatcher() {
-  yield takeLatest(FETCH_DATA_REQUEST, fetchData);
-  yield takeEvery(ADD_NOTE_REQUEST, addNoteSaga);
+  yield takeLatest(FETCH_DATA_REQUEST, fetchDataSaga);
   yield takeEvery(PIN_REQUEST, pinNote);
   yield takeEvery(UNPIN_REQUEST, unpinNote);
   yield takeEvery(NOTE_SAVE_REQUEST, saveNoteSaga);
@@ -71,4 +69,5 @@ export default function* fetchDataWatcher() {
   yield takeEvery(FILTER_NOTES, noteSelectionSaga);
   yield takeEvery(SEARCH, searchSaga);
   yield takeEvery(EMPTY_TRASH_REQUEST, emptyTrashSaga);
+  yield takeEvery(ADD_NOTE_REQUEST, addNoteSaga);
 }

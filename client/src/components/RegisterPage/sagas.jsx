@@ -13,7 +13,7 @@ function* registrationSaga(action) {
   const { params, onSuccess, onFailure } = action.payload;
 
   try {
-    yield call(authAPI.register, params);
+    yield call(authAPI.register, params, { useAccessToken: false });
     yield put({ type: REGISTRATION_SUCCEEDED });
     yield call(onSuccess);
     yield put(redirectAction('/login'));

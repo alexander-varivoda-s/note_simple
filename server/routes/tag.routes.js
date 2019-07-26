@@ -1,18 +1,12 @@
 const Router = require('koa-router');
 
+const { passportAuthHandler } = require('../utils/auth');
 const Tag = require('../models/tag');
 const TagsController = require('../controllers/tag.controller');
 
 const router = new Router();
+router.use(passportAuthHandler('jwt'));
 router.prefix('/api/tags');
-
-router.use('/', async (ctx, next) => {
-  if (!ctx.isAuthenticated()) {
-    ctx.throw(401);
-  }
-
-  await next();
-});
 
 router.param('tag', async (id, ctx, next) => {
   ctx.state.tag = await Tag.findOne(

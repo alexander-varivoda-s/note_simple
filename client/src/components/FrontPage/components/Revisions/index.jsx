@@ -28,9 +28,7 @@ export default function Revisions() {
 
   useEffect(() => {
     const fetchRevisions = async () => {
-      const { data } = await revisionsAPI.fetchRevisions(note._id, {
-        withCredentials: true,
-      });
+      const { data } = await revisionsAPI.fetchRevisions(note._id);
 
       setRevisions(data.revisions);
       setRangePosition(data.revisions.length);

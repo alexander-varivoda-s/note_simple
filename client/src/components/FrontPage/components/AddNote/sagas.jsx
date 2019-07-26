@@ -14,7 +14,7 @@ export function* addNoteSaga(action) {
   try {
     const {
       data: { note },
-    } = yield call(notesAPI.addNote, { text }, { withCredentials: true });
+    } = yield call(notesAPI.addNote, { text });
     yield put({ type: ADD_NOTE_SUCCEEDED, payload: { note } });
 
     if (selectedNote) {

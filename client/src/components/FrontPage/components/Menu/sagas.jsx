@@ -13,7 +13,7 @@ export function* deleteTagSaga(action) {
   const { tagId } = action.payload;
 
   try {
-    yield call(tagsAPI.deleteTag, tagId, { withCredentials: true });
+    yield call(tagsAPI.deleteTag, tagId);
     yield put({ type: TAG_DELETE_SUCCEEDED, payload: { tagId } });
   } catch (e) {
     yield put({ type: TAG_DELETE_FAILURE, error: e });

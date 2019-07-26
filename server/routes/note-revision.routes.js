@@ -1,24 +1,24 @@
 const Router = require('koa-router');
 
+const { passportAuthHandler } = require('../utils/auth');
 const Note = require('../models/note');
 const RevisionsController = require('../controllers/note-revision.controller');
 
 const router = new Router();
+router.use(passportAuthHandler('jwt'));
 router.prefix('/api/revisions');
 
 router.param('note', async (id, ctx, next) => {
-  if (!ctx.isAuthenticated()) {
-    ctx.throw(401);
-  }
-
-  ctx.state.note = await Note.findOne({
+  const note = await Note.findOne({
     _id: id,
     author: ctx.state.user.id,
   }).exec();
 
-  if (!ctx.state.note) {
+  if (!note) {
     ctx.throw(404, `Note with id "${id}" does not exist.`);
   }
+
+  ctx.state.note = note;
 
   await next();
 });

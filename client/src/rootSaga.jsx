@@ -9,9 +9,11 @@ import resetPassword from './components/ResetPasswordPage/sagas';
 import logoutSaga from './components/LogoutPage/sagas';
 import fetchDataSaga from './components/FrontPage/sagas';
 import settingsPageSaga from './components/SettingsPage/sagas';
+import initSaga from './components/App/sagas';
 
 export default function* rootSaga() {
   yield all([
+    initSaga(),
     loginSaga(),
     registrationSaga(),
     emailVerificationSaga(),
@@ -19,7 +21,7 @@ export default function* rootSaga() {
     forgotPassword(),
     resetPassword(),
     logoutSaga(),
-    fetchDataSaga(),
     settingsPageSaga(),
+    fetchDataSaga(),
   ]);
 }

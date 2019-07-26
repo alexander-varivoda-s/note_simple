@@ -1,20 +1,13 @@
 const Router = require('koa-router');
 
+const { passportAuthHandler } = require('../utils/auth');
 const NotesController = require('../controllers/note.controller');
 const Note = require('../models/note');
 const Tag = require('../models/tag');
 
 const router = new Router();
-
+router.use(passportAuthHandler('jwt'));
 router.prefix('/api/notes');
-
-router.use('/', async (ctx, next) => {
-  if (!ctx.isAuthenticated()) {
-    ctx.throw(401);
-  }
-
-  await next();
-});
 
 const loadParam = (model, name) => async (id, ctx, next) => {
   const { user } = ctx.state;

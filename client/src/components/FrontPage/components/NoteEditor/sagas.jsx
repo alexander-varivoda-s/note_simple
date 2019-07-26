@@ -10,12 +10,7 @@ export function* saveNoteSaga(action) {
   try {
     const {
       data: { note },
-    } = yield call(
-      notesAPI.updateNote,
-      noteId,
-      { text },
-      { withCredentials: true }
-    );
+    } = yield call(notesAPI.updateNote, noteId, { text });
     yield put({ type: NOTE_SAVE_SUCCEEDED, payload: { note } });
   } catch (e) {
     yield put({ type: NOTE_SAVE_FAILURE, error: e });
