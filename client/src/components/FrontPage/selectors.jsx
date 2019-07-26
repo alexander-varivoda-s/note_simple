@@ -2,8 +2,6 @@ import { createSelector } from 'reselect';
 import { getSettings } from '../SettingsPage/selectors';
 import { ALL_NOTES, APP_DATA, FLAGS, TRASH } from '../Shared/constants';
 
-export const dataFetchStatus = state => state.dataIsFetched;
-
 export const getNotes = state => state[APP_DATA].notes;
 
 export const getTags = state => state[APP_DATA].tags;

@@ -1,12 +1,12 @@
-import { FETCH_DATA_SUCCEEDED } from '../constants';
 import {
   TAG_CREATE_SUCCEEDED,
   TAG_DELETE_SUCCEEDED,
 } from '../components/TagsEditor/constants';
+import { INITIALIZATION_SUCCEEDED } from '../../App/constants';
 
 export default function tagsReducer(state = [], action) {
   switch (action.type) {
-    case FETCH_DATA_SUCCEEDED: {
+    case INITIALIZATION_SUCCEEDED: {
       return action.payload.tags;
     }
 

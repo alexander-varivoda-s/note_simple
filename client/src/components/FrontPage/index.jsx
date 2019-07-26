@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
 
 import {
@@ -10,7 +10,6 @@ import {
   getSidebarVisibilityStatus,
   getSortedNotes,
 } from './selectors';
-import { fetchDataAction } from './actions';
 import SearchBar from './components/Search';
 import NotesList from './components/NotesList';
 import NoteEditor from './components/NoteEditor';
@@ -38,11 +37,6 @@ export default function FrontPage() {
   const isMenuVisible = useSelector(getMenuVisibilityStatus);
   const filter = useSelector(getFilter);
   const notes = useSelector(getSortedNotes);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchDataAction());
-  }, [dispatch]);
 
   return (
     <FrontPageContainer

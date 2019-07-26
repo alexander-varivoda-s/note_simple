@@ -35,7 +35,7 @@ module.exports = {
   },
   jwt: {
     accessTokenSecret: '&ZW#rBHAc,25K$Gq',
-    accessTokenExpiresIn: 3600,
+    accessTokenExpiresIn: 24 * 3600,
     refreshTokenSecret: '4XK[PvC~m+`6+dT#',
     refreshTokenExpiresIn: 24 * 3600,
     algorithm: 'HS512',

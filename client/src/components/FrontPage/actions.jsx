@@ -1,9 +1,6 @@
-import { ADD_NOTE_REQUEST, FETCH_DATA_REQUEST } from './constants';
+import { ADD_NOTE_REQUEST } from './constants';
 
-export const fetchDataAction = () => ({
-  type: FETCH_DATA_REQUEST,
-});
-
+// eslint-disable-next-line import/prefer-default-export
 export const addNoteAction = text => ({
   type: ADD_NOTE_REQUEST,
   payload: {
