@@ -1,7 +1,19 @@
-import { FORGOT_PASSWORD_REQUEST } from './constants';
+import {
+  FORGOT_PASSWORD_REQUEST,
+  FORGOT_PASSWORD_REQUEST_FAILURE,
+  FORGOT_PASSWORD_REQUEST_SUCCEEDED,
+} from './constants';
 
-// eslint-disable-next-line import/prefer-default-export
 export const forgotPasswordAction = payload => ({
   type: FORGOT_PASSWORD_REQUEST,
   payload,
+});
+
+export const forgotPasswordRequestSucceededAction = () => ({
+  type: FORGOT_PASSWORD_REQUEST_SUCCEEDED,
+});
+
+export const forgotPasswordRequestFailureAction = error => ({
+  type: FORGOT_PASSWORD_REQUEST_FAILURE,
+  error,
 });

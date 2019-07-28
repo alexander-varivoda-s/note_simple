@@ -1,17 +1,13 @@
-import { INITIALIZATION_FAILED, INITIALIZATION_SUCCEEDED } from '../constants';
+import { createAction, handleActions } from 'redux-actions';
 
-export default (state = null, action) => {
-  switch (action.type) {
-    case INITIALIZATION_SUCCEEDED: {
-      return true;
-    }
+export const appInitSucceeded = createAction('APP_INITIALIZATION_SUCCEEDED');
+export const appInitFailure = createAction('APP_INITIALIZATION_FAILURE');
+export const appInit = createAction('APP_INITIALIZATION');
 
-    case INITIALIZATION_FAILED: {
-      return false;
-    }
-
-    default: {
-      return state;
-    }
-  }
-};
+export default handleActions(
+  {
+    [appInitSucceeded]: () => true,
+    [appInitFailure]: () => false,
+  },
+  null
+);

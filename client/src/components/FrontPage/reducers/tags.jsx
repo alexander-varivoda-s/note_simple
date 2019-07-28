@@ -2,11 +2,10 @@ import {
   TAG_CREATE_SUCCEEDED,
   TAG_DELETE_SUCCEEDED,
 } from '../components/TagsEditor/constants';
-import { INITIALIZATION_SUCCEEDED } from '../../App/constants';
 
 export default function tagsReducer(state = [], action) {
   switch (action.type) {
-    case INITIALIZATION_SUCCEEDED: {
+    case 'APP_INITIALIZATION_SUCCEEDED': {
       return action.payload.tags;
     }
 

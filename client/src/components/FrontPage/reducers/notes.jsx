@@ -18,7 +18,6 @@ import {
   RESTORE_NOTE_SUCCEEDED,
 } from '../components/Toolbar/constants';
 import { EMPTY_TRASH_SUCCEEDED } from '../../Shared/constants';
-import { INITIALIZATION_SUCCEEDED } from '../../App/constants';
 
 function tagsReducer(tags = [], tagId) {
   return tags.filter(tag => tag !== tagId);
@@ -26,7 +25,7 @@ function tagsReducer(tags = [], tagId) {
 
 export default function notesReducer(state = [], action) {
   switch (action.type) {
-    case INITIALIZATION_SUCCEEDED: {
+    case 'APP_INITIALIZATION_SUCCEEDED': {
       return action.payload.notes;
     }
 

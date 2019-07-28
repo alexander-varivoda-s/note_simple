@@ -25,9 +25,21 @@ const styleByType = type => {
   }
 };
 
-export default styled.div`
+export const FlashMessage = styled.div`
   line-height: 1.5;
   margin-bottom: 1.5em;
   padding: 0.313em 0.625em;
   ${props => styleByType(props.type)}
+`;
+
+export const StyledFlashMessages = styled.div`
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    margin: 0.313em 0;
+  }
 `;

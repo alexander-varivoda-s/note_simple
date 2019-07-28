@@ -4,18 +4,18 @@ import { authAPI } from '../../api';
 import { redirectAction } from '../Shared/actions';
 import flashMessage from '../FlashMessages/actions';
 
+import { FORGOT_PASSWORD_REQUEST } from './constants';
 import {
-  FORGOT_PASSWORD_REQUEST,
-  FORGOT_PASSWORD_REQUEST_SUCCEEDED,
-  FORGOT_PASSWORD_REQUEST_FAILURE,
-} from './constants';
+  forgotPasswordRequestFailureAction,
+  forgotPasswordRequestSucceededAction,
+} from './actions';
 
 export function* passwordReminderSaga(action) {
   const { params, onSuccess, onFailure } = action.payload;
 
   try {
     yield call(authAPI.forgotPassword, params);
-    yield put({ type: FORGOT_PASSWORD_REQUEST_SUCCEEDED });
+    yield put(forgotPasswordRequestSucceededAction);
     yield call(onSuccess);
     yield put(redirectAction('/login'));
     yield put(
@@ -36,12 +36,12 @@ export function* passwordReminderSaga(action) {
     if (response.status < 500) {
       ({ data: messages } = response);
     }
-    yield put({ type: FORGOT_PASSWORD_REQUEST_FAILURE, error: e });
+    yield put(forgotPasswordRequestFailureAction);
     yield call(onFailure);
     yield put(flashMessage(messages || message));
   }
 }
 
-export default function* watchForgotPasswordRequest() {
+export default function* forgotPageSaga() {
   yield takeLatest(FORGOT_PASSWORD_REQUEST, passwordReminderSaga);
 }

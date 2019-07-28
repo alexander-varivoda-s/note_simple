@@ -9,8 +9,8 @@ import PrivateRoute from './components/PrivateRoute';
 import PageLoader from '../Shared/components/PageLoader';
 
 import NotFoundPage from '../Shared/components/NotFoundPage';
-import { initApp } from './actions';
 import { isAppInitialized } from './selectors';
+import { appInit } from './reducers/appInitialized';
 
 const LoginPage = lazy(() => import('../LoginPage'));
 const RegisterPage = lazy(() => import('../RegisterPage'));
@@ -26,7 +26,7 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(initApp());
+    dispatch(appInit());
   }, [dispatch]);
 
   if (appInitialized) {

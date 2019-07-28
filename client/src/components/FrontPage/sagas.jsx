@@ -1,7 +1,18 @@
 import { takeLatest, takeEvery } from 'redux-saga/effects';
-import { PIN_REQUEST, UNPIN_REQUEST } from './components/NotesList/constants';
 import { pinNote, unpinNote } from './components/NotesList/sagas';
+import {
+  deleteNote,
+  restoreNote,
+  moveToTrash,
+} from './components/Toolbar/sagas';
+import { saveNoteSaga } from './components/NoteEditor/sagas';
+import { tagNoteSaga, untagNoteSaga } from './components/TagsEditor/sagas';
+import { deleteTagSaga, noteSelectionSaga } from './components/Menu/sagas';
+import { searchSaga } from './components/Search/sagas';
+import { emptyTrashSaga } from './components/EmptyTrash/sagas';
+import { addNoteSaga } from './components/AddNote/sagas';
 import { NOTE_SAVE_REQUEST } from './components/NoteEditor/constants';
+import { PIN_REQUEST, UNPIN_REQUEST } from './components/NotesList/constants';
 import {
   TAG_DELETE_REQUEST,
   TAG_REQUEST,
@@ -12,23 +23,12 @@ import {
   MOVE_TO_TRASH_REQUEST,
   RESTORE_NOTE_REQUEST,
 } from './components/Toolbar/constants';
-import {
-  deleteNote,
-  restoreNote,
-  moveToTrash,
-} from './components/Toolbar/sagas';
 import { FILTER_NOTES } from './components/Menu/constants';
-import { saveNoteSaga } from './components/NoteEditor/sagas';
-import { tagNoteSaga, untagNoteSaga } from './components/TagsEditor/sagas';
-import { deleteTagSaga, noteSelectionSaga } from './components/Menu/sagas';
 import { SEARCH } from './components/Search/constants';
-import { searchSaga } from './components/Search/sagas';
-import { emptyTrashSaga } from './components/EmptyTrash/sagas';
 import { EMPTY_TRASH_REQUEST } from '../Shared/constants';
-import { addNoteSaga } from './components/AddNote/sagas';
 import { ADD_NOTE_REQUEST } from './constants';
 
-export default function* fetchDataWatcher() {
+export default function* frontPageSaga() {
   yield takeEvery(PIN_REQUEST, pinNote);
   yield takeEvery(UNPIN_REQUEST, unpinNote);
   yield takeEvery(NOTE_SAVE_REQUEST, saveNoteSaga);

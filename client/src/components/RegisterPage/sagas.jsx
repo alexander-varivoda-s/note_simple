@@ -1,13 +1,12 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import { authAPI } from '../../api';
-
+import { redirectAction } from '../Shared/actions';
+import flashMessage from '../FlashMessages/actions';
 import {
   REGISTRATION_REQUEST,
   REGISTRATION_SUCCEEDED,
   REGISTRATION_FAILED,
 } from './constants';
-import { redirectAction } from '../Shared/actions';
-import flashMessage from '../FlashMessages/actions';
 
 function* registrationSaga(action) {
   const { params, onSuccess, onFailure } = action.payload;
@@ -42,6 +41,6 @@ function* registrationSaga(action) {
   }
 }
 
-export default function* watchRegister() {
+export default function* registrationPageSaga() {
   yield takeLatest(REGISTRATION_REQUEST, registrationSaga);
 }
