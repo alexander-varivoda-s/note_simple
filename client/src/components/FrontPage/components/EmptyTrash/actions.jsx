@@ -1,6 +1,5 @@
-import { EMPTY_TRASH_REQUEST } from '../../../Shared/constants';
+import { createAction } from 'redux-actions';
 
-// eslint-disable-next-line import/prefer-default-export
-export const emptyTrashAction = () => ({
-  type: EMPTY_TRASH_REQUEST,
-});
+export const emptyTrash = createAction('EMPTY_TRASH');
+export const emptyTrashSucceeded = createAction('EMPTY_TRASH_SUCCEEDED');
+export const emptyTrashFailure = createAction('EMPTY_TRASH_FAILURE');

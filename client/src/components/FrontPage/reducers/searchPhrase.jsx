@@ -1,13 +1,7 @@
-import { SEARCH } from '../components/Search/constants';
+import { handleAction } from 'redux-actions';
 
-export default function search(state = '', action) {
-  switch (action.type) {
-    case SEARCH: {
-      return action.payload.phrase;
-    }
-
-    default: {
-      return state;
-    }
-  }
-}
+export default handleAction(
+  'SEARCH',
+  (state, { payload: { phrase } }) => phrase,
+  ''
+);

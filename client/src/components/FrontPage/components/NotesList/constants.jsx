@@ -1,6 +1,0 @@
-export const PIN_REQUEST = 'PIN_REQUEST';
-export const PIN_SUCCEEDED = 'PIN_SUCCEEDED';
-export const PIN_FAILURE = 'PIN_FAILURE';
-export const UNPIN_REQUEST = 'UNPIN_REQUEST';
-export const UNPIN_SUCCEEDED = 'UNPIN_SUCCEEDED';
-export const UNPIN_FAILURE = 'UNPIN_FAILURE';

@@ -5,7 +5,6 @@ import PageTitle from '../Shared/components/PageTitle';
 import Container from '../Shared/components/Container';
 import CenteredContainer from '../Shared/components/CenteredContainer';
 import ForgotPasswordForm from './components/ForgotPasswordForm';
-import FlashMessages from '../FlashMessages';
 
 export default function ForgotPage() {
   return (
@@ -20,7 +19,6 @@ export default function ForgotPage() {
       <PageHeader />
       <CenteredContainer>
         <PageTitle fontSize='1.9rem'>Forgot password?</PageTitle>
-        <FlashMessages />
         <ForgotPasswordForm />
       </CenteredContainer>
     </Container>

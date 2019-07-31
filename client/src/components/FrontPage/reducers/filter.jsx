@@ -1,14 +1,7 @@
-import { FILTER_NOTES } from '../components/Menu/constants';
-import { ALL_NOTES } from '../../Shared/constants';
+import { handleAction } from 'redux-actions';
 
-export default function filterReducer(state = ALL_NOTES, action) {
-  switch (action.type) {
-    case FILTER_NOTES: {
-      return action.payload.filter;
-    }
-
-    default: {
-      return state;
-    }
-  }
-}
+export default handleAction(
+  'FILTER_NOTES',
+  (state, { payload: { filter } }) => filter,
+  'ALL_NOTES'
+);

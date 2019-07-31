@@ -1,18 +1,16 @@
-import { NOTE_EDIT, NOTE_SAVE_REQUEST } from './constants';
+import { createAction } from 'redux-actions';
 
-// eslint-disable-next-line import/prefer-default-export
-export const noteSaveAction = (text, noteId) => ({
-  type: NOTE_SAVE_REQUEST,
-  payload: {
-    noteId,
-    text,
-  },
-});
-
-export const noteEditAction = (text, noteId) => ({
-  type: NOTE_EDIT,
-  payload: {
-    noteId,
-    text,
-  },
-});
+export const saveNote = createAction('SAVE_NOTE', (text, noteId) => ({
+  text,
+  noteId,
+}));
+export const saveNoteSucceeded = createAction('SAVE_NOTE_SUCCEEDED', note => ({
+  note,
+}));
+export const saveNoteFailure = createAction('SAVE_NOTE_FAILURE');
+export const editNote = createAction('EDIT_NOTE', (text, noteId) => ({
+  text,
+  noteId,
+}));
+export const editNoteSucceeded = createAction('EDIT_NOTE_SUCCEEDED');
+export const editNoteFailure = createAction('EDIT_NOTE_FAILURE');

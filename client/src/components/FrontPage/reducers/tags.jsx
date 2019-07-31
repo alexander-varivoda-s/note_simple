@@ -1,26 +1,14 @@
-import {
-  TAG_CREATE_SUCCEEDED,
-  TAG_DELETE_SUCCEEDED,
-} from '../components/TagsEditor/constants';
+import { handleActions, combineActions } from 'redux-actions';
 
-export default function tagsReducer(state = [], action) {
-  switch (action.type) {
-    case 'APP_INITIALIZATION_SUCCEEDED': {
-      return action.payload.tags;
-    }
-
-    case TAG_CREATE_SUCCEEDED: {
-      const { tag } = action.payload;
-      return [...state, tag];
-    }
-
-    case TAG_DELETE_SUCCEEDED: {
-      const { tagId } = action.payload;
-      return state.filter(tag => tag._id !== tagId);
-    }
-
-    default: {
-      return state;
-    }
-  }
-}
+export default handleActions(
+  {
+    [combineActions('APP_INITIALIZATION_SUCCEEDED', 'LOGIN_SUCCEEDED')]: (
+      state,
+      { payload: { tags } }
+    ) => tags,
+    TAG_CREATION_SUCCEEDED: (state, { payload: { tag } }) => [...state, tag],
+    DELETE_TAG_SUCCEEDED: (state, { payload: { tagId } }) =>
+      state.filter(tag => tag._id !== tagId),
+  },
+  []
+);

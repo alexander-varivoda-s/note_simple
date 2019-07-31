@@ -10,7 +10,7 @@ import PageLoader from '../Shared/components/PageLoader';
 
 import NotFoundPage from '../Shared/components/NotFoundPage';
 import { isAppInitialized } from './selectors';
-import { appInit } from './reducers/appInitialized';
+import { initializeApp } from './actions';
 
 const LoginPage = lazy(() => import('../LoginPage'));
 const RegisterPage = lazy(() => import('../RegisterPage'));
@@ -26,7 +26,7 @@ export default function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(appInit());
+    dispatch(initializeApp());
   }, [dispatch]);
 
   if (appInitialized) {

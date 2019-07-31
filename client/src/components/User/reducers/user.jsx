@@ -1,22 +1,12 @@
-import {
-  LOGIN_SUCCEEDED,
-  LOGOUT_SUCCEEDED,
-  UPDATE_EMAIL_SUCCEEDED,
-} from '../../Shared/constants';
+import { handleActions, combineActions } from 'redux-actions';
 
-export default (state = null, action) => {
-  switch (action.type) {
-    case LOGIN_SUCCEEDED:
-    case UPDATE_EMAIL_SUCCEEDED:
-    case 'APP_INITIALIZATION_SUCCEEDED': {
-      const { user } = action.payload;
-      return user;
-    }
-    case LOGOUT_SUCCEEDED: {
-      return null;
-    }
-    default: {
-      return state;
-    }
-  }
-};
+export default handleActions(
+  {
+    [combineActions(
+      'LOGIN_SUCCEEDED',
+      'UPDATE_EMAIL_SUCCEEDED',
+      'APP_INITIALIZATION_SUCCEEDED'
+    )]: (state, { payload: { user } }) => user,
+  },
+  null
+);

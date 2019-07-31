@@ -1,7 +1,15 @@
-import { LOGIN_REQUESTED } from './constants';
+import { createAction } from 'redux-actions';
 
-// eslint-disable-next-line import/prefer-default-export
-export const loginAction = payload => ({
-  type: LOGIN_REQUESTED,
-  payload,
-});
+export const login = createAction(
+  'LOGIN',
+  ({ params, onSuccess, onFailure }) => ({ params, onSuccess, onFailure })
+);
+export const loginSucceeded = createAction(
+  'LOGIN_SUCCEEDED',
+  ({ user, notes, tags }) => ({
+    user,
+    notes,
+    tags,
+  })
+);
+export const loginFailure = createAction('LOGIN_FAILURE');

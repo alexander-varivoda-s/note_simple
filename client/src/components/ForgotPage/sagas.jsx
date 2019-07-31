@@ -1,47 +1,23 @@
 import { put, call, takeLatest } from 'redux-saga/effects';
 
 import { authAPI } from '../../api';
-import { redirectAction } from '../Shared/actions';
-import flashMessage from '../FlashMessages/actions';
-
-import { FORGOT_PASSWORD_REQUEST } from './constants';
-import {
-  forgotPasswordRequestFailureAction,
-  forgotPasswordRequestSucceededAction,
-} from './actions';
+import { redirect } from '../Shared/actions';
+import { verifyEmailFailure, verifyEmailSucceeded } from './actions';
 
 export function* passwordReminderSaga(action) {
   const { params, onSuccess, onFailure } = action.payload;
 
   try {
     yield call(authAPI.forgotPassword, params);
-    yield put(forgotPasswordRequestSucceededAction);
+    yield put(verifyEmailSucceeded());
     yield call(onSuccess);
-    yield put(redirectAction('/login'));
-    yield put(
-      flashMessage({
-        type: 'status',
-        message:
-          'An email with instructions on how to reset password has been sent.',
-      })
-    );
+    yield put(redirect('/login'));
   } catch (e) {
-    const { response } = e;
-    const message = {
-      type: 'error',
-      message: 'Something went wrong. Please try again later.',
-    };
-
-    let messages = null;
-    if (response.status < 500) {
-      ({ data: messages } = response);
-    }
-    yield put(forgotPasswordRequestFailureAction);
+    yield put(verifyEmailFailure());
     yield call(onFailure);
-    yield put(flashMessage(messages || message));
   }
 }
 
 export default function* forgotPageSaga() {
-  yield takeLatest(FORGOT_PASSWORD_REQUEST, passwordReminderSaga);
+  yield takeLatest('VERIFY_EMAIL', passwordReminderSaga);
 }

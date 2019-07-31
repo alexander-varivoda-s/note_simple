@@ -1,9 +1,12 @@
-import { EMAIL_VERIFICATION_REQUEST } from './constants';
+import { createAction } from 'redux-actions';
 
 // eslint-disable-next-line import/prefer-default-export
-export const emailVerificationAction = token => ({
-  type: EMAIL_VERIFICATION_REQUEST,
-  payload: {
-    token,
-  },
-});
+export const verifyAccount = createAction('VERIFY_ACCOUNT', token => ({
+  token,
+}));
+export const accountVerificationSucceeded = createAction(
+  'ACCOUNT_VERIFICATION_SUCCEEDED'
+);
+export const accountVerificationFailure = createAction(
+  'ACCOUNT_VERIFICATION_FAILURE'
+);

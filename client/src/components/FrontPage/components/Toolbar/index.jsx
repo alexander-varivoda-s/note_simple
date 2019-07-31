@@ -13,19 +13,14 @@ import {
   PrimaryButton,
   DangerButton,
 } from '../../../Shared/components/Button';
-import {
-  deleteNoteRequest,
-  moveToTrashAction,
-  restoreNoteAction,
-  toggleNoteVisibilityAction,
-  toggleSidebarVisibilityAction,
-} from './actions';
-import { toggleRevisionSelectorVisibilityAction } from '../Revisions/actions';
 import { getRevisionSelectorVisibilityStatus } from '../Revisions/selectors';
 import AccountDropdown from '../../../AccountDropdown';
 import { getUser } from '../../../User/selectors';
 
 import { StyledToolbar, ToolsList } from './styles';
+import { toggleNoteInfo } from '../NoteInfo/actions';
+import { deleteNote, moveNoteToTrash, toggleSidebar } from './actions';
+import { restoreNote, toggleRevisionSelector } from '../Revisions/actions';
 
 export default function Toolbar() {
   const user = useSelector(getUser);
@@ -39,29 +34,27 @@ export default function Toolbar() {
   const dispatch = useDispatch();
 
   function noteInfoToggle() {
-    dispatch(toggleNoteVisibilityAction(!isNoteInfoVisible));
+    dispatch(toggleNoteInfo(!isNoteInfoVisible));
   }
 
   function sidebarToggle() {
-    dispatch(toggleSidebarVisibilityAction(!isSidebarVisible));
+    dispatch(toggleSidebar(!isSidebarVisible));
   }
 
   function revisionSelectorToggle() {
-    dispatch(
-      toggleRevisionSelectorVisibilityAction(!isRevisionSelectorVisible)
-    );
+    dispatch(toggleRevisionSelector(!isRevisionSelectorVisible));
   }
 
   function moveToTrash() {
-    dispatch(moveToTrashAction());
+    dispatch(moveNoteToTrash());
   }
 
   function noteRestoreHandler() {
-    dispatch(restoreNoteAction());
+    dispatch(restoreNote());
   }
 
   function noteDeleteHandler() {
-    dispatch(deleteNoteRequest());
+    dispatch(deleteNote());
   }
 
   return (

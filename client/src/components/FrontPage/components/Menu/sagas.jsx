@@ -1,22 +1,19 @@
 import { call, put, select } from 'redux-saga/effects';
 
 import { tagsAPI } from '../../../../api';
-import {
-  TAG_DELETE_FAILURE,
-  TAG_DELETE_SUCCEEDED,
-} from '../TagsEditor/constants';
 import { getSelectedNote } from '../../selectors';
-import { unselectNoteAction } from '../../../Shared/actions';
+import { noteUnselected } from '../../../Shared/actions';
 import { selectDefaultNoteSaga } from '../../../Shared/sagas';
+import { deleteTagFailure, deleteTagSucceeded } from '../TagsEditor/actions';
 
 export function* deleteTagSaga(action) {
   const { tagId } = action.payload;
 
   try {
     yield call(tagsAPI.deleteTag, tagId);
-    yield put({ type: TAG_DELETE_SUCCEEDED, payload: { tagId } });
+    yield put(deleteTagSucceeded(tagId));
   } catch (e) {
-    yield put({ type: TAG_DELETE_FAILURE, error: e });
+    yield put(deleteTagFailure());
   }
 }
 
@@ -24,7 +21,7 @@ export function* noteSelectionSaga() {
   const selectedNote = yield select(getSelectedNote);
 
   if (selectedNote) {
-    yield put(unselectNoteAction());
+    yield put(noteUnselected());
   }
 
   yield selectDefaultNoteSaga();

@@ -1,58 +1,69 @@
 import { takeLatest, takeEvery, put, call, all } from 'redux-saga/effects';
 import { userAPI } from '../../api';
-import {
-  APP_SETTINGS_UPDATE_FAILURE,
-  APP_SETTINGS_UPDATE_REQUEST,
-  APP_SETTINGS_UPDATE_SUCCEEDED,
-  DELETE_ACCOUNT_FAILURE,
-  DELETE_ACCOUNT_REQUEST,
-  DELETE_ACCOUNT_SUCCEEDED,
-  UPDATE_EMAIL_FAILURE,
-  UPDATE_EMAIL_REQUEST,
-  UPDATE_PASSWORD_FAILURE,
-  UPDATE_PASSWORD_REQUEST,
-  UPDATE_PASSWORD_SUCCEEDED,
-} from './constants';
 import { resetAppSettings, saveAppSettings } from '../../utils/settings';
-import { UPDATE_EMAIL_SUCCEEDED } from '../Shared/constants';
+import {
+  deleteAccountFailure,
+  deleteAccountSucceeded,
+  updateEmailFailure,
+  updateEmailSucceeded,
+  updatePasswordFailure,
+  updatePasswordSucceeded,
+  updateSettingsFailure,
+  updateSettingsSucceeded,
+} from './actions';
+import { redirect } from '../Shared/actions';
+import { clearTokens } from '../../utils/jwt';
 
 export function* updateEmailSaga(action) {
+  const { params, onSuccess, onFailure } = action.payload;
   try {
-    const result = yield call(userAPI.updateEmail, action.payload);
-    if (typeof action.payload.onSuccess === 'function') {
-      yield call(action.payload.onSuccess);
+    const {
+      data: { user },
+    } = yield call(userAPI.updateEmail, params);
+    if (typeof onSuccess === 'function') {
+      yield call(onSuccess);
     }
-    yield put({ type: UPDATE_EMAIL_SUCCEEDED, payload: result });
+    yield put(updateEmailSucceeded(user));
   } catch (e) {
-    if (typeof action.payload.onFailure === 'function') {
-      yield call(action.payload.onFailure);
+    if (typeof onFailure === 'function') {
+      yield call(onFailure);
     }
-    yield put({ type: UPDATE_EMAIL_FAILURE, error: e });
+    yield put(updateEmailFailure(e));
   }
 }
 
 export function* updatePasswordSaga(action) {
+  const { params, onSuccess, onFailure } = action.payload;
   try {
-    yield call(userAPI.updatePassword, action.payload);
-    if (typeof action.payload.onSuccess === 'function') {
-      yield call(action.payload.onSuccess);
+    yield call(userAPI.updatePassword, params);
+    if (typeof onSuccess === 'function') {
+      yield call(onSuccess);
     }
-    yield put({ type: UPDATE_PASSWORD_SUCCEEDED });
+    yield put(updatePasswordSucceeded());
   } catch (e) {
-    if (typeof action.payload.onFailure === 'function') {
-      yield call(action.payload.onFailure);
+    if (typeof onFailure === 'function') {
+      yield call(onFailure);
     }
-    yield put({ type: UPDATE_PASSWORD_FAILURE, error: e });
+    yield put(updatePasswordFailure(e));
   }
 }
 
-export function* deleteAccountSaga() {
+export function* deleteAccountSaga(action) {
+  const { onSuccess, onFailure, params } = action.payload;
   try {
-    yield call(userAPI.deleteAccount);
+    yield call(userAPI.deleteAccount, { data: params });
     yield call(resetAppSettings);
-    yield put({ type: DELETE_ACCOUNT_SUCCEEDED });
+    if (typeof onSuccess === 'function') {
+      yield call(onSuccess);
+    }
+    yield put(deleteAccountSucceeded());
+    yield put(redirect('/login'));
+    yield call(clearTokens);
   } catch (e) {
-    yield put({ type: DELETE_ACCOUNT_FAILURE, error: e });
+    if (typeof onFailure === 'function') {
+      yield call(onFailure);
+    }
+    yield put(deleteAccountFailure(e));
   }
 }
 
@@ -61,17 +72,17 @@ export function* updateSettingsSaga(action) {
 
   try {
     yield call(saveAppSettings, settings);
-    yield put({ type: APP_SETTINGS_UPDATE_SUCCEEDED, payload: { settings } });
+    yield put(updateSettingsSucceeded(settings));
   } catch (e) {
-    yield put({ type: APP_SETTINGS_UPDATE_FAILURE, error: e });
+    yield put(updateSettingsFailure(e));
   }
 }
 
 export default function* watchSettingsPageSaga() {
   yield all([
-    yield takeLatest(UPDATE_EMAIL_REQUEST, updateEmailSaga),
-    yield takeLatest(UPDATE_PASSWORD_REQUEST, updatePasswordSaga),
-    yield takeLatest(DELETE_ACCOUNT_REQUEST, deleteAccountSaga),
-    yield takeEvery(APP_SETTINGS_UPDATE_REQUEST, updateSettingsSaga),
+    yield takeLatest('UPDATE_EMAIL', updateEmailSaga),
+    yield takeLatest('UPDATE_PASSWORD', updatePasswordSaga),
+    yield takeLatest('DELETE_ACCOUNT', deleteAccountSaga),
+    yield takeEvery('UPDATE_SETTINGS', updateSettingsSaga),
   ]);
 }

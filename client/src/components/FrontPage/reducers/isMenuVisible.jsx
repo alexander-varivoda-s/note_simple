@@ -1,14 +1,7 @@
-import { TOGGLE_MENU_VISIBILITY } from '../components/Menu/constants';
+import { handleAction } from 'redux-actions';
 
-export default function sidebarVisibilityReducer(state = false, action) {
-  switch (action.type) {
-    case TOGGLE_MENU_VISIBILITY: {
-      const { isVisible } = action.payload;
-      return isVisible;
-    }
-
-    default: {
-      return state;
-    }
-  }
-}
+export default handleAction(
+  'TOGGLE_MENU',
+  (state, { payload: { isVisible } }) => isVisible,
+  false
+);

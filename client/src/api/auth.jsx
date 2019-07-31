@@ -5,7 +5,7 @@ export default client => ({
     client.post(`${BASE_PATH}/login`, params, config),
   logout: (config = {}) => client.get(`${BASE_PATH}/logout`, config),
   register: (params, config = {}) => client.post(BASE_PATH, params, config),
-  verifyEmail: (token, config = {}) =>
+  verifyAccount: (token, config = {}) =>
     client.get(`${BASE_PATH}/verify/${token}`, config),
   getUser: (config = {}) => client.get(BASE_PATH, config),
   forgotPassword: (params, config = {}) =>

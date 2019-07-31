@@ -7,7 +7,7 @@ export default function Pinner(props) {
   const { pinHandler, noteId, isPinned } = props;
 
   function toggle() {
-    pinHandler(!isPinned, noteId);
+    pinHandler(isPinned, noteId);
   }
 
   function handleKeydown(e) {

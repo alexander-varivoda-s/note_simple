@@ -1,17 +1,7 @@
-import { HIDE_REVISION_SELECTOR, SHOW_REVISION_SELECTOR } from '../constants';
+import { handleAction } from 'redux-actions';
 
-export default function(state = false, action) {
-  switch (action.type) {
-    case SHOW_REVISION_SELECTOR: {
-      return true;
-    }
-
-    case HIDE_REVISION_SELECTOR: {
-      return false;
-    }
-
-    default: {
-      return state;
-    }
-  }
-}
+export default handleAction(
+  'TOGGLE_REVISION_SELECTOR',
+  (state, { payload: { isVisible } }) => isVisible,
+  false
+);

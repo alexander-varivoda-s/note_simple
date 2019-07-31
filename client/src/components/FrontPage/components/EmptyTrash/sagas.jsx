@@ -1,10 +1,9 @@
 import { put, call, select } from 'redux-saga/effects';
 
 import { notesAPI } from '../../../../api';
-import { EMPTY_TRASH_SUCCEEDED } from '../../../Shared/constants';
-import { EMPTY_TRASH_FAILURE } from './constants';
 import { getSelectedNote } from '../../selectors';
-import { unselectNoteAction } from '../../../Shared/actions';
+import { noteUnselected } from '../../../Shared/actions';
+import { emptyTrashFailure, emptyTrashSucceeded } from './actions';
 
 // eslint-disable-next-line import/prefer-default-export
 export function* emptyTrashSaga() {
@@ -13,10 +12,10 @@ export function* emptyTrashSaga() {
   try {
     yield call(notesAPI.emptyTrash);
     if (selectedNote) {
-      yield put(unselectNoteAction());
+      yield put(noteUnselected());
     }
-    yield put({ type: EMPTY_TRASH_SUCCEEDED });
+    yield put(emptyTrashSucceeded());
   } catch (e) {
-    yield put({ type: EMPTY_TRASH_FAILURE, error: e });
+    yield put(emptyTrashFailure(e));
   }
 }

@@ -104,7 +104,7 @@ module.exports = {
         ctx.body = {
           type: 'status',
           message: 'Email successfully updated.',
-          user: user.toObject(omit),
+          user: user.toObject({ omit }),
         };
       }
     };
@@ -132,9 +132,9 @@ module.exports = {
   verifyEmail() {
     return async ctx => {
       const { token } = ctx.params;
-      const { exp, sub } = await decodeEmailVerificationToken(token);
+      const { exp, email } = await decodeEmailVerificationToken(token);
       const user = await UserModel.findOne({
-        email: sub,
+        email,
         verifyEmailToken: token,
       }).exec();
 
@@ -143,7 +143,7 @@ module.exports = {
       }
 
       if (Date.now() / 1000 > exp && !user.emailVerified) {
-        await UserModel.deleteOne({ email: sub }).exec();
+        await UserModel.deleteOne({ email }).exec();
         ctx.throw(400, 'Token already expired.');
       }
 
@@ -227,11 +227,11 @@ module.exports = {
       }).exec();
 
       if (!refreshTokenEntity) {
-        ctx.throw(400, 'Invalid refresh token specified');
+        ctx.throw(401, 'Invalid refresh token specified');
       }
 
       if (exp < Date.now() / 1000) {
-        ctx.throw(400, 'Refresh token already expired');
+        ctx.throw(401, 'Refresh token already expired');
       }
 
       const newRefreshTokenEntity = new RefreshToken({

@@ -1,17 +1,16 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchAction } from './actions';
 import { getFilter, getSearchPhrase } from '../../selectors';
 import { IconButton } from '../../../Shared/components/Button';
 import SVG from '../../../Shared/components/SVG';
 
 import { StyledSearch, SearchInput } from './styles';
-import { ALL_NOTES, TRASH } from '../../../Shared/constants';
+import { search } from './actions';
 
 export default function Search() {
   const placeholders = {
-    [ALL_NOTES]: 'All Notes',
-    [TRASH]: 'Trash',
+    ALL_NOTES: 'All Notes',
+    TRASH: 'Trash',
   };
 
   const searchPhrase = useSelector(getSearchPhrase);
@@ -21,11 +20,11 @@ export default function Search() {
 
   function changeHandler(e) {
     const { value } = e.target;
-    dispatch(searchAction(value));
+    dispatch(search(value));
   }
 
   function clearHandler() {
-    dispatch(searchAction(''));
+    dispatch(search(''));
   }
 
   return (

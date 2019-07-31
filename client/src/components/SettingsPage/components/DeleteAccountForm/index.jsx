@@ -6,10 +6,11 @@ import { object, bool, string } from 'yup';
 
 import { FieldContainer, StyledErrorMessage } from '../../styles';
 import { PrimaryButton } from '../../../Shared/components/Button';
-import { deleteAccountAction } from '../../actions';
+import { deleteAccount } from '../../actions';
 
 const initialValues = {
   confirm: false,
+  password: '',
 };
 
 const validationSchema = object().shape({
@@ -34,7 +35,7 @@ function DeleteAccountForm(props) {
         </div>
         <StyledErrorMessage name='confirm' component='div' />
       </FieldContainer>
-      <FieldContainer>
+      <FieldContainer error={errors.password && touched.password}>
         <label htmlFor='password'>Password</label>
         <Field type='password' name='password' />
         <StyledErrorMessage name='password' component='div' />
@@ -51,15 +52,26 @@ function DeleteAccountForm(props) {
 DeleteAccountForm.propTypes = {
   errors: PropTypes.shape({
     confirm: PropTypes.string,
+    password: PropTypes.string,
   }).isRequired,
   touched: PropTypes.shape({
     confirm: PropTypes.bool,
+    password: PropTypes.bool,
   }).isRequired,
   isSubmitting: PropTypes.bool.isRequired,
 };
 
-const submitHandler = dispatch => ({ password }) => {
-  dispatch(deleteAccountAction(password));
+const submitHandler = dispatch => ({ password }, formikBag) => {
+  const reset = () => formikBag.resetForm(initialValues);
+  const payload = {
+    params: {
+      password,
+    },
+    onSuccess: reset,
+    onFailure: reset,
+  };
+  console.log(payload);
+  dispatch(deleteAccount(payload));
 };
 
 export default function DeleteAccountFormContainer() {

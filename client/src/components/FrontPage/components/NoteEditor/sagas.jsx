@@ -1,7 +1,7 @@
 import { put, call } from 'redux-saga/effects';
 
 import { notesAPI } from '../../../../api';
-import { NOTE_SAVE_FAILURE, NOTE_SAVE_SUCCEEDED } from './constants';
+import { saveNoteFailure, saveNoteSucceeded } from './actions';
 
 // eslint-disable-next-line import/prefer-default-export
 export function* saveNoteSaga(action) {
@@ -11,8 +11,8 @@ export function* saveNoteSaga(action) {
     const {
       data: { note },
     } = yield call(notesAPI.updateNote, noteId, { text });
-    yield put({ type: NOTE_SAVE_SUCCEEDED, payload: { note } });
+    yield put(saveNoteSucceeded(note));
   } catch (e) {
-    yield put({ type: NOTE_SAVE_FAILURE, error: e });
+    yield put(saveNoteFailure(e));
   }
 }

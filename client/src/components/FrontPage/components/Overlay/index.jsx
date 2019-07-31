@@ -5,8 +5,8 @@ import {
   getMenuVisibilityStatus,
   getNoteInfoVisibilityStatus,
 } from '../../selectors';
-import { toggleMenuVisibilityAction } from '../Menu/actions';
-import { toggleNoteVisibilityAction } from '../Toolbar/actions';
+import { toggleMenu } from '../Menu/actions';
+import { toggleNoteInfo } from '../NoteInfo/actions';
 
 export default function Overlay() {
   const isMenuVisible = useSelector(getMenuVisibilityStatus);
@@ -16,9 +16,9 @@ export default function Overlay() {
 
   function overlayClickHandler() {
     if (isMenuVisible) {
-      dispatch(toggleMenuVisibilityAction(!isMenuVisible));
+      dispatch(toggleMenu(!isMenuVisible));
     } else if (isNoteInfoVisible) {
-      dispatch(toggleNoteVisibilityAction(!isNoteInfoVisible));
+      dispatch(toggleNoteInfo(!isNoteInfoVisible));
     }
   }
 

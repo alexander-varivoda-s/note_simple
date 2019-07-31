@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSelectedNote } from '../../selectors';
-import { noteEditAction, noteSaveAction } from '../NoteEditor/actions';
 import { revisionsAPI } from '../../../../api';
 import { getNoteHistoryDateFormat } from '../../../../utils/date';
 import { StyledRevisions, SelectedRevision, Range, Actions } from './styles';
 import { getRevisionSelectorVisibilityStatus } from './selectors';
-import { toggleRevisionSelectorVisibilityAction } from './actions';
+import { toggleRevisionSelector } from './actions';
 import {
   PrimaryButton,
   SecondaryButton,
 } from '../../../Shared/components/Button';
+import { editNote, saveNote } from '../NoteEditor/actions';
 
 let _currentNote = null;
 
@@ -50,14 +50,14 @@ export default function Revisions() {
   }, [note]);
 
   const closeSelector = useCallback(() => {
-    dispatch(toggleRevisionSelectorVisibilityAction(false));
+    dispatch(toggleRevisionSelector(false));
   }, [dispatch]);
 
   useEffect(() => {
     function documentClickHandler(e) {
       const { current } = _revisionSelector;
       if (isRevisionSelectorVisible && !current.contains(e.target)) {
-        dispatch(noteEditAction(_currentNote.text, _currentNote._id));
+        dispatch(editNote(_currentNote.text, _currentNote._id));
         closeSelector();
       }
     }
@@ -71,11 +71,11 @@ export default function Revisions() {
     const pos = parseInt(value, 10);
 
     if (pos === revisions.length) {
-      dispatch(noteEditAction(_currentNote.text, _currentNote._id));
+      dispatch(editNote(_currentNote.text, _currentNote._id));
     }
 
     if (revisions[pos]) {
-      dispatch(noteEditAction(revisions[pos].text, note._id));
+      dispatch(editNote(revisions[pos].text, note._id));
     }
 
     setRangePosition(pos);
@@ -83,14 +83,14 @@ export default function Revisions() {
 
   function cancelHandler() {
     if (rangePosition !== revisions.length) {
-      dispatch(noteEditAction(_currentNote.text, note._id));
+      dispatch(editNote(_currentNote.text, note._id));
     }
 
     closeSelector();
   }
 
   function restoreNoteHandler() {
-    dispatch(noteSaveAction(note.text, note._id));
+    dispatch(saveNote(note.text, note._id));
     closeSelector();
   }
 

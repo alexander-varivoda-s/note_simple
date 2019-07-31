@@ -1,19 +1,12 @@
-import {
-  FORGOT_PASSWORD_REQUEST,
-  FORGOT_PASSWORD_REQUEST_FAILURE,
-  FORGOT_PASSWORD_REQUEST_SUCCEEDED,
-} from './constants';
+import { createAction } from 'redux-actions';
 
-export const forgotPasswordAction = payload => ({
-  type: FORGOT_PASSWORD_REQUEST,
-  payload,
-});
-
-export const forgotPasswordRequestSucceededAction = () => ({
-  type: FORGOT_PASSWORD_REQUEST_SUCCEEDED,
-});
-
-export const forgotPasswordRequestFailureAction = error => ({
-  type: FORGOT_PASSWORD_REQUEST_FAILURE,
-  error,
-});
+export const verifyEmail = createAction(
+  'VERIFY_EMAIL',
+  ({ params, onSuccess, onFailure }) => ({
+    params,
+    onSuccess,
+    onFailure,
+  })
+);
+export const verifyEmailSucceeded = createAction('VERIFY_EMAIL_SUCCEEDED');
+export const verifyEmailFailure = createAction('VERIFY_EMAIL_FAILURE');

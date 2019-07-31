@@ -1,8 +1,7 @@
 import { select, put } from 'redux-saga/effects';
 
 import { getSelectedNote, getSortedNotes } from '../../selectors';
-import { unselectNoteAction } from '../../../Shared/actions';
-import { NOTE_SELECTED } from '../../../Shared/constants';
+import { noteSelected, noteUnselected } from '../../../Shared/actions';
 
 // eslint-disable-next-line import/prefer-default-export
 export function* searchSaga() {
@@ -14,10 +13,10 @@ export function* searchSaga() {
     const index = notes.findIndex(n => n._id === selectedNoteId);
 
     if (index < 0 || !selectedNote) {
-      yield put(unselectNoteAction());
-      yield put({ type: NOTE_SELECTED, payload: { noteId: notes[0]._id } });
+      yield put(noteUnselected());
+      yield put(noteSelected(notes[0]._id));
     }
   } else if (selectedNoteId) {
-    yield put(unselectNoteAction());
+    yield put(noteUnselected());
   }
 }

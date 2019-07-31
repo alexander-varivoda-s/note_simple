@@ -6,7 +6,7 @@ import { object, string, ref } from 'yup';
 
 import { FieldContainer } from '../../styles';
 import { PrimaryButton } from '../../../Shared/components/Button';
-import { updatePasswordAction } from '../../actions';
+import { updatePassword } from '../../actions';
 
 const initialValues = {
   oldPassword: '',
@@ -69,7 +69,15 @@ PasswordForm.propTypes = {
 
 const submitHandler = dispatch => ({ oldPassword, newPassword }, formikBag) => {
   const reset = () => formikBag.resetForm(initialValues);
-  dispatch(updatePasswordAction(oldPassword, newPassword, reset, reset));
+  const payload = {
+    params: {
+      oldPassword,
+      newPassword,
+    },
+    onSuccess: reset,
+    onFailure: reset,
+  };
+  dispatch(updatePassword(payload));
 };
 
 export default function PasswordFormContainer() {

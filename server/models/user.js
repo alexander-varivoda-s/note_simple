@@ -4,6 +4,7 @@ const config = require('config');
 
 const Note = require('./note');
 const Tag = require('./tag');
+const RefreshToken = require('./refresh-token');
 
 const { Schema } = mongoose;
 const { passwordLength, saltLength, iterations, keylen, digest } = config.get(
@@ -107,6 +108,7 @@ userSchema.pre('remove', async function(next) {
   const notes = await Note.find({ author: this.id }).exec();
   await Promise.all(notes.map(note => note.remove()));
   await Tag.deleteMany({ author: this.id }).exec();
+  await RefreshToken.deleteMany({ user: this.id }).exec();
   await next();
 });
 

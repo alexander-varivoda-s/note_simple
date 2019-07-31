@@ -3,13 +3,13 @@ import { useDispatch } from 'react-redux';
 
 import { StyledEmptyTrash } from './styles';
 import { BorderlessButton } from '../../../Shared/components/Button';
-import { emptyTrashAction } from './actions';
+import { emptyTrash } from './actions';
 
 export default function EmptyTrash() {
   const dispatch = useDispatch();
 
   const emptyTrashHandler = () => {
-    dispatch(emptyTrashAction());
+    dispatch(emptyTrash());
   };
 
   return (

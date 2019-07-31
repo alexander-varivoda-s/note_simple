@@ -4,8 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getSelectedNote, getSortedNotes } from '../../selectors';
 import NotePreview from './components/NotePreview';
 import Pinner from './components/Pinner';
-import { pinAction, selectNoteAction } from './actions';
-import { unselectNoteAction } from '../../../Shared/actions';
+import { pin, unpin } from './actions';
+import { noteSelected, noteUnselected } from '../../../Shared/actions';
 import { StyledNotesList, NotesListItem } from './styles';
 
 export default function NotesList() {
@@ -17,16 +17,20 @@ export default function NotesList() {
   const selectedNoteId = selectedNote && selectedNote._id;
 
   function pinHandler(isPinned, noteId) {
-    dispatch(pinAction(isPinned, noteId));
+    if (!isPinned) {
+      dispatch(pin(noteId));
+    } else {
+      dispatch(unpin(noteId));
+    }
   }
 
   const selectNote = useCallback(
     noteToSelect => {
       if (!selectedNote || noteToSelect._id !== selectedNote._id) {
         if (selectedNote) {
-          dispatch(unselectNoteAction());
+          dispatch(noteUnselected());
         }
-        dispatch(selectNoteAction(noteToSelect._id));
+        dispatch(noteSelected(noteToSelect._id));
       }
     },
     [selectedNote, dispatch]

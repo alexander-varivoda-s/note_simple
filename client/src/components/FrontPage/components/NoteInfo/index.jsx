@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import {
@@ -10,8 +10,8 @@ import {
 } from './styles';
 import { IconButton } from '../../../Shared/components/Button';
 import SVG from '../../../Shared/components/SVG';
-import { toggleNoteVisibilityAction } from '../Toolbar/actions';
-import { pinAction } from '../NotesList/actions';
+import { pin, unpin } from '../NotesList/actions';
+import { toggleNoteInfo } from './actions';
 
 function formatDate(dateString) {
   return new Date(dateString).toLocaleString('en-US', {
@@ -27,23 +27,21 @@ function formatDate(dateString) {
 export default function NoteInfo(props) {
   const { note } = props;
 
-  const [isChecked, setIsChecked] = useState(!!note.pinned);
-
   const dispatch = useDispatch();
 
   function clickHandler() {
-    dispatch(toggleNoteVisibilityAction(false));
+    dispatch(toggleNoteInfo(false));
   }
 
-  function changeHandler() {
-    setIsChecked(!isChecked);
-  }
+  function changeHandler(e) {
+    const { checked } = e.target;
 
-  useEffect(() => {
-    if ((!!note.pinned && !isChecked) || (!note.pinned && isChecked)) {
-      dispatch(pinAction(isChecked, note._id));
+    if (checked) {
+      dispatch(pin(note._id));
+    } else {
+      dispatch(unpin(note._id));
     }
-  }, [isChecked, note, dispatch]);
+  }
 
   return (
     <StyledNoteInfo>
@@ -64,7 +62,7 @@ export default function NoteInfo(props) {
         <input
           id='pin-to-top'
           type='checkbox'
-          checked={isChecked}
+          checked={!!note.pinned}
           onChange={changeHandler}
         />
       </PinToTop>

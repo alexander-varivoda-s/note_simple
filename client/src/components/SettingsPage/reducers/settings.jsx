@@ -1,4 +1,4 @@
-import { APP_SETTINGS_UPDATE_SUCCEEDED } from '../constants';
+import { handleActions, combineActions } from 'redux-actions';
 
 const initialState = {
   sorting: {
@@ -9,18 +9,15 @@ const initialState = {
   tabKeyBehavior: true,
 };
 
-export default function settingsReducer(state = initialState, action) {
-  switch (action.type) {
-    case APP_SETTINGS_UPDATE_SUCCEEDED: {
-      const { settings } = action.payload;
-      return {
-        ...state,
-        ...settings,
-      };
-    }
-
-    default: {
-      return state;
-    }
-  }
-}
+export default handleActions(
+  {
+    [combineActions(
+      'UPDATE_SETTINGS_SUCCEEDED',
+      'APP_INITIALIZATION_SUCCEEDED'
+    )]: (state, { payload: { settings } }) => ({
+      ...state,
+      ...settings,
+    }),
+  },
+  initialState
+);

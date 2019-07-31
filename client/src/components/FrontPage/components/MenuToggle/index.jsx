@@ -1,10 +1,10 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMenuVisibilityStatus } from '../../selectors';
-import { toggleMenuVisibilityAction } from '../Menu/actions';
 
 import { IconButton } from '../../../Shared/components/Button';
 import SVG from '../../../Shared/components/SVG';
+import { toggleMenu } from '../Menu/actions';
 
 export default function MenuToggle() {
   const isMenuVisible = useSelector(getMenuVisibilityStatus);
@@ -12,7 +12,7 @@ export default function MenuToggle() {
   const dispatch = useDispatch();
 
   function menuToggleHandler() {
-    dispatch(toggleMenuVisibilityAction(!isMenuVisible));
+    dispatch(toggleMenu(!isMenuVisible));
   }
 
   return (

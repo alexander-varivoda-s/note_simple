@@ -1,13 +1,16 @@
-import { call, put, takeLatest, all } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import {
+  clearTokens,
   getAccessToken,
   getRefreshToken,
   setAccessToken,
   setRefreshToken,
 } from '../../utils/jwt';
-import { authAPI, notesAPI, tagsAPI, userAPI } from '../../api';
-import { selectDefaultNoteSaga } from '../Shared/sagas';
-import { appInitFailure, appInitSucceeded } from './reducers/appInitialized';
+import { userAPI } from '../../api';
+import { fetchData, selectDefaultNoteSaga } from '../Shared/sagas';
+import { appInitFailure, appInitSucceeded } from './actions';
+import { getAppSettings } from '../../utils/settings';
+import { redirect } from '../Shared/actions';
 
 function* refreshTokens() {
   const currentRefreshToken = getRefreshToken();
@@ -24,25 +27,21 @@ function* refreshTokens() {
 function* initSaga() {
   if (yield call(getAccessToken)) {
     try {
-      yield refreshTokens();
-
-      const { userResponse, notesResponse, tagsResponse } = yield all({
-        userResponse: call(authAPI.getUser),
-        notesResponse: call(notesAPI.fetchNotes),
-        tagsResponse: call(tagsAPI.fetchTags),
-      });
-
+      yield* refreshTokens();
       yield put(
         appInitSucceeded({
-          user: userResponse.data.user,
-          notes: notesResponse.data.notes,
-          tags: tagsResponse.data.tags,
+          ...(yield* fetchData()),
+          settings: getAppSettings(),
         })
       );
 
       yield selectDefaultNoteSaga();
     } catch (e) {
-      yield put(appInitFailure());
+      if (e.response.status === 401) {
+        yield call(clearTokens);
+        yield put(redirect('/login'));
+      }
+      yield put(appInitFailure(e));
     }
   } else {
     yield put(

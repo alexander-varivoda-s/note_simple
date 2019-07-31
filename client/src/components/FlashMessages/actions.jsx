@@ -1,22 +1,7 @@
 import uuidv4 from 'uuid/v4';
+import { createAction } from 'redux-actions';
 
-import { FLASH_MESSAGE, CLEAR_FLASH_MESSAGES } from './constants';
-
-export function clearFlashMessages() {
-  return {
-    type: CLEAR_FLASH_MESSAGES,
-  };
-}
-
-export default function flashMessage(payload) {
-  let temp = payload;
-
-  if (!Array.isArray(temp)) {
-    temp = [payload];
-  }
-
-  return {
-    type: FLASH_MESSAGE,
-    messages: temp.map(m => ({ ...m, id: uuidv4() })),
-  };
-}
+export const flashMessage = createAction('FLASH_MESSAGE', messages =>
+  messages.map(m => ({ ...m, id: uuidv4() }))
+);
+export const clearFlashMessages = createAction('CLEAR_FLASH_MESSAGES');

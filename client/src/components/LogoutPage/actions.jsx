@@ -1,6 +1,5 @@
-import { LOGOUT_REQUESTED } from './constants';
+import { createAction } from 'redux-actions';
 
-// eslint-disable-next-line import/prefer-default-export
-export const logoutAction = () => ({
-  type: LOGOUT_REQUESTED,
-});
+export const logout = createAction('LOGOUT');
+export const logoutSucceeded = createAction('LOGOUT_SUCCEEDED');
+export const logoutFailure = createAction('LOGOUT_FAILURE');

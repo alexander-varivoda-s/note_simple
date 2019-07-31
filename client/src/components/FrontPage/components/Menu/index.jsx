@@ -6,8 +6,7 @@ import {
 } from '../../../Shared/components/Button';
 import SVG from '../../../Shared/components/SVG';
 import { getFilter, getTags } from '../../selectors';
-import { filterNotesAction, toggleMenuVisibilityAction } from './actions';
-import { tagDeleteAction } from '../TagsEditor/actions';
+import { deleteTag } from '../TagsEditor/actions';
 import {
   StyledMenu,
   OptionsWrapper,
@@ -18,7 +17,7 @@ import {
   TagsListTitle,
   TagsListWrapper,
 } from './styles';
-import { ALL_NOTES, TRASH } from '../../../Shared/constants';
+import { filterNotes, toggleMenu } from './actions';
 
 export default function Menu() {
   const filter = useSelector(getFilter);
@@ -29,15 +28,15 @@ export default function Menu() {
   function handleClick(e) {
     const { filter: selectedFilter } = e.currentTarget.dataset;
 
-    dispatch(filterNotesAction(selectedFilter));
-    dispatch(toggleMenuVisibilityAction(false));
+    dispatch(filterNotes(selectedFilter));
+    dispatch(toggleMenu(false));
   }
 
   function performTagDelete(e) {
     const {
       dataset: { id },
     } = e.currentTarget;
-    dispatch(tagDeleteAction(id));
+    dispatch(deleteTag(id));
   }
 
   return (
@@ -45,8 +44,8 @@ export default function Menu() {
       <OptionsWrapper>
         <OptionContainer>
           <BorderlessButton
-            active={filter === ALL_NOTES}
-            data-filter={ALL_NOTES}
+            active={filter === 'ALL_NOTES'}
+            data-filter='ALL_NOTES'
             onClick={handleClick}
           >
             <SVG name='notes' size='22' color='#1e1e1e' />
@@ -55,8 +54,8 @@ export default function Menu() {
         </OptionContainer>
         <OptionContainer>
           <BorderlessButton
-            active={filter === TRASH}
-            data-filter={TRASH}
+            active={filter === 'TRASH'}
+            data-filter='TRASH'
             onClick={handleClick}
           >
             <SVG name='trash' size='22' color='#1e1e1e' />

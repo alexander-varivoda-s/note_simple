@@ -4,7 +4,6 @@ import { Field, Form, Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { object, string } from 'yup';
 
-import { loginAction } from '../actions';
 import {
   ErrorMessage,
   FormActions,
@@ -12,6 +11,7 @@ import {
 } from '../../Shared/components/Form';
 import { PrimaryButton } from '../../Shared/components/Button';
 import SVG from '../../Shared/components/SVG';
+import { login } from '../actions';
 
 const initialValues = {
   email: '',
@@ -72,13 +72,14 @@ export default function LoginFormContainer() {
   const dispatch = useDispatch();
 
   function submitHandler(values, formikBag) {
+    const reset = () => formikBag.setSubmitting(false);
     const payload = {
       params: values,
-      onSuccess: () => formikBag.setSubmitting(false),
-      onFailure: () => formikBag.setSubmitting(false),
+      onSuccess: reset,
+      onFailure: reset,
     };
 
-    dispatch(loginAction(payload));
+    dispatch(login(payload));
   }
   return (
     <Formik

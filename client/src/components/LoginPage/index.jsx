@@ -5,7 +5,6 @@ import PageTitle from '../Shared/components/PageTitle';
 import Container from '../Shared/components/Container';
 import CenteredContainer from '../Shared/components/CenteredContainer';
 import LoginForm from './components/LoginForm';
-import FlashMessages from '../FlashMessages';
 import { StyledLink } from './styles';
 
 export default function LoginPage() {
@@ -21,7 +20,6 @@ export default function LoginPage() {
       <PageHeader />
       <CenteredContainer>
         <PageTitle>Sign In</PageTitle>
-        <FlashMessages />
         <LoginForm />
         <StyledLink to='/forgot'>Forgot you password?</StyledLink>
       </CenteredContainer>

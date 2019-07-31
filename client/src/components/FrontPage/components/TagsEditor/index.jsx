@@ -1,6 +1,5 @@
 import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { tagNoteAction, untagNoteAction } from './actions';
 import { getSelectedNoteTags, getTagsDiff } from '../../selectors';
 
 import {
@@ -13,6 +12,7 @@ import {
   Tag,
   FakeInput,
 } from './styles';
+import { tagNote, untagNote } from './actions';
 
 export default function TagsEditor() {
   const tagsDiff = useSelector(getTagsDiff);
@@ -47,20 +47,22 @@ export default function TagsEditor() {
     } = e;
 
     if (value && key === 'Enter') {
-      const payload = {};
+      let tagId = null;
+      let name = '';
+
       if (suggestions.length) {
         const suggestion = suggestions.find(s => s.name === value);
         if (suggestion) {
-          payload.tagId = suggestion._id;
+          tagId = suggestion._id;
         }
         setSuggestions([]);
       }
 
-      if (!payload.tagId) {
-        payload.name = value;
+      if (!tagId) {
+        name = value;
       }
 
-      dispatch(tagNoteAction(payload));
+      dispatch(tagNote(tagId, name));
       setTagName('');
     }
   }
@@ -81,7 +83,7 @@ export default function TagsEditor() {
 
     if (selectedTag) {
       const { current: input } = _input;
-      dispatch(untagNoteAction(selectedTag._id));
+      dispatch(untagNote(selectedTag._id));
       setSelectedTag(null);
       input.focus();
     }
@@ -90,7 +92,7 @@ export default function TagsEditor() {
   function tabHandler(e) {
     const { target } = e;
     if (target === _input.current && suggestions.length) {
-      dispatch(tagNoteAction({ tagId: suggestions[0]._id }));
+      dispatch(tagNote(suggestions[0]._id));
       setTagName('');
       setSuggestions([]);
       setInputInFocus(true);
@@ -122,7 +124,7 @@ export default function TagsEditor() {
       setSelectedTag(null);
     }
 
-    dispatch(untagNoteAction(tagId));
+    dispatch(untagNote(tagId));
   }
 
   function blurHandler() {

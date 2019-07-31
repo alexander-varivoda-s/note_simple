@@ -10,7 +10,7 @@ import {
 import SettingHeader from '../SettingHeader';
 import SelectField from '../SelectField';
 import CheckboxField from '../CheckboxField';
-import { updateSettingsAction } from '../../actions';
+import { updateSettings } from '../../actions';
 import { getSettings } from '../../selectors';
 
 function DisplaySettings() {
@@ -39,7 +39,7 @@ function DisplaySettings() {
   function handleSortByChange(e) {
     const { value } = e.target;
     dispatch(
-      updateSettingsAction({
+      updateSettings({
         ...settings,
         sorting: {
           ...settings.sorting,
@@ -52,7 +52,7 @@ function DisplaySettings() {
   function handleSortOrderChange(e) {
     const { value } = e.target;
     dispatch(
-      updateSettingsAction({
+      updateSettings({
         ...settings,
         sorting: {
           ...settings.sorting,
@@ -65,7 +65,7 @@ function DisplaySettings() {
   function handlePreviewLinesChange(e) {
     const { value } = e.target;
     dispatch(
-      updateSettingsAction({
+      updateSettings({
         ...settings,
         previewLines: parseInt(value, 10),
       })
@@ -75,7 +75,7 @@ function DisplaySettings() {
   function handleTabKeyBehaviorChange(e) {
     const { checked } = e.target;
     dispatch(
-      updateSettingsAction({
+      updateSettings({
         ...settings,
         tabKeyBehavior: checked,
       })
@@ -89,6 +89,7 @@ function DisplaySettings() {
   ];
 
   const sortOrder = [['desc', 'Descending'], ['asc', 'Ascending']];
+  const previewLines = [1, 2, 3, 4, 5];
 
   return (
     <SettingsSection>
@@ -142,7 +143,7 @@ function DisplaySettings() {
               web app, besides the title or first line.
             </span>
             <SelectField
-              items={[...Array(5).keys()]}
+              items={previewLines}
               defaultValue={settings.previewLines}
               label='Lines'
               name='lines'

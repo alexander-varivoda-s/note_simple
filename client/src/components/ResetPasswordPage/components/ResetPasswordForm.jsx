@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { object, string, ref } from 'yup';
 
 import PropTypes from 'prop-types';
-import { resetPasswordAction } from '../actions';
+import { resetPassword } from '../actions';
 import {
   ErrorMessage,
   FormActions,
@@ -87,7 +87,7 @@ export default function ResetPasswordFormContainer(props) {
       onFailure: () => formikBag.setSubmitting(false),
     };
 
-    dispatch(resetPasswordAction(payload));
+    dispatch(resetPassword(payload));
   }
 
   initialValues.token = token;

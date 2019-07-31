@@ -6,7 +6,7 @@ import { object, string, ref } from 'yup';
 
 import { FieldContainer, StyledErrorMessage } from '../../styles';
 import { PrimaryButton } from '../../../Shared/components/Button';
-import { updateEmailAction } from '../../actions';
+import { updateEmail } from '../../actions';
 
 const initialValues = {
   email: '',
@@ -71,7 +71,15 @@ EmailForm.propTypes = {
 
 const submitHandler = dispatch => ({ email, password }, formikBag) => {
   const reset = () => formikBag.resetForm(initialValues);
-  dispatch(updateEmailAction(email, password, reset, reset));
+  const payload = {
+    params: {
+      email,
+      password,
+    },
+    onSuccess: reset,
+    onFailure: reset,
+  };
+  dispatch(updateEmail(payload));
 };
 
 export default function EmailFormContainer() {

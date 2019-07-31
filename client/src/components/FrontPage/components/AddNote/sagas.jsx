@@ -1,10 +1,9 @@
 import { call, put, select } from 'redux-saga/effects';
 
 import { notesAPI } from '../../../../api';
-import { ADD_NOTE_FAILURE, ADD_NOTE_SUCCEEDED } from '../../constants';
 import { getSelectedNote } from '../../selectors';
-import { unselectNoteAction } from '../../../Shared/actions';
-import { NOTE_SELECTED } from '../../../Shared/constants';
+import { addNoteFailure, addNoteSucceeded } from './actions';
+import { noteSelected, noteUnselected } from '../../../Shared/actions';
 
 // eslint-disable-next-line import/prefer-default-export
 export function* addNoteSaga(action) {
@@ -15,14 +14,14 @@ export function* addNoteSaga(action) {
     const {
       data: { note },
     } = yield call(notesAPI.addNote, { text });
-    yield put({ type: ADD_NOTE_SUCCEEDED, payload: { note } });
+    yield put(addNoteSucceeded(note));
 
     if (selectedNote) {
-      yield put(unselectNoteAction());
+      yield put(noteUnselected);
     }
 
-    yield put({ type: NOTE_SELECTED, payload: { noteId: note._id } });
+    yield put(noteSelected(note._id));
   } catch (e) {
-    yield put({ type: ADD_NOTE_FAILURE, error: e });
+    yield put(addNoteFailure(e));
   }
 }

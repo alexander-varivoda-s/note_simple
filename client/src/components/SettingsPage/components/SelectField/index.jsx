@@ -24,7 +24,9 @@ export default function Select(props) {
 }
 
 Select.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.array.isRequired).isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.number, PropTypes.arrayOf(PropTypes.string)])
+  ).isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number])

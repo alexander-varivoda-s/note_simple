@@ -4,8 +4,7 @@ import { getFilter, getSearchPhrase } from '../../selectors';
 
 import { IconButton } from '../../../Shared/components/Button';
 import SVG from '../../../Shared/components/SVG';
-import { addNoteAction } from '../../actions';
-import { TRASH } from '../../../Shared/constants';
+import { addNote } from './actions';
 
 export default function AddNote() {
   const filter = useSelector(getFilter);
@@ -14,8 +13,8 @@ export default function AddNote() {
   const dispatch = useDispatch();
 
   function addNoteHandler() {
-    if (filter !== TRASH) {
-      dispatch(addNoteAction(searchPhrase));
+    if (filter !== 'TRASH') {
+      dispatch(addNote(searchPhrase));
     }
   }
 
@@ -24,7 +23,7 @@ export default function AddNote() {
       type='button'
       title='Add Note'
       onClick={addNoteHandler}
-      disabled={filter === TRASH}
+      disabled={filter === 'TRASH'}
     >
       <SVG name='add-note' size='22' />
     </IconButton>

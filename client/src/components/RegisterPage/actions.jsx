@@ -1,7 +1,13 @@
-import { REGISTRATION_REQUEST } from './constants';
+import { createAction } from 'redux-actions';
 
-// eslint-disable-next-line import/prefer-default-export
-export const registerAction = payload => ({
-  type: REGISTRATION_REQUEST,
-  payload,
-});
+export const register = createAction(
+  'REGISTRATION',
+  ({ params, onSuccess, onFailure }) => ({
+    params,
+    onSuccess,
+    onFailure,
+  })
+);
+
+export const registrationSucceeded = createAction('REGISTRATION_SUCCEEDED');
+export const registrationFailure = createAction('REGISTRATION_FAILURE');

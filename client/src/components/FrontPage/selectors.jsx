@@ -1,15 +1,14 @@
 import { createSelector } from 'reselect';
 import { getSettings } from '../SettingsPage/selectors';
-import { ALL_NOTES, APP_DATA, FLAGS, TRASH } from '../Shared/constants';
 
-export const getNotes = state => state[APP_DATA].notes;
+export const getNotes = state => state.APP_DATA.notes;
 
-export const getTags = state => state[APP_DATA].tags;
+export const getTags = state => state.APP_DATA.tags;
 
-export const getFilter = state => state[APP_DATA].filter;
+export const getFilter = state => state.APP_DATA.filter;
 
 export const getSelectedNote = createSelector(
-  [getNotes, state => state[APP_DATA].selectedNote],
+  [getNotes, state => state.APP_DATA.selectedNote],
   (notes, selectedNote) => {
     if (!selectedNote || !notes.length) return null;
     const note = notes.find(n => n._id === selectedNote);
@@ -17,17 +16,17 @@ export const getSelectedNote = createSelector(
   }
 );
 
-export const getSearchPhrase = state => state[APP_DATA].searchPhrase;
+export const getSearchPhrase = state => state.APP_DATA.searchPhrase;
 
 export const getNotesByMainFilter = createSelector(
   [getNotes, getTags, getFilter],
   (notes, tags, filter) => {
     switch (filter) {
-      case ALL_NOTES: {
+      case 'ALL_NOTES': {
         return notes.filter(note => !note.is_deleted);
       }
 
-      case TRASH: {
+      case 'TRASH': {
         return notes.filter(note => note.is_deleted);
       }
 
@@ -55,7 +54,7 @@ export const getSearchedNotes = createSelector(
 );
 
 export const getNoteInfoVisibilityStatus = state =>
-  state[FLAGS].isNoteInfoVisible;
+  state.FLAGS.isNoteInfoVisible;
 
 export const getSelectedNoteTags = createSelector(
   [getSelectedNote, getTags],
@@ -73,10 +72,9 @@ export const getTagsDiff = createSelector(
       .sort((a, b) => b.name.length - a.name.length)
 );
 
-export const getSidebarVisibilityStatus = state =>
-  state[FLAGS].isSidebarVisible;
+export const getSidebarVisibilityStatus = state => state.FLAGS.isSidebarVisible;
 
-export const getMenuVisibilityStatus = state => state[FLAGS].isMenuVisible;
+export const getMenuVisibilityStatus = state => state.FLAGS.isMenuVisible;
 
 export const getSortedNotes = createSelector(
   [getSearchedNotes, getSettings],

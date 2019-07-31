@@ -27,7 +27,6 @@ import MenuToggle from './components/MenuToggle';
 import AddNote from './components/AddNote';
 import Revisions from './components/Revisions';
 import NoteInfo from './components/NoteInfo';
-import { TRASH } from '../Shared/constants';
 import EmptyTrash from './components/EmptyTrash';
 
 export default function FrontPage() {
@@ -54,7 +53,7 @@ export default function FrontPage() {
             <AddNote />
           </TopBar>
           <NotesList />
-          {filter === TRASH && !!notes.length && <EmptyTrash />}
+          {filter === 'TRASH' && !!notes.length && <EmptyTrash />}
         </LeftColumn>
         <RightColumn>
           <Toolbar />

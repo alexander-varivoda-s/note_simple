@@ -1,41 +1,34 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
-import flashMessage from '../FlashMessages/actions';
 import { setAccessToken, setRefreshToken } from '../../utils/jwt';
 import { authAPI } from '../../api';
-import { LOGIN_FAILURE, LOGIN_REQUESTED } from './constants';
-import { LOGIN_SUCCEEDED } from '../Shared/constants';
+import { loginFailure, loginSucceeded } from './actions';
+import { fetchData } from '../Shared/sagas';
+import { getAppSettings } from '../../utils/settings';
 
 function* loginSaga(action) {
   const { params, onSuccess, onFailure } = action.payload;
 
   try {
     const {
-      data: { refreshToken, accessToken, user },
+      data: { refreshToken, accessToken },
     } = yield call(authAPI.login, params, { useAccessToken: false });
 
-    setAccessToken(accessToken);
-    setRefreshToken(refreshToken);
+    yield call(setAccessToken, accessToken);
+    yield call(setRefreshToken, refreshToken);
 
-    yield put({ type: LOGIN_SUCCEEDED, payload: { user } });
+    yield put(
+      loginSucceeded({
+        ...(yield* fetchData()),
+        settings: getAppSettings(),
+      })
+    );
     yield call(onSuccess);
   } catch (e) {
-    const { response } = e;
-    const message = {
-      type: 'error',
-      message: 'Something went wrong. Please try again later.',
-    };
-
-    let messages = null;
-    if (response.status < 500) {
-      ({ data: messages } = response);
-    }
-
-    yield put({ type: LOGIN_FAILURE, error: e });
+    yield put(loginFailure(e));
     yield call(onFailure);
-    yield put(flashMessage(messages || message));
   }
 }
 
 export default function* loginPageSaga() {
-  yield takeLatest(LOGIN_REQUESTED, loginSaga);
+  yield takeLatest('LOGIN', loginSaga);
 }

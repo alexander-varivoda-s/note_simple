@@ -1,6 +1,13 @@
-import { HIDE_REVISION_SELECTOR, SHOW_REVISION_SELECTOR } from './constants';
+import { createAction } from 'redux-actions';
 
-// eslint-disable-next-line import/prefer-default-export
-export const toggleRevisionSelectorVisibilityAction = isVisible => ({
-  type: isVisible ? SHOW_REVISION_SELECTOR : HIDE_REVISION_SELECTOR,
-});
+export const toggleRevisionSelector = createAction(
+  'TOGGLE_REVISION_SELECTOR',
+  isVisible => ({ isVisible })
+);
+
+export const restoreNote = createAction('RESTORE_NOTE');
+export const restoreNoteSucceeded = createAction(
+  'RESTORE_NOTE_SUCCEEDED',
+  note => ({ note })
+);
+export const restoreNoteFailure = createAction('RESTORE_NOTE_FAILURE');

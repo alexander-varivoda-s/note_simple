@@ -1,7 +1,13 @@
-import { RESET_PASSWORD_REQUEST } from './constants';
+import { createAction } from 'redux-actions';
 
-// eslint-disable-next-line import/prefer-default-export
-export const resetPasswordAction = payload => ({
-  type: RESET_PASSWORD_REQUEST,
-  payload,
-});
+export const resetPassword = createAction(
+  'RESET_PASSWORD',
+  ({ params, onSuccess, onFailure }) => ({
+    params,
+    onSuccess,
+    onFailure,
+  })
+);
+
+export const resetPasswordSucceeded = createAction('RESET_PASSWORD_SUCCEEDED');
+export const resetPasswordFailure = createAction('RESET_PASSWORD_FAILURE');

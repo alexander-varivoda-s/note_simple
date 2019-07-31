@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { noteEditAction, noteSaveAction } from './actions';
 import { getSelectedNote } from '../../selectors';
 import { getRevisionSelectorVisibilityStatus } from '../Revisions/selectors';
 import { StyledNoteEditor, TextareaWrapper, StyledLogo } from './styles';
 import SVG from '../../../Shared/components/SVG';
 import TagsEditor from '../TagsEditor';
+import { editNote, saveNote } from './actions';
 
 const _timeout = [];
 
@@ -20,7 +20,7 @@ export default function NoteEditor() {
   );
 
   function changeHandler(e) {
-    dispatch(noteEditAction(e.target.value, note._id));
+    dispatch(editNote(e.target.value, note._id));
   }
 
   function keyUpHandler() {
@@ -33,7 +33,7 @@ export default function NoteEditor() {
 
     if (!_timeout[noteId]) {
       _timeout[noteId] = setTimeout(
-        () => dispatch(noteSaveAction(text, noteId)),
+        () => dispatch(saveNote(text, noteId)),
         750
       );
     }
